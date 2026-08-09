@@ -183,6 +183,108 @@ window.TBOP = window.TBOP || {};
     if(error) throw error;
   }
 
+
+  async function listMeetings(){
+    if(!configured()) return null;
+    const {data,error}=await window.TBOP.supabase
+      .from("meetings")
+      .select("*")
+      .order("meeting_date",{ascending:false});
+    if(error) throw error;
+    return data;
+  }
+
+  async function getMeeting(id){
+    if(!configured()) return null;
+    const [meetingRes, agendaRes, attendanceRes, motionsRes] = await Promise.all([
+      window.TBOP.supabase.from("meetings").select("*").eq("id",id).single(),
+      window.TBOP.supabase.from("meeting_agenda_items").select("*").eq("meeting_id",id).order("sort_order"),
+      window.TBOP.supabase.from("meeting_attendance_entries").select("*").eq("meeting_id",id).order("checked_in_at"),
+      window.TBOP.supabase.from("motions").select("*").eq("meeting_id",id).order("sort_order")
+    ]);
+    if(meetingRes.error) throw meetingRes.error;
+    if(agendaRes.error) throw agendaRes.error;
+    if(attendanceRes.error) throw attendanceRes.error;
+    if(motionsRes.error) throw motionsRes.error;
+    return {
+      ...meetingRes.data,
+      agenda:agendaRes.data||[],
+      attendance:attendanceRes.data||[],
+      motions:motionsRes.data||[]
+    };
+  }
+
+  async function createMeeting(row){
+    if(!configured()) throw new Error("Backend not configured");
+    const {data,error}=await window.TBOP.supabase.from("meetings").insert(row).select().single();
+    if(error) throw error;
+    return data;
+  }
+
+  async function updateMeeting(id,row){
+    if(!configured()) throw new Error("Backend not configured");
+    const {data,error}=await window.TBOP.supabase
+      .from("meetings").update(row).eq("id",id).select().single();
+    if(error) throw error;
+    return data;
+  }
+
+  async function deleteMeeting(id){
+    if(!configured()) throw new Error("Backend not configured");
+    const {error}=await window.TBOP.supabase.from("meetings").delete().eq("id",id);
+    if(error) throw error;
+  }
+
+  async function replaceMeetingAgenda(meetingId,items){
+    if(!configured()) throw new Error("Backend not configured");
+    const del=await window.TBOP.supabase.from("meeting_agenda_items").delete().eq("meeting_id",meetingId);
+    if(del.error) throw del.error;
+    if(!items.length) return [];
+    const rows=items.map((item_text,sort_order)=>({meeting_id:meetingId,item_text,sort_order}));
+    const {data,error}=await window.TBOP.supabase.from("meeting_agenda_items").insert(rows).select();
+    if(error) throw error;
+    return data;
+  }
+
+  async function replaceMeetingAttendance(meetingId,items){
+    if(!configured()) throw new Error("Backend not configured");
+    const del=await window.TBOP.supabase.from("meeting_attendance_entries").delete().eq("meeting_id",meetingId);
+    if(del.error) throw del.error;
+    if(!items.length) return [];
+    const rows=items.map(display_name=>({meeting_id:meetingId,display_name}));
+    const {data,error}=await window.TBOP.supabase.from("meeting_attendance_entries").insert(rows).select();
+    if(error) throw error;
+    return data;
+  }
+
+  async function replaceMeetingMotions(meetingId,items){
+    if(!configured()) throw new Error("Backend not configured");
+    const del=await window.TBOP.supabase.from("motions").delete().eq("meeting_id",meetingId);
+    if(del.error) throw del.error;
+    if(!items.length) return [];
+    const rows=items.map((m,sort_order)=>({
+      meeting_id:meetingId,
+      motion_text:m.text,
+      moved_by:m.by||null,
+      seconded_by:m.second||null,
+      result:m.result||null,
+      sort_order
+    }));
+    const {data,error}=await window.TBOP.supabase.from("motions").insert(rows).select();
+    if(error) throw error;
+    return data;
+  }
+
+  async function auditMeetingChange(id,action,details={}){
+    if(!configured()) throw new Error("Backend not configured");
+    const {error}=await window.TBOP.supabase.rpc("audit_meeting_change",{
+      target_meeting:id,
+      action_name:action,
+      details
+    });
+    if(error) throw error;
+  }
+
   window.TBOP.api={
     configured,
     signIn,
@@ -200,6 +302,15 @@ window.TBOP = window.TBOP || {};
     updateProfile,
     deleteProfile,
     auditProfileChange,
+    listMeetings,
+    getMeeting,
+    createMeeting,
+    updateMeeting,
+    deleteMeeting,
+    replaceMeetingAgenda,
+    replaceMeetingAttendance,
+    replaceMeetingMotions,
+    auditMeetingChange,
     createProfileIfMissing
   };
 })();

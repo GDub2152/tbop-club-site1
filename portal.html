@@ -75,6 +75,12 @@
             <input id="meetingDate" type="date">
             <input id="meetingTime" type="time" value="19:00">
             <input id="meetingLocation" placeholder="Location">
+            <select id="meetingStatus">
+              <option value="draft">Draft</option>
+              <option value="pending_approval">Pending Approval</option>
+              <option value="approved">Approved</option>
+              <option value="published">Published</option>
+            </select>
             <input id="presidingOfficer" placeholder="Presiding officer">
             <input id="secretaryName" placeholder="Secretary">
           </div>
@@ -123,7 +129,16 @@
         </div>
       </div>
 
-      <div class="section-head saved-meetings-head"><div><span class="eyebrow">Archive</span><h2>Saved Meeting Drafts</h2></div></div>
+      <div class="section-head saved-meetings-head">
+        <div><span class="eyebrow">Archive</span><h2>Meetings</h2></div>
+        <select id="meetingStatusFilter" class="compact-select">
+          <option value="">All statuses</option>
+          <option value="draft">Draft</option>
+          <option value="pending_approval">Pending Approval</option>
+          <option value="approved">Approved</option>
+          <option value="published">Published</option>
+        </select>
+      </div>
       <div id="meetingArchive" class="event-list"></div>
     </section>
 
@@ -354,5 +369,6 @@
 <script src="assets/app.js"></script>
 <script src="assets/database-modules.js"></script>
 <script src="assets/member-admin.js"></script>
+<script src="assets/secretary-db.js"></script>
 </body>
 </html>

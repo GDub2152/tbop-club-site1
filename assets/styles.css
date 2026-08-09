@@ -165,3 +165,13 @@
   .member-filter-grid,.member-edit-grid,.member-summary-grid{grid-template-columns:1fr}
   .member-edit-grid .full-field{grid-column:auto}
 }
+
+/* ===== V10 Secretary DB ===== */
+.compact-select{max-width:220px}
+.meeting-actions{display:flex;gap:8px;flex-wrap:wrap}
+#meetingStatus{min-width:180px}
+.minutes-preview-card .pill{margin-bottom:5px}
+@media(max-width:650px){
+  .meeting-actions{width:100%}
+  .meeting-actions .button{flex:1}
+}

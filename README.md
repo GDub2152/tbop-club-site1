@@ -222,3 +222,21 @@ Do not manufacture Auth user IDs from the browser.
 - Audit-log helper for administrator profile changes
 
 Run `supabase/migrations/v9_member_admin.sql` before using V9.
+
+
+## V10 Secretary Workspace
+
+- Meetings stored in Supabase
+- Meeting status workflow
+- Agenda items stored in database
+- Attendance stored in database
+- Motions stored in database
+- Treasurer/committee/old/new business fields stored
+- Generated minutes stored with the meeting
+- Reopen saved meeting drafts
+- Meeting archive and status filter
+- Delete meetings
+- Secretary-specific RLS policies
+- Audit logging for meeting saves
+
+Run `supabase/migrations/v10_secretary_workspace.sql` before using V10.

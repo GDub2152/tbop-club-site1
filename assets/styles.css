@@ -521,3 +521,150 @@ body.modal-open{overflow:hidden}
 .expandable-dash-card summary:hover,.expandable-dash-card summary:focus-visible{background:rgba(255,106,0,.035);outline:none}
 @keyframes tbopExpandIn{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
 @media(max-width:650px){.expandable-dash-card summary{min-height:auto;padding:17px}.dash-expand-body{padding:0 17px 17px}}
+
+
+/* ==========================================================
+   TBOP 14.0.4 — Conditions Detail Viewer
+   ========================================================== */
+.condition-card{
+  cursor:pointer;
+  position:relative;
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+.condition-card:hover,
+.condition-card:focus{
+  transform:translateY(-2px);
+  border-color:rgba(255,106,0,.46);
+  box-shadow:0 14px 34px rgba(0,0,0,.26);
+  outline:none;
+}
+.condition-card-hint{
+  display:block;
+  margin-top:10px;
+  color:var(--accent,#ff6a00);
+  font-size:.78rem;
+  font-weight:800;
+}
+.condition-modal-overlay{
+  position:fixed;
+  inset:0;
+  z-index:1600;
+  display:grid;
+  place-items:center;
+  padding:20px;
+  background:rgba(0,0,0,.84);
+  backdrop-filter:blur(3px);
+}
+.condition-modal{
+  width:min(900px,100%);
+  max-height:90vh;
+  overflow:auto;
+  border:1px solid #3a4148;
+  border-radius:18px;
+  padding:26px;
+  background:#0d1115;
+  color:#fff;
+  box-shadow:0 34px 110px rgba(0,0,0,.62);
+}
+.condition-modal-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:22px;
+  padding-bottom:17px;
+  border-bottom:1px solid #2f353b;
+}
+.condition-modal-head h2{
+  margin:7px 0 0;
+  font-size:clamp(1.7rem,3vw,2.55rem);
+}
+.condition-modal-body{padding-top:22px}
+.condition-hero-value{
+  font-size:clamp(3rem,9vw,6rem);
+  font-weight:900;
+  line-height:1;
+  letter-spacing:-.045em;
+}
+.condition-detail-lead{
+  margin:12px 0 22px;
+  color:#d7dce0;
+  font-size:1.05rem;
+  line-height:1.65;
+}
+.condition-detail-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+.condition-detail-grid>div,
+.condition-outlook-box{
+  padding:18px;
+  border:1px solid #30363d;
+  border-radius:13px;
+  background:#11161b;
+}
+.condition-detail-grid span,
+.condition-outlook-box span{
+  display:block;
+  margin-bottom:7px;
+  color:#9fa7ae;
+  font-size:.75rem;
+  font-weight:850;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.condition-detail-grid strong,
+.condition-outlook-box strong{
+  font-size:1.35rem;
+}
+.condition-outlook-box{margin-top:14px}
+.condition-modal-note{
+  margin-top:20px;
+  color:#8f989f;
+  font-size:.85rem;
+  line-height:1.6;
+}
+.condition-band-table{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+.condition-detail-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding:17px;
+  border:1px solid #30363d;
+  border-radius:12px;
+  background:#11161b;
+}
+.condition-detail-row span{
+  color:#b7bec4;
+  font-weight:800;
+}
+.condition-detail-row strong{
+  font-size:1.05rem;
+}
+.condition-band-legend{
+  margin-top:20px;
+  padding:18px;
+  border-radius:13px;
+  background:#11161b;
+  border:1px solid #30363d;
+}
+.condition-band-legend p{
+  margin:0 0 10px;
+  color:#bfc6cc;
+  line-height:1.6;
+}
+.condition-band-legend p:last-child{margin-bottom:0}
+body.modal-open{overflow:hidden}
+
+@media(max-width:650px){
+  .condition-modal{padding:20px}
+  .condition-modal-head{display:block}
+  .condition-modal-head .text-button{margin-top:12px}
+  .condition-detail-grid,
+  .condition-band-table{grid-template-columns:1fr}
+}

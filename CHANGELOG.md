@@ -1,5 +1,15 @@
 # TBOP Club Site Changelog
 
+## 14.0.4 — Conditions Detail Viewer
+- Restored Weather, Solar Conditions, and Band Conditions to the normal homepage card layout.
+- Removed the inline expandable/collapsible treatment introduced in 14.0.3.
+- Weather, Solar, and Band cards are now clickable.
+- Clicking opens a larger modal window without leaving the TBOP site.
+- Modal closes with Close, outside click, or Escape.
+- Keyboard-accessible Enter/Space activation added.
+- Live homepage values are reused in the larger view.
+
+
 ## 14.0.3 — Expandable Conditions
 - Weather remains visible with current temperature and expands for detail.
 - Solar conditions remain visible with SFI/Kp and expand for detail.

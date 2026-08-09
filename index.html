@@ -60,48 +60,29 @@
   <strong>Information Pending</strong>
   <small>Frequency, PL tone, and link status will appear here when finalized.</small>
 </article>
-<details class="dash-card expandable-dash-card">
-  <summary>
-    <span class="dash-summary-copy">
-      <span class="dash-label">Weather • 44135</span>
-      <strong id="wxTemp">Loading…</strong>
-    </span>
-    <span class="dash-expand-label">Show Details</span>
-  </summary>
-  <div class="dash-expand-body">
-    <small id="wxDetail">Cleveland, Ohio</small>
-    <div class="mini-data"><span id="wxHumidity">Humidity —</span><span id="wxWind">Wind —</span></div>
+<article class="dash-card condition-card" role="button" tabindex="0" data-condition-modal="weather" aria-label="Open detailed weather conditions">
+  <span class="dash-label">Weather • 44135</span>
+  <strong id="wxTemp">Loading…</strong>
+  <small id="wxDetail">Cleveland, Ohio</small>
+  <div class="mini-data"><span id="wxHumidity">Humidity —</span><span id="wxWind">Wind —</span></div>
+  <span class="condition-card-hint">Click for larger view →</span>
+</article>
+<article class="dash-card condition-card" role="button" tabindex="0" data-condition-modal="solar" aria-label="Open detailed solar conditions">
+  <span class="dash-label">Solar Conditions</span>
+  <strong><span id="solarSfi">SFI —</span> <span class="sep">•</span> <span id="solarKp">Kp —</span></strong>
+  <small id="solarDetail">Loading NOAA space-weather data…</small>
+  <div class="mini-data"><span id="solarRating">HF outlook —</span></div>
+  <span class="condition-card-hint">Click for larger view →</span>
+</article>
+<article class="dash-card condition-card" role="button" tabindex="0" data-condition-modal="bands" aria-label="Open detailed amateur radio band conditions">
+  <span class="dash-label">Band Conditions</span>
+  <div id="bandGrid" class="band-grid">
+    <span>80m <b>—</b></span><span>40m <b>—</b></span><span>20m <b>—</b></span>
+    <span>17m <b>—</b></span><span>15m <b>—</b></span><span>10m <b>—</b></span>
+    <span>6m <b>Variable</b></span><span>2m <b>Local</b></span><span>70cm <b>Local</b></span>
   </div>
-</details>
-<details class="dash-card expandable-dash-card">
-  <summary>
-    <span class="dash-summary-copy">
-      <span class="dash-label">Solar Conditions</span>
-      <strong><span id="solarSfi">SFI —</span> <span class="sep">•</span> <span id="solarKp">Kp —</span></strong>
-    </span>
-    <span class="dash-expand-label">Show Details</span>
-  </summary>
-  <div class="dash-expand-body">
-    <small id="solarDetail">Loading NOAA space-weather data…</small>
-    <div class="mini-data"><span id="solarRating">HF outlook —</span></div>
-  </div>
-</details>
-<details class="dash-card expandable-dash-card band-expand-card">
-  <summary>
-    <span class="dash-summary-copy">
-      <span class="dash-label">Band Conditions</span>
-      <strong>HF • VHF • UHF</strong>
-    </span>
-    <span class="dash-expand-label">Show Details</span>
-  </summary>
-  <div class="dash-expand-body">
-    <div id="bandGrid" class="band-grid">
-      <span>80m <b>—</b></span><span>40m <b>—</b></span><span>20m <b>—</b></span>
-      <span>17m <b>—</b></span><span>15m <b>—</b></span><span>10m <b>—</b></span>
-      <span>6m <b>Variable</b></span><span>2m <b>Local</b></span><span>70cm <b>Local</b></span>
-    </div>
-  </div>
-</details>
+  <span class="condition-card-hint">Click for larger view →</span>
+</article>
 <article class="dash-card">
   <span class="dash-label">Next Club Meeting</span>
   <strong id="nextEvent">Loading…</strong>
@@ -142,7 +123,7 @@
 <section id="contact" class="section"><div class="container contact-grid"><div><span class="eyebrow">Contact</span><h2>Get on the air with us.</h2><p class="lead">Club email and social links can be connected when those accounts are finalized.</p></div><div class="contact-links"><span>✉ Club Email — Coming soon</span><span>📻 Repeater Info — Coming soon</span><span>📅 Calendar — <a href="calendar.html">View Events</a></span><span>🔒 Officers — <a href="login.html">Portal Login</a></span></div></div></section>
 </main>
 
-<footer class="site-footer"><div class="container footer-grid"><div><strong>The Blowtorch of Parma</strong><p>Amateur Radio Club</p></div><small>TBOP Club Site 14.0.3 • Expandable Conditions Release</small></div></footer>
+<footer class="site-footer"><div class="container footer-grid"><div><strong>The Blowtorch of Parma</strong><p>Amateur Radio Club</p></div><small>TBOP Club Site 14.0.4 • Conditions Detail Viewer</small></div></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script src="assets/supabase-client.js"></script>
@@ -150,4 +131,5 @@
 <script src="assets/app.js"></script>
 <script src="assets/database-modules.js"></script>
 <script src="assets/operations.js"></script>
+<script src="assets/conditions-modal.js"></script>
 </body></html>

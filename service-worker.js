@@ -1,5 +1,5 @@
 
-const CACHE="tbop-v14.0.3";
+const CACHE="tbop-v14.0.4";
 const ASSETS=[
   "./","./index.html","./calendar.html","./membership.html",
   "./login.html","./member-login.html","./officer-login.html",
@@ -7,7 +7,7 @@ const ASSETS=[
   "./member.html","./portal.html","./vault.html",
   "./assets/styles.css","./assets/app.js","./assets/backend.js",
   "./assets/auth.js","./assets/operations.js","./assets/member-self-service.js",
-  "./assets/member-profile.js","./assets/approval-center.js",
+  "./assets/member-profile.js","./assets/approval-center.js","./assets/conditions-modal.js",
   "./assets/tbop-logo.png"
 ];
 self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));

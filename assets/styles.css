@@ -175,3 +175,17 @@
   .meeting-actions{width:100%}
   .meeting-actions .button{flex:1}
 }
+
+/* ===== V11 Treasurer ===== */
+.finance-summary{margin-bottom:18px}
+.finance-layout{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;align-items:start}
+.finance-filters{margin:18px 0}
+.finance-table td,.finance-table th{white-space:nowrap}
+.finance-table td:nth-child(4){white-space:normal;min-width:240px}
+.finance-budget-head,.finance-dues-head{margin-top:30px}
+.budget-card .stat-row{font-size:.9rem}
+.budget-bar{height:8px;border-radius:999px;background:#25292d;overflow:hidden;margin:14px 0}
+.budget-bar span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+@media(max-width:950px){
+  .finance-layout{grid-template-columns:1fr}
+}

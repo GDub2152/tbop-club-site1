@@ -285,6 +285,99 @@ window.TBOP = window.TBOP || {};
     if(error) throw error;
   }
 
+
+  async function listTransactions(){
+    if(!configured()) return null;
+    const {data,error}=await window.TBOP.supabase
+      .from("financial_transactions")
+      .select("*, profiles(display_name,callsign)")
+      .order("transaction_date",{ascending:false})
+      .order("created_at",{ascending:false});
+    if(error) throw error;
+    return data;
+  }
+
+  async function createTransaction(row){
+    if(!configured()) throw new Error("Backend not configured");
+    const {data,error}=await window.TBOP.supabase
+      .from("financial_transactions")
+      .insert(row).select("*, profiles(display_name,callsign)").single();
+    if(error) throw error;
+    return data;
+  }
+
+  async function deleteTransaction(id){
+    if(!configured()) throw new Error("Backend not configured");
+    const {error}=await window.TBOP.supabase
+      .from("financial_transactions").delete().eq("id",id);
+    if(error) throw error;
+  }
+
+  async function listBudgets(year){
+    if(!configured()) return null;
+    let q=window.TBOP.supabase.from("budget_items").select("*").order("category");
+    if(year) q=q.eq("fiscal_year",year);
+    const {data,error}=await q;
+    if(error) throw error;
+    return data;
+  }
+
+  async function upsertBudget(row){
+    if(!configured()) throw new Error("Backend not configured");
+    const {data,error}=await window.TBOP.supabase
+      .from("budget_items")
+      .upsert(row,{onConflict:"fiscal_year,category,budget_type"})
+      .select().single();
+    if(error) throw error;
+    return data;
+  }
+
+  async function deleteBudget(id){
+    if(!configured()) throw new Error("Backend not configured");
+    const {error}=await window.TBOP.supabase
+      .from("budget_items").delete().eq("id",id);
+    if(error) throw error;
+  }
+
+  async function listMembershipPayments(){
+    if(!configured()) return null;
+    const {data,error}=await window.TBOP.supabase
+      .from("membership_payments")
+      .select("*, profiles(display_name,callsign)")
+      .order("paid_on",{ascending:false});
+    if(error) throw error;
+    return data;
+  }
+
+  async function createMembershipPayment(row){
+    if(!configured()) throw new Error("Backend not configured");
+    const {data,error}=await window.TBOP.supabase
+      .from("membership_payments")
+      .insert(row)
+      .select("*, profiles(display_name,callsign)")
+      .single();
+    if(error) throw error;
+    return data;
+  }
+
+  async function deleteMembershipPayment(id){
+    if(!configured()) throw new Error("Backend not configured");
+    const {error}=await window.TBOP.supabase
+      .from("membership_payments").delete().eq("id",id);
+    if(error) throw error;
+  }
+
+  async function auditFinancialChange(kind,id,action,details={}){
+    if(!configured()) throw new Error("Backend not configured");
+    const {error}=await window.TBOP.supabase.rpc("audit_financial_change",{
+      entity_kind:kind,
+      entity_key:id,
+      action_name:action,
+      details
+    });
+    if(error) throw error;
+  }
+
   window.TBOP.api={
     configured,
     signIn,
@@ -311,6 +404,16 @@ window.TBOP = window.TBOP || {};
     replaceMeetingAttendance,
     replaceMeetingMotions,
     auditMeetingChange,
+    listTransactions,
+    createTransaction,
+    deleteTransaction,
+    listBudgets,
+    upsertBudget,
+    deleteBudget,
+    listMembershipPayments,
+    createMembershipPayment,
+    deleteMembershipPayment,
+    auditFinancialChange,
     createProfileIfMissing
   };
 })();

@@ -240,3 +240,21 @@ Run `supabase/migrations/v9_member_admin.sql` before using V9.
 - Audit logging for meeting saves
 
 Run `supabase/migrations/v10_secretary_workspace.sql` before using V10.
+
+
+## V11 Treasurer Workspace
+
+- Supabase-backed income/expense ledger
+- Member-linked transactions
+- Membership dues payment records
+- Automatic dues income transaction
+- Automatic member dues-status update
+- Annual budgets
+- Budget vs actual display
+- Year/category/type/search filters
+- Income/expense/net dashboard totals
+- Printable financial report
+- Finance-specific RLS
+- Financial audit-log helper
+
+Run `supabase/migrations/v11_treasurer.sql` before using V11.

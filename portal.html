@@ -292,8 +292,106 @@
     </section>
 
     <section id="view-treasurer" class="portal-view">
-      <div class="page-head"><div><span class="eyebrow">Treasurer</span><h1>Financial Administration</h1></div></div>
-      <div class="card-grid three"><div class="card"><h3>Dues</h3><p>Track paid/unpaid status without publishing financial information.</p></div><div class="card"><h3>Reports</h3><p>Monthly and annual financial reports with restricted access.</p></div><div class="card"><h3>Budget</h3><p>Club budget, approved expenditures and planning.</p></div></div>
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">Treasurer</span>
+          <h1>Financial Administration</h1>
+          <p class="muted">Restricted to the Treasurer, President, and Administrator roles.</p>
+        </div>
+        <button id="printFinanceReportBtn" class="button secondary small" type="button">Print Financial Report</button>
+      </div>
+
+      <div class="card-grid four finance-summary">
+        <div class="metric"><span>Year Income</span><strong id="financeIncome">$0.00</strong></div>
+        <div class="metric"><span>Year Expenses</span><strong id="financeExpenses">$0.00</strong></div>
+        <div class="metric"><span>Net</span><strong id="financeNet">$0.00</strong></div>
+        <div class="metric"><span>Dues Payments</span><strong id="financeDuesCount">0</strong></div>
+      </div>
+
+      <div class="finance-layout">
+        <div class="card">
+          <div class="section-head">
+            <div><span class="eyebrow">Ledger</span><h3>Add Transaction</h3></div>
+          </div>
+          <form id="transactionForm" class="form-grid">
+            <input id="txnDate" type="date" required>
+            <select id="txnType" required>
+              <option value="income">Income</option>
+              <option value="expense">Expense</option>
+            </select>
+            <input id="txnCategory" placeholder="Category (Dues, Donation, Equipment, etc.)" required>
+            <input id="txnAmount" type="number" min="0" step="0.01" placeholder="Amount" required>
+            <input id="txnDescription" placeholder="Description" required>
+            <select id="txnMember">
+              <option value="">No member linked</option>
+            </select>
+            <input id="txnMethod" placeholder="Payment method">
+            <input id="txnReference" placeholder="Check / reference number">
+            <textarea id="txnNotes" placeholder="Notes"></textarea>
+            <button class="button" type="submit">Add Transaction</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <div class="section-head">
+            <div><span class="eyebrow">Budget</span><h3>Annual Budget</h3></div>
+          </div>
+          <form id="budgetForm" class="form-grid">
+            <input id="budgetYear" type="number" min="2020" max="2100" placeholder="Year" required>
+            <select id="budgetType"><option value="expense">Expense Budget</option><option value="income">Income Goal</option></select>
+            <input id="budgetCategory" placeholder="Category" required>
+            <input id="budgetAmount" type="number" min="0" step="0.01" placeholder="Budget amount" required>
+            <textarea id="budgetNotes" placeholder="Notes"></textarea>
+            <button class="button" type="submit">Save Budget Item</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="card finance-filters">
+        <div class="member-filter-grid">
+          <input id="financeSearch" placeholder="Search description/category/reference">
+          <select id="financeTypeFilter">
+            <option value="">Income & expenses</option>
+            <option value="income">Income only</option>
+            <option value="expense">Expenses only</option>
+          </select>
+          <select id="financeYearFilter"></select>
+          <select id="financeCategoryFilter">
+            <option value="">All categories</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="card table-wrap">
+        <table class="finance-table">
+          <thead>
+            <tr><th>Date</th><th>Type</th><th>Category</th><th>Description</th><th>Member</th><th>Amount</th><th></th></tr>
+          </thead>
+          <tbody id="financeLedgerBody"></tbody>
+        </table>
+      </div>
+
+      <div class="section-head finance-budget-head">
+        <div><span class="eyebrow">Budget Review</span><h2>Budget vs. Actual</h2></div>
+      </div>
+      <div id="budgetReview" class="card-grid three"></div>
+
+      <div class="section-head finance-dues-head">
+        <div><span class="eyebrow">Membership</span><h2>Record Dues Payment</h2></div>
+      </div>
+      <div class="card">
+        <form id="duesPaymentForm" class="form-grid">
+          <select id="duesMember" required><option value="">Select member</option></select>
+          <input id="duesPaidOn" type="date" required>
+          <input id="duesYear" type="number" min="2020" max="2100" placeholder="Membership year" required>
+          <input id="duesAmount" type="number" min="0" step="0.01" value="25.00" required>
+          <input id="duesMethod" placeholder="Payment method">
+          <input id="duesReference" placeholder="Check / reference number">
+          <textarea id="duesNotes" placeholder="Notes"></textarea>
+          <button class="button" type="submit">Record Dues Payment</button>
+        </form>
+      </div>
+      <div id="duesPaymentList" class="event-list"></div>
     </section>
 
     <section id="view-voting" class="portal-view">
@@ -370,5 +468,6 @@
 <script src="assets/database-modules.js"></script>
 <script src="assets/member-admin.js"></script>
 <script src="assets/secretary-db.js"></script>
+<script src="assets/treasurer.js"></script>
 </body>
 </html>

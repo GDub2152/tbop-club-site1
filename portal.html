@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Officer Portal | The Blowtorch of Parma</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body class="portal-body">
+  <div class="portal-shell">
+    <aside class="sidebar">
+      <a class="brand portal-brand" href="index.html"><span class="brand-mark">TBOP</span><span><strong>Officer Portal</strong><small>Club Management</small></span></a>
+      <nav id="portalNav">
+        <button data-view="dashboard" class="active">Dashboard</button>
+        <button data-view="calendar">Calendar</button>
+        <button data-view="meetings">Meetings</button>
+        <button data-view="members">Members</button>
+        <button data-view="documents">Documents</button>
+        <button data-view="treasurer">Treasurer</button>
+        <button data-view="voting">Voting</button>
+        <button data-view="repeater">Repeater Trustee</button>
+        <button data-view="website">Website Admin</button>
+      </nav>
+      <a class="sidebar-link" href="index.html">← Public Website</a>
+    </aside>
+
+    <main class="portal-main">
+      <div class="warning-banner">
+        DEMO FRONT END — Do not store real member, financial, password, or ballot data here until a secure backend is connected.
+      </div>
+
+      <section id="view-dashboard" class="portal-view active">
+        <div class="page-head"><div><span class="eyebrow">Officer Portal</span><h1>Dashboard</h1></div><span class="role-badge">Demo Administrator</span></div>
+        <div class="card-grid four">
+          <div class="metric"><span>Active Members</span><strong id="memberMetric">0</strong></div>
+          <div class="metric"><span>Upcoming Events</span><strong id="eventMetric">0</strong></div>
+          <div class="metric"><span>Active Votes</span><strong id="voteMetric">0</strong></div>
+          <div class="metric"><span>Repeater Tasks</span><strong id="repeaterMetric">0</strong></div>
+        </div>
+        <div class="card">
+          <h3>Officer Positions</h3>
+          <div class="officer-grid">
+            <span>President</span><span>Vice President</span><span>Secretary</span><span>Treasurer</span>
+            <span>Sergeant at Arms</span><span>Trustee 1</span><span>Trustee 2</span><span>Trustee 3</span><span>Repeater Trustee</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-calendar" class="portal-view">
+        <div class="page-head"><div><span class="eyebrow">Calendar</span><h1>Manage Club Events</h1></div></div>
+        <form id="eventForm" class="card form-grid">
+          <input id="eventTitle" placeholder="Event title" required>
+          <input id="eventDate" type="date" required>
+          <input id="eventTime" type="time">
+          <input id="eventLocation" placeholder="Location">
+          <select id="eventVisibility"><option value="public">Public</option><option value="officers">Officers only</option></select>
+          <textarea id="eventDescription" placeholder="Description"></textarea>
+          <button class="button" type="submit">Add Event</button>
+        </form>
+        <div id="adminEvents" class="event-list"></div>
+      </section>
+
+      <section id="view-meetings" class="portal-view">
+        <div class="page-head"><div><span class="eyebrow">Secretary</span><h1>Meetings & Minutes</h1></div></div>
+        <div class="card-grid three">
+          <div class="card"><h3>Agendas</h3><p>Create and organize upcoming meeting agendas.</p><button class="button secondary" disabled>Backend required</button></div>
+          <div class="card"><h3>Minutes</h3><p>Store approved and draft meeting minutes with dates and status.</p><button class="button secondary" disabled>Backend required</button></div>
+          <div class="card"><h3>Motions</h3><p>Track motions, seconds, vote outcomes and historical records.</p><button class="button secondary" disabled>Backend required</button></div>
+        </div>
+      </section>
+
+      <section id="view-members" class="portal-view">
+        <div class="page-head"><div><span class="eyebrow">Membership</span><h1>Member Management</h1></div></div>
+        <form id="memberForm" class="card form-grid">
+          <input id="memberName" placeholder="Member name" required>
+          <input id="memberCall" placeholder="Callsign">
+          <input id="memberEmail" type="email" placeholder="Email">
+          <select id="memberStatus"><option>Active</option><option>Inactive</option><option>Pending</option></select>
+          <button class="button" type="submit">Add Demo Member</button>
+        </form>
+        <div class="card table-wrap"><table><thead><tr><th>Name</th><th>Callsign</th><th>Status</th><th></th></tr></thead><tbody id="memberTable"></tbody></table></div>
+      </section>
+
+      <section id="view-documents" class="portal-view">
+        <div class="page-head"><div><span class="eyebrow">Documents</span><h1>Club Document Library</h1></div></div>
+        <div class="card">
+          <h3>Recommended storage</h3>
+          <p>Keep sensitive files in Google Drive, Microsoft 365/SharePoint, or private object storage. The portal should store links/metadata and enforce permissions.</p>
+          <div class="doc-grid">
+            <span>Bylaws & Policies</span><span>Meeting Minutes</span><span>Insurance</span><span>Membership Forms</span><span>Technical Docs</span><span>Historical Records</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-treasurer" class="portal-view">
+        <div class="page-head"><div><span class="eyebrow">Treasurer</span><h1>Financial Administration</h1></div></div>
+        <div class="card-grid three">
+          <div class="card"><h3>Dues</h3><p>Track paid/unpaid status without publishing financial information.</p></div>
+          <div class="card"><h3>Reports</h3><p>Monthly and annual financial reports with restricted access.</p></div>
+          <div class="card"><h3>Budget</h3><p>Club budget, approved expenditures and planning.</p></div>
+        </div>
+      </section>
+
+      <section id="view-voting" class="portal-view">
+        <div class="page-head"><div><span class="eyebrow">Members Voting</span><h1>Elections & Polls</h1></div></div>
+        <form id="voteForm" class="card form-grid">
+          <input id="voteTitle" placeholder="Vote title" required>
+          <textarea id="voteQuestion" placeholder="Question / motion" required></textarea>
+          <input id="voteOptions" placeholder="Choices separated by commas" required>
+          <input id="voteClose" type="date">
+          <select id="voteType"><option>Secret ballot</option><option>Open poll</option></select>
+          <button class="button" type="submit">Create Demo Vote</button>
+        </form>
+        <div id="voteList" class="event-list"></div>
+      </section>
+
+      <section id="view-repeater" class="portal-view">
+        <div class="page-head"><div><span class="eyebrow">Repeater Trustee</span><h1>Repeater Operations</h1></div></div>
+        <form id="repeaterForm" class="card form-grid">
+          <input id="taskTitle" placeholder="Maintenance task" required>
+          <input id="taskDate" type="date">
+          <select id="taskStatus"><option>Open</option><option>Scheduled</option><option>Completed</option></select>
+          <textarea id="taskNotes" placeholder="Notes"></textarea>
+          <button class="button" type="submit">Add Task</button>
+        </form>
+        <div id="repeaterTasks" class="event-list"></div>
+      </section>
+
+      <section id="view-website" class="portal-view">
+        <div class="page-head"><div><span class="eyebrow">Website Admin</span><h1>Content Management</h1></div></div>
+        <div class="card-grid three">
+          <div class="card"><h3>Announcements</h3><p>Post club news without manually editing HTML.</p></div>
+          <div class="card"><h3>Public Documents</h3><p>Choose which approved files appear on the public site.</p></div>
+          <div class="card"><h3>Homepage</h3><p>Manage featured notices, repeater information and quick links.</p></div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="assets/app.js"></script>
+</body>
+</html>

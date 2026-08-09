@@ -1,23 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080a0c">
   <title>Club Calendar | The Blowtorch of Parma</title>
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
-  <header class="site-header"><div class="container nav-wrap">
-    <a class="brand" href="index.html"><span class="brand-mark">TBOP</span><span><strong>The Blowtorch of Parma</strong><small>Club Calendar</small></span></a>
-    <nav class="main-nav"><a href="index.html">Home</a><a class="button small" href="portal.html">Officer Portal</a></nav>
-  </div></header>
-  <main class="section">
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="brand" href="index.html">
+      <span class="tower-icon">⌁</span>
+      <span><strong>THE BLOWTORCH OF PARMA</strong><small>CLUB CALENDAR</small></span>
+    </a>
+    <button class="menu-toggle" aria-label="Toggle navigation">☰</button>
+    <nav class="main-nav" id="mainNav">
+      <a href="index.html">Home</a>
+      <a class="active" href="calendar.html">Calendar</a>
+      <a href="index.html#repeater">Repeater</a>
+      <a href="index.html#membership">Membership</a>
+      <a class="button small" href="portal.html">🔒 Officer Login</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="calendar-hero">
     <div class="container">
-      <span class="eyebrow">Club Calendar</span>
-      <h1>Upcoming Events</h1>
-      <p class="lead">Events marked public by an officer appear here automatically.</p>
+      <span class="eyebrow">Club Schedule</span>
+      <h1>Calendar</h1>
+      <p class="lead">Meetings, nets, hamfests, work parties, training, contests, and special events marked public by club officers.</p>
+    </div>
+  </section>
+
+  <section class="section calendar-section">
+    <div class="container">
+      <div class="calendar-toolbar card">
+        <button class="button secondary small" id="calPrev">← Previous</button>
+        <div class="calendar-title-wrap">
+          <strong id="calendarTitle">Month Year</strong>
+          <button class="text-button" id="calToday">Today</button>
+        </div>
+        <button class="button secondary small" id="calNext">Next →</button>
+      </div>
+
+      <div class="month-calendar">
+        <div class="weekday">Sun</div><div class="weekday">Mon</div><div class="weekday">Tue</div>
+        <div class="weekday">Wed</div><div class="weekday">Thu</div><div class="weekday">Fri</div><div class="weekday">Sat</div>
+        <div id="calendarGrid" class="calendar-grid"></div>
+      </div>
+
+      <div class="section-head calendar-upcoming-head">
+        <div><span class="eyebrow">Upcoming</span><h2>Next Public Events</h2></div>
+      </div>
       <div id="publicCalendar" class="event-list"></div>
     </div>
-  </main>
-  <script src="assets/app.js"></script>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div><strong>The Blowtorch of Parma</strong><p>Amateur Radio Club</p></div>
+    <small>Public calendar • Officer-only events are not shown</small>
+  </div>
+</footer>
+<script src="assets/app.js"></script>
 </body>
 </html>

@@ -112,3 +112,21 @@ Dark/orange TBOP branding, supplied logo placeholder, homepage dashboard, public
 - Graceful fallback if a public feed is unavailable
 
 The band labels are estimates, not propagation guarantees.
+
+
+## V4 calendar + secretary workflow
+
+- Real monthly calendar grid with previous/next/today navigation
+- Public events displayed on the calendar
+- Demo recurring events: weekly, monthly, yearly
+- Expanded Secretary workspace
+- Attendance tracking
+- Agenda builder
+- Motion tracking
+- Treasurer / committee / old business / new business / announcements fields
+- Generate Minutes button
+- Copy generated minutes
+- Save meeting drafts to browser localStorage
+- Meeting draft archive
+
+All Secretary data remains demo/local-only until the authenticated backend is connected.

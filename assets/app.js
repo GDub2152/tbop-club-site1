@@ -1,10 +1,11 @@
 
-const KEY={events:"tbop_events",members:"tbop_members",votes:"tbop_votes",repeater:"tbop_repeater"};
+const KEY={events:"tbop_events",members:"tbop_members",votes:"tbop_votes",repeater:"tbop_repeater",meetings:"tbop_meetings"};
 const defaults={
 events:[{id:1,title:"Monthly Club Meeting",date:"2026-09-10",time:"19:00",location:"To be announced",visibility:"public",description:"Regular monthly club meeting."},{id:2,title:"Repeater Work Session",date:"2026-09-19",time:"10:00",location:"Technical site",visibility:"officers",description:"Maintenance and inspection."}],
 members:[{id:1,name:"Demo Member",call:"N8XXX",email:"demo@example.org",status:"Active"}],
 votes:[],
-repeater:[{id:1,title:"Quarterly site inspection",date:"2026-09-19",status:"Scheduled",notes:"Check power, antenna system and logs."}]
+repeater:[{id:1,title:"Quarterly site inspection",date:"2026-09-19",status:"Scheduled",notes:"Check power, antenna system and logs."}],
+meetings:[]
 };
 function load(type){try{const raw=localStorage.getItem(KEY[type]);if(raw)return JSON.parse(raw)}catch(e){}localStorage.setItem(KEY[type],JSON.stringify(defaults[type]));return JSON.parse(JSON.stringify(defaults[type]))}
 function save(type,data){localStorage.setItem(KEY[type],JSON.stringify(data))}
@@ -20,7 +21,7 @@ function renderRepeater(){const wrap=document.getElementById("repeaterTasks");if
 function renderMetrics(){const m=document.getElementById("memberMetric");if(!m)return;m.textContent=load("members").filter(x=>x.status==="Active").length;document.getElementById("eventMetric").textContent=load("events").length;document.getElementById("voteMetric").textContent=load("votes").length;document.getElementById("repeaterMetric").textContent=load("repeater").filter(x=>x.status!=="Completed").length}
 function removeItem(type,id){save(type,load(type).filter(x=>x.id!==id));renderAll()}window.removeItem=removeItem;
 function forms(){
-document.getElementById("eventForm")?.addEventListener("submit",e=>{e.preventDefault();const d=load("events");d.push({id:uid(),title:eventTitle.value,date:eventDate.value,time:eventTime.value,location:eventLocation.value,visibility:eventVisibility.value,description:eventDescription.value});save("events",d);e.target.reset();renderAll()});
+document.getElementById("eventForm")?.addEventListener("submit",e=>{e.preventDefault();const d=load("events");d.push({id:uid(),title:eventTitle.value,date:eventDate.value,time:eventTime.value,location:eventLocation.value,visibility:eventVisibility.value,repeat:(document.getElementById("eventRepeat")?.value||"none"),description:eventDescription.value});save("events",d);e.target.reset();renderAll()});
 document.getElementById("memberForm")?.addEventListener("submit",e=>{e.preventDefault();const d=load("members");d.push({id:uid(),name:memberName.value,call:memberCall.value,email:memberEmail.value,status:memberStatus.value});save("members",d);e.target.reset();renderAll()});
 document.getElementById("voteForm")?.addEventListener("submit",e=>{e.preventDefault();const d=load("votes");d.push({id:uid(),title:voteTitle.value,question:voteQuestion.value,options:voteOptions.value.split(",").map(s=>s.trim()).filter(Boolean),close:voteClose.value,type:voteType.value});save("votes",d);e.target.reset();renderAll()});
 document.getElementById("repeaterForm")?.addEventListener("submit",e=>{e.preventDefault();const d=load("repeater");d.push({id:uid(),title:taskTitle.value,date:taskDate.value,status:taskStatus.value,notes:taskNotes.value});save("repeater",d);e.target.reset();renderAll()});
@@ -152,3 +153,184 @@ document.addEventListener("DOMContentLoaded",()=>{
   refreshLiveData();
   setInterval(refreshLiveData,10*60*1000);
 });
+
+
+/* ===== V4 calendar ===== */
+let calendarCursor = new Date();
+calendarCursor = new Date(calendarCursor.getFullYear(), calendarCursor.getMonth(), 1);
+
+function expandedPublicEvents(){
+  const base=load("events").filter(e=>e.visibility==="public");
+  const expanded=[];
+  const start=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()-1,1);
+  const end=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()+2,0);
+  base.forEach(e=>{
+    const d=new Date(e.date+"T12:00:00");
+    expanded.push({...e,_date:new Date(d)});
+    const repeat=e.repeat||"none";
+    if(repeat==="none")return;
+    let cur=new Date(d);
+    for(let i=0;i<30;i++){
+      if(repeat==="weekly")cur=new Date(cur.getFullYear(),cur.getMonth(),cur.getDate()+7);
+      if(repeat==="monthly")cur=new Date(cur.getFullYear(),cur.getMonth()+1,cur.getDate());
+      if(repeat==="yearly")cur=new Date(cur.getFullYear()+1,cur.getMonth(),cur.getDate());
+      if(cur>end)break;
+      if(cur>=start)expanded.push({...e,id:String(e.id)+"r"+i,_date:new Date(cur)});
+    }
+  });
+  return expanded;
+}
+function sameDay(a,b){return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate()}
+function renderMonthCalendar(){
+  const grid=document.getElementById("calendarGrid"), title=document.getElementById("calendarTitle");
+  if(!grid||!title)return;
+  title.textContent=calendarCursor.toLocaleDateString(undefined,{month:"long",year:"numeric"});
+  const first=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth(),1);
+  const start=new Date(first); start.setDate(1-first.getDay());
+  const events=expandedPublicEvents();
+  const today=new Date();
+  let html="";
+  for(let i=0;i<42;i++){
+    const d=new Date(start); d.setDate(start.getDate()+i);
+    const dayEvents=events.filter(e=>sameDay(e._date,d));
+    const muted=d.getMonth()!==calendarCursor.getMonth()?" muted-day":"";
+    const todayClass=sameDay(d,today)?" today":"";
+    html+=`<div class="calendar-day${muted}${todayClass}">
+      <div class="day-number">${d.getDate()}</div>
+      <div class="day-events">${dayEvents.slice(0,3).map(e=>`<span class="day-event">${e.title}<small>${e.time||""}</small></span>`).join("")}</div>
+    </div>`;
+  }
+  grid.innerHTML=html;
+}
+function setupCalendarControls(){
+  const p=document.getElementById("calPrev"),n=document.getElementById("calNext"),t=document.getElementById("calToday");
+  if(p)p.addEventListener("click",()=>{calendarCursor=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()-1,1);renderMonthCalendar()});
+  if(n)n.addEventListener("click",()=>{calendarCursor=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()+1,1);renderMonthCalendar()});
+  if(t)t.addEventListener("click",()=>{const d=new Date();calendarCursor=new Date(d.getFullYear(),d.getMonth(),1);renderMonthCalendar()});
+}
+
+/* ===== V4 Secretary ===== */
+const meetingDraft={attendance:[],agenda:[],motions:[]};
+
+function renderSecretaryLists(){
+  const a=document.getElementById("attendanceList");
+  if(a)a.innerHTML=meetingDraft.attendance.map((x,i)=>`<span class="chip">${x}<button onclick="removeSecretaryItem('attendance',${i})">×</button></span>`).join("");
+  const g=document.getElementById("agendaList");
+  if(g)g.innerHTML=meetingDraft.agenda.map((x,i)=>`<li class="meeting-row"><span>${x}</span><button class="text-button" onclick="removeSecretaryItem('agenda',${i})">Remove</button></li>`).join("");
+  const m=document.getElementById("motionList");
+  if(m)m.innerHTML=meetingDraft.motions.map((x,i)=>`<div class="meeting-row"><div><strong>${x.text}</strong><br><small>Moved by ${x.by||"—"} • Seconded by ${x.second||"—"} • ${x.result}</small></div><button class="text-button" onclick="removeSecretaryItem('motions',${i})">Remove</button></div>`).join("");
+}
+function removeSecretaryItem(type,index){meetingDraft[type].splice(index,1);renderSecretaryLists()} window.removeSecretaryItem=removeSecretaryItem;
+
+function setupSecretary(){
+  const addAttendance=document.getElementById("addAttendanceBtn");
+  addAttendance?.addEventListener("click",()=>{const el=document.getElementById("attendanceName");const v=el.value.trim();if(v){meetingDraft.attendance.push(v);el.value="";renderSecretaryLists()}});
+  document.getElementById("addAgendaBtn")?.addEventListener("click",()=>{const el=document.getElementById("agendaItem");const v=el.value.trim();if(v){meetingDraft.agenda.push(v);el.value="";renderSecretaryLists()}});
+  document.getElementById("addMotionBtn")?.addEventListener("click",()=>{
+    const text=document.getElementById("motionText").value.trim();
+    if(!text)return;
+    meetingDraft.motions.push({
+      text,
+      by:document.getElementById("motionBy").value.trim(),
+      second:document.getElementById("motionSecond").value.trim(),
+      result:document.getElementById("motionResult").value
+    });
+    ["motionText","motionBy","motionSecond"].forEach(id=>document.getElementById(id).value="");
+    renderSecretaryLists();
+  });
+  document.getElementById("generateMinutesBtn")?.addEventListener("click",generateMinutes);
+  document.getElementById("saveMeetingBtn")?.addEventListener("click",saveMeetingDraft);
+  document.getElementById("newMeetingBtn")?.addEventListener("click",resetMeetingDraft);
+  document.getElementById("copyMinutesBtn")?.addEventListener("click",async()=>{
+    const text=document.getElementById("minutesPreview")?.textContent||"";
+    try{await navigator.clipboard.writeText(text);setText("copyMinutesBtn","Copied")}catch(e){}
+    setTimeout(()=>setText("copyMinutesBtn","Copy"),1200);
+  });
+  renderSecretaryLists();
+  renderMeetingArchive();
+}
+
+function val(id){return document.getElementById(id)?.value?.trim()||""}
+function bullets(items){return items.length?items.map(x=>`- ${x}`).join("\\n"):"- None recorded"}
+function generateMinutes(){
+  const title=val("meetingTitle")||"Club Meeting";
+  const date=val("meetingDate")||"Date not entered";
+  const time=val("meetingTime")||"";
+  const location=val("meetingLocation")||"Location not entered";
+  const presiding=val("presidingOfficer")||"Not recorded";
+  const secretary=val("secretaryName")||"Not recorded";
+  const motions=meetingDraft.motions.length?meetingDraft.motions.map((m,i)=>`${i+1}. ${m.text}\\n   Moved by: ${m.by||"—"}\\n   Seconded by: ${m.second||"—"}\\n   Result: ${m.result}`).join("\\n\\n"):"None recorded.";
+  const text=`THE BLOWTORCH OF PARMA AMATEUR RADIO CLUB
+${title.toUpperCase()} MINUTES
+
+Date: ${date}
+Time: ${time||"Not recorded"}
+Location: ${location}
+Presiding Officer: ${presiding}
+Secretary: ${secretary}
+
+CALL TO ORDER
+The meeting was called to order by ${presiding}.
+
+ATTENDANCE
+${bullets(meetingDraft.attendance)}
+
+AGENDA
+${meetingDraft.agenda.length?meetingDraft.agenda.map((x,i)=>`${i+1}. ${x}`).join("\\n"):"No agenda items recorded."}
+
+TREASURER'S REPORT
+${val("treasurerReport")||"No report recorded."}
+
+COMMITTEE / TRUSTEE REPORTS
+${val("committeeReports")||"No reports recorded."}
+
+OLD BUSINESS
+${val("oldBusiness")||"None recorded."}
+
+NEW BUSINESS
+${val("newBusiness")||"None recorded."}
+
+MOTIONS
+${motions}
+
+ANNOUNCEMENTS
+${val("announcements")||"None recorded."}
+
+ADJOURNMENT
+The meeting was adjourned${val("adjournTime")?` at ${val("adjournTime")}`:""}.
+
+Respectfully submitted,
+${secretary}
+Secretary
+The Blowtorch of Parma Amateur Radio Club`;
+  const p=document.getElementById("minutesPreview"); if(p)p.textContent=text;
+  return text;
+}
+function saveMeetingDraft(){
+  const data=load("meetings");
+  data.unshift({
+    id:uid(),title:val("meetingTitle")||"Club Meeting",date:val("meetingDate"),location:val("meetingLocation"),
+    minutes:generateMinutes(),attendance:[...meetingDraft.attendance],agenda:[...meetingDraft.agenda],motions:[...meetingDraft.motions]
+  });
+  save("meetings",data);
+  renderMeetingArchive();
+}
+function resetMeetingDraft(){
+  meetingDraft.attendance=[];meetingDraft.agenda=[];meetingDraft.motions=[];
+  ["meetingTitle","meetingDate","meetingLocation","presidingOfficer","secretaryName","attendanceName","agendaItem","motionText","motionBy","motionSecond","treasurerReport","committeeReports","oldBusiness","newBusiness","announcements","adjournTime"].forEach(id=>{
+    const el=document.getElementById(id); if(el)el.value="";
+  });
+  const mt=document.getElementById("meetingTime"); if(mt)mt.value="19:00";
+  const p=document.getElementById("minutesPreview"); if(p)p.textContent="Fill in the meeting details and click Generate Minutes.";
+  renderSecretaryLists();
+}
+function renderMeetingArchive(){
+  const wrap=document.getElementById("meetingArchive");if(!wrap)return;
+  const items=load("meetings");
+  wrap.innerHTML=items.length?items.map(m=>`<article class="event-item"><div><h3>${m.title}</h3><div class="event-meta">${m.date?fmtDate(m.date):"No date"}${m.location?(" • "+m.location):""}</div><p>${(m.attendance||[]).length} attendees • ${(m.motions||[]).length} motions</p></div><button class="button danger small" onclick="removeItem('meetings',${m.id})">Remove Draft</button></article>`).join(""):`<div class="card"><p>No saved meeting drafts yet.</p></div>`;
+}
+
+/* extend v4 renders */
+const renderAllV3=renderAll;
+renderAll=function(){renderAllV3();renderMonthCalendar();renderMeetingArchive();};
+document.addEventListener("DOMContentLoaded",()=>{setupCalendarControls();setupSecretary();renderMonthCalendar();});

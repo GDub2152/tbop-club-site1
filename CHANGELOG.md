@@ -1,5 +1,11 @@
 # TBOP Club Site Changelog
 
+## 13.2.1 — News CMS Hotfix
+
+- Fixed `operations.js` syntax error that disabled all News & Announcements buttons.
+- No database changes.
+
+
 ## 13.2.0 — News & Announcements CMS
 
 ### Added

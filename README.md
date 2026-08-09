@@ -96,3 +96,7 @@ A custom domain can be added under Settings > Pages > Custom domain.
 ## Next production step
 
 The next major step should be authentication + database integration. The static GitHub Pages version should remain the public presentation layer, while private data is served only after authenticated API requests.
+
+
+## V2 redesign
+Dark/orange TBOP branding, supplied logo placeholder, homepage dashboard, public events, membership, news, documents, contact, and responsive navigation.

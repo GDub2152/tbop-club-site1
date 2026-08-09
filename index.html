@@ -1,110 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Blowtorch of Parma - Amateur Radio Club</title>
-  <link rel="stylesheet" href="assets/styles.css">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080a0c">
+<title>The Blowtorch of Parma - Amateur Radio Club</title>
+<link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container nav-wrap">
-      <a class="brand" href="index.html">
-        <span class="brand-mark">TBOP</span>
-        <span>
-          <strong>The Blowtorch of Parma</strong>
-          <small>Amateur Radio Club</small>
-        </span>
-      </a>
-      <button class="menu-toggle" aria-label="Toggle menu">☰</button>
-      <nav class="main-nav">
-        <a href="#about">About</a>
-        <a href="calendar.html">Calendar</a>
-        <a href="#repeater">Repeater</a>
-        <a href="#documents">Documents</a>
-        <a class="button small" href="portal.html">Officer Portal</a>
-      </nav>
-    </div>
-  </header>
+<header class="site-header"><div class="container nav-wrap">
+<a class="brand" href="index.html"><span class="tower-icon">⌁</span><span><strong>THE BLOWTORCH OF PARMA</strong><small>AMATEUR RADIO CLUB</small></span></a>
+<button class="menu-toggle" aria-label="Toggle navigation">☰</button>
+<nav class="main-nav" id="mainNav"><a class="active" href="index.html">Home</a><a href="#about">About</a><a href="calendar.html">Calendar</a><a href="#repeater">Repeater</a><a href="#membership">Membership</a><a href="#documents">Documents</a><a href="#news">News</a><a href="#contact">Contact</a><a class="button small" href="portal.html">🔒 Officer Login</a></nav>
+</div></header>
 
-  <main>
-    <section class="hero">
-      <div class="container hero-grid">
-        <div>
-          <span class="eyebrow">Amateur Radio • Parma / Cleveland Area</span>
-          <h1>Connecting operators, serving the community.</h1>
-          <p class="lead">A modern home for club news, meetings, events, repeater information, public documents, and member resources.</p>
-          <div class="actions">
-            <a class="button" href="calendar.html">View Club Calendar</a>
-            <a class="button secondary" href="#about">Learn More</a>
-          </div>
-        </div>
-        <div class="status-card">
-          <h3>Club Dashboard</h3>
-          <div class="stat-row"><span>Next Meeting</span><strong id="nextEvent">Loading…</strong></div>
-          <div class="stat-row"><span>Public Events</span><strong id="eventCount">—</strong></div>
-          <div class="stat-row"><span>Voting</span><strong>Members only</strong></div>
-          <div class="stat-row"><span>Officer Portal</span><strong>Protected</strong></div>
-        </div>
-      </div>
-    </section>
+<main>
+<section class="hero-v2"><div class="container hero-grid-v2">
+<div class="hero-logo-wrap"><img class="hero-logo" src="assets/tbop-logo.png" alt="The Blowtorch of Parma logo"></div>
+<div class="hero-copy"><span class="eyebrow">Amateur Radio • Northeast Ohio</span>
+<h1>Connecting ham radio.<br><span>Building community.</span><br>Serving Northeast Ohio.</h1>
+<p class="lead">The Blowtorch of Parma Amateur Radio Club is dedicated to promoting the art, science, service, and enjoyment of amateur radio.</p>
+<div class="actions"><a class="button" href="#membership">Become a Member</a><a class="button secondary" href="#about">Learn More</a></div></div>
+</div></section>
 
-    <section id="about" class="section">
-      <div class="container">
-        <span class="eyebrow">About the Club</span>
-        <h2>One site for public information and club operations.</h2>
-        <div class="card-grid three">
-          <article class="card">
-            <h3>Meetings & Events</h3>
-            <p>Public calendar for meetings, nets, hamfests, work parties, training, contests and special events.</p>
-          </article>
-          <article class="card">
-            <h3>Member Resources</h3>
-            <p>Public documents, club information, announcements and links can live here without exposing private officer records.</p>
-          </article>
-          <article class="card">
-            <h3>Secure Officer Tools</h3>
-            <p>Private administration for minutes, membership, elections, finances and repeater records is designed to live behind authentication.</p>
-          </article>
-        </div>
-      </div>
-    </section>
+<section class="dashboard-strip"><div class="container dashboard-grid">
+<article class="dash-card"><span class="dash-label">Repeater Status</span><strong>Information Pending</strong><small>Frequency, PL tone, and link status will appear here.</small></article>
+<article class="dash-card"><span class="dash-label">Weather</span><strong>Live Weather</strong><small>Cleveland-area weather feed coming next.</small></article>
+<article class="dash-card"><span class="dash-label">Solar Conditions</span><strong>SFI • A • K</strong><small>Live propagation values will populate here.</small></article>
+<article class="dash-card"><span class="dash-label">Band Conditions</span><strong>HF • 6m • 2m • 70cm</strong><small>Live amateur-radio band conditions coming next.</small></article>
+<article class="dash-card"><span class="dash-label">Next Club Meeting</span><strong id="nextEvent">Loading…</strong><a href="calendar.html">View Calendar →</a></article>
+</div></section>
 
-    <section id="repeater" class="section alt">
-      <div class="container split">
-        <div>
-          <span class="eyebrow">Repeater</span>
-          <h2>Repeater information and maintenance</h2>
-          <p>Public repeater information can be displayed here while detailed maintenance logs, programming backups, wiring diagrams and access information remain in the Repeater Trustee area.</p>
-        </div>
-        <div class="card">
-          <h3>Public Repeater Card</h3>
-          <p class="muted">Frequency and coordination details can be added when finalized.</p>
-          <div class="stat-row"><span>Status</span><strong>Information pending</strong></div>
-          <div class="stat-row"><span>Trustee</span><strong>Repeater Trustee</strong></div>
-        </div>
-      </div>
-    </section>
+<section id="about" class="section"><div class="container split">
+<div><span class="eyebrow">About the Club</span><h2>Radio, service, learning, and fellowship.</h2><p class="lead">A modern home for club news, meetings, events, repeater information, member resources, and officer operations.</p></div>
+<div class="card accent-card"><h3>Built for the club</h3><p>This site is being designed as both a polished public website and the front end for a secure club-management system.</p></div>
+</div></section>
 
-    <section id="documents" class="section">
-      <div class="container">
-        <span class="eyebrow">Public Documents</span>
-        <h2>Club documents members can access</h2>
-        <div class="card-grid three">
-          <article class="card"><h3>Bylaws</h3><p>Publish approved bylaws and policies here.</p></article>
-          <article class="card"><h3>Membership</h3><p>Applications, renewal forms and public membership information.</p></article>
-          <article class="card"><h3>Newsletters</h3><p>Archive club newsletters and public announcements.</p></article>
-        </div>
-      </div>
-    </section>
-  </main>
+<section id="repeater" class="section alt"><div class="container">
+<div class="section-head"><div><span class="eyebrow">On the Air</span><h2>Repeater & Radio Operations</h2></div><span class="status-dot">● Development</span></div>
+<div class="card-grid three"><article class="card"><h3>Repeater</h3><p>Frequency, tone, coverage, operating status, and public technical information.</p></article><article class="card"><h3>Linked Systems</h3><p>AllStar, EchoLink, and other club-linked systems can be displayed here.</p></article><article class="card"><h3>Repeater Trustee</h3><p>Detailed maintenance records stay inside the protected officer portal.</p></article></div>
+</div></section>
 
-  <footer class="site-footer">
-    <div class="container">
-      <strong>The Blowtorch of Parma - Amateur Radio Club</strong>
-      <p>Public site starter. Private records should not be committed to a public GitHub repository.</p>
-    </div>
-  </footer>
-  <script src="assets/app.js"></script>
-</body>
-</html>
+<section id="membership" class="section"><div class="container split">
+<div><span class="eyebrow">Membership</span><h2>Get involved with The Blowtorch of Parma.</h2><p>Applications, renewals, member-only resources, and club voting eligibility will be managed here.</p></div>
+<div class="card"><h3>Membership tools planned</h3><div class="mini-list"><span>✓ Online application</span><span>✓ Renewal tracking</span><span>✓ Member portal</span><span>✓ Voting eligibility</span></div></div>
+</div></section>
+
+<section class="section alt"><div class="container">
+<div class="section-head"><div><span class="eyebrow">Upcoming</span><h2>Club Events</h2></div><a href="calendar.html">View Full Calendar →</a></div>
+<div id="homeEvents" class="event-list compact-events"></div>
+</div></section>
+
+<section id="news" class="section"><div class="container">
+<div class="section-head"><div><span class="eyebrow">Latest News</span><h2>From the Club</h2></div></div>
+<div class="card-grid three"><article class="card news-card"><span class="pill public">Website</span><h3>New Club Site in Development</h3><p>The TBOP website and club-management portal are now under active development.</p></article><article class="card news-card"><span class="pill">Calendar</span><h3>Shared Calendar Added</h3><p>Public events can be displayed separately from officer-only events.</p></article><article class="card news-card"><span class="pill">Portal</span><h3>Officer Tools Underway</h3><p>Secretary, Treasurer, Voting, Membership, and Repeater Trustee modules are being built.</p></article></div>
+</div></section>
+
+<section id="documents" class="section alt"><div class="container"><span class="eyebrow">Public Documents</span><h2>Club resources</h2>
+<div class="card-grid three"><article class="card"><h3>Bylaws</h3><p>Approved club bylaws and public policies.</p></article><article class="card"><h3>Membership Forms</h3><p>Applications, renewals, and public forms.</p></article><article class="card"><h3>Newsletters</h3><p>Club newsletters and public archives.</p></article></div>
+</div></section>
+
+<section id="contact" class="section"><div class="container contact-grid"><div><span class="eyebrow">Contact</span><h2>Get on the air with us.</h2><p class="lead">Club email and social links can be connected when those accounts are finalized.</p></div><div class="contact-links"><span>✉ Club Email — Coming soon</span><span>📻 Repeater Info — Coming soon</span><span>📅 Calendar — <a href="calendar.html">View Events</a></span><span>🔒 Officers — <a href="portal.html">Open Portal</a></span></div></div></section>
+</main>
+
+<footer class="site-footer"><div class="container footer-grid"><div><strong>The Blowtorch of Parma</strong><p>Amateur Radio Club</p></div><small>Development build • Public website data only</small></div></footer>
+<script src="assets/app.js"></script>
+</body></html>

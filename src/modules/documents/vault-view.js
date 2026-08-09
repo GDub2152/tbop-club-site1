@@ -6,13 +6,13 @@ export function renderVaultShell(root) {
         <div>
           <span class="vault-kicker">TBOP Secure Document Vault</span>
           <h1>Club Records</h1>
-          <p class="vault-warning">
-            Beta security test environment — do not upload real confidential club records yet.
-          </p>
+          <p data-vault-security class="vault-warning"></p>
         </div>
         <div class="vault-actions">
           <button data-vault-action="new-folder">New Folder</button>
           <button data-vault-action="upload">Upload Document</button>
+          <button data-vault-action="trash">Recycle Bin</button>
+          <button data-vault-action="audit">Audit Log</button>
         </div>
       </header>
 
@@ -23,8 +23,10 @@ export function renderVaultShell(root) {
         </aside>
         <main>
           <div class="vault-toolbar">
+            <div><span>Folder</span><strong data-vault-current-folder>Documents</strong></div>
             <input data-vault-search placeholder="Search current folder">
           </div>
+          <div data-vault-drop class="vault-drop">Drop a file here to upload to the current folder</div>
           <div data-vault-documents class="vault-document-grid"></div>
         </main>
       </div>
@@ -45,18 +47,22 @@ export function renderFolders(target, folders, onOpen) {
   });
 }
 
-export function renderDocuments(target, docs, { onDownload, onTrash }) {
+export function renderDocuments(target, docs, { onDownload, onTrash, onVersions }) {
   target.innerHTML = docs.length ? docs.map((d) => {
     const v = d.vault_document_versions?.[0];
     return `
       <article class="vault-document">
-        <span>${escapeHtml(d.security_zone)}</span>
+        <div class="vault-document-top">
+          <span>${escapeHtml(d.classification || d.security_zone)}</span>
+          <small>${escapeHtml(d.approval_status)}</small>
+        </div>
         <h3>${escapeHtml(d.title)}</h3>
         <p>${escapeHtml(d.description || "")}</p>
         <small>Version ${d.current_version}${v?.file_size ? ` • ${formatBytes(v.file_size)}` : ""}</small>
-        <div>
+        <div class="vault-doc-actions">
           ${v ? `<button data-download="${v.id}">Download</button>` : ""}
-          <button data-trash="${d.id}">Move to Trash</button>
+          <button data-versions="${d.id}">Versions</button>
+          <button data-trash="${d.id}">Trash</button>
         </div>
       </article>
     `;
@@ -69,9 +75,8 @@ export function renderDocuments(target, docs, { onDownload, onTrash }) {
         "click", () => onDownload({ ...v, document_id: d.id })
       );
     }
-    target.querySelector(`[data-trash="${d.id}"]`)?.addEventListener(
-      "click", () => onTrash(d)
-    );
+    target.querySelector(`[data-versions="${d.id}"]`)?.addEventListener("click",()=>onVersions(d));
+    target.querySelector(`[data-trash="${d.id}"]`)?.addEventListener("click",()=>onTrash(d));
   }
 }
 

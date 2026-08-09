@@ -84,6 +84,8 @@ export class VaultService {
     title,
     description = null,
     tags = [],
+    classification = "members",
+    confidentialRoles = [],
     file,
     versionNote = "Initial version",
   }) {
@@ -236,11 +238,25 @@ export class VaultService {
   }
 
   async listTrash() {
-    // Executives/admins can use an RPC in a later release for cross-zone trash.
-    // Normal table SELECT policies intentionally hide deleted rows.
-    throw new Error(
-      "Recycle-bin listing is intentionally deferred to a security-definer RPC in Beta 2."
-    );
+    const { data, error } = await this.db.rpc("tbop_vault_list_trash");
+    if (error) throw error;
+    return data || [];
+  }
+
+  async listAudit(documentId = null) {
+    const { data, error } = await this.db.rpc("tbop_vault_list_audit", {
+      p_document: documentId,
+    });
+    if (error) throw error;
+    return data || [];
+  }
+
+  async search(query) {
+    const { data, error } = await this.db.rpc("tbop_vault_search", {
+      p_query: query || "",
+    });
+    if (error) throw error;
+    return data || [];
   }
 
   async audit(action, {

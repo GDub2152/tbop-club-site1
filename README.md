@@ -26,3 +26,20 @@ The private Document Vault implementation is now present under
 
 The implementation must first pass:
 `docs/DOCUMENT-VAULT-SECURITY-GATE.md`.
+
+
+## 1.0.0-beta.2 — Document Vault UI
+
+Adds:
+- Vault UI page
+- Folder navigation
+- Drag/drop upload
+- Classification
+- Local folder search
+- Signed downloads
+- Version-history browser
+- Recycle-bin listing/restore
+- Executive audit-log browser
+- Beta 2 security test plan
+
+Still **not cleared for confidential production documents**.

@@ -390,3 +390,25 @@
   .legacy-signoff span{display:block}
   .legacy-signoff span:last-child{margin-top:7px}
 }
+
+/* ==========================================================
+   TBOP 13.2.0 — News & Announcements CMS
+   ========================================================== */
+.news-editor-card{margin-bottom:18px;border-left:3px solid var(--accent,#ff6a00)}
+.news-body-editor{min-height:190px!important}
+.news-editor-actions{grid-column:1/-1;display:flex;gap:9px;flex-wrap:wrap}
+.news-filter-card{margin:18px 0}
+.news-admin-item{align-items:center}
+.news-admin-copy{min-width:0;flex:1}
+.news-card-badges{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:6px}
+.news-admin-actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+.news-preview-overlay{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:1200;display:grid;place-items:center;padding:20px}
+.news-preview-modal{width:min(800px,100%);max-height:90vh;overflow:auto;background:#0e1216;color:#fff;border:1px solid #3a4148;border-radius:16px;padding:24px;box-shadow:0 30px 100px rgba(0,0,0,.55)}
+.news-preview-meta{color:#ffb16f;text-transform:uppercase;font-size:.75rem;font-weight:900;letter-spacing:.08em;margin-bottom:15px}
+.news-preview-summary{font-size:1.05rem;font-weight:750;color:#eef1f3;line-height:1.6}
+.news-preview-body p{color:#c5cbd0;line-height:1.7}
+@media(max-width:700px){
+  .news-admin-item{align-items:flex-start}
+  .news-admin-actions{width:100%;justify-content:flex-start}
+  .news-editor-actions .button{flex:1;min-width:135px}
+}

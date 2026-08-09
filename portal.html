@@ -520,19 +520,65 @@
     </section>
 
     <section id="view-news" class="portal-view">
-      <div class="page-head"><div><span class="eyebrow">Content</span><h1>News & Announcements</h1></div></div>
-      <div class="card">
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">Content Management</span>
+          <h1>News & Announcements</h1>
+          <p class="muted">Create, preview, publish, schedule, unpublish, pin, and archive homepage announcements.</p>
+        </div>
+        <button id="newNewsPostBtn" class="button secondary small" type="button">New Post</button>
+      </div>
+
+      <div class="card news-editor-card">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow" id="newsEditorMode">New Post</span>
+            <h3 id="newsEditorTitle">Create News or Announcement</h3>
+          </div>
+          <span id="newsCurrentStatus" class="pill">Draft</span>
+        </div>
+
         <form id="newsForm" class="form-grid">
+          <input id="newsEditId" type="hidden">
           <input id="newsTitle" placeholder="Headline" required>
+          <select id="newsVisibility">
+            <option value="public">Public Website</option>
+            <option value="members">Members Only</option>
+            <option value="officers">Officers Only</option>
+          </select>
           <input id="newsPublishAt" type="datetime-local">
-          <select id="newsVisibility"><option value="public">Public</option><option value="members">Members</option><option value="officers">Officers</option></select>
-          <select id="newsStatus"><option value="draft">Draft</option><option value="published">Publish Now</option><option value="scheduled">Scheduled</option></select>
-          <textarea id="newsSummary" placeholder="Summary"></textarea>
-          <textarea id="newsBody" placeholder="Article body" required></textarea>
-          <label class="check-label"><input id="newsPinned" type="checkbox"> Pin this announcement</label>
-          <button class="button" type="submit">Save News Post</button>
+          <label class="check-label"><input id="newsPinned" type="checkbox"> Pin this announcement to the top</label>
+          <textarea id="newsSummary" placeholder="Short summary shown on cards"></textarea>
+          <textarea id="newsBody" class="news-body-editor" placeholder="Full announcement or article" required></textarea>
+
+          <div class="news-editor-actions">
+            <button id="saveNewsDraftBtn" class="button secondary" type="button">Save Draft</button>
+            <button id="previewNewsBtn" class="button secondary" type="button">Preview</button>
+            <button id="publishNewsBtn" class="button" type="button">Publish Now</button>
+            <button id="scheduleNewsBtn" class="button secondary" type="button">Schedule</button>
+          </div>
         </form>
       </div>
+
+      <div class="card news-filter-card">
+        <div class="member-filter-grid">
+          <input id="newsSearch" placeholder="Search news and announcements">
+          <select id="newsStatusFilter">
+            <option value="">All statuses</option>
+            <option value="draft">Drafts</option>
+            <option value="scheduled">Scheduled</option>
+            <option value="published">Published</option>
+            <option value="archived">Archived</option>
+          </select>
+          <select id="newsVisibilityFilter">
+            <option value="">All audiences</option>
+            <option value="public">Public</option>
+            <option value="members">Members</option>
+            <option value="officers">Officers</option>
+          </select>
+        </div>
+      </div>
+
       <div id="newsAdminList" class="event-list"></div>
     </section>
 

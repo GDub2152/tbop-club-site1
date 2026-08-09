@@ -512,6 +512,18 @@ window.TBOP = window.TBOP || {};
     const {data,error}=await window.TBOP.supabase.from("news_posts").insert(row).select().single();
     if(error)throw error;return data;
   }
+
+  async function updateNews(id,row){
+    const {data,error}=await window.TBOP.supabase
+      .from("news_posts").update({...row,updated_at:new Date().toISOString()})
+      .eq("id",id).select().single();
+    if(error)throw error;return data;
+  }
+
+  async function deleteNews(id){
+    const {error}=await window.TBOP.supabase.from("news_posts").delete().eq("id",id);
+    if(error)throw error;
+  }
   async function listApprovals(){
     const {data,error}=await window.TBOP.supabase.from("document_approvals").select("*").order("created_at",{ascending:false});
     if(error)throw error;return data;
@@ -591,6 +603,8 @@ window.TBOP = window.TBOP || {};
     createEquipment,
     listNews,
     createNews,
+    updateNews,
+    deleteNews,
     listApprovals,
     createApproval,
     updateApproval,

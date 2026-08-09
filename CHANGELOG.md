@@ -1,5 +1,28 @@
 # TBOP Club Site Changelog
 
+## 13.2.0 — News & Announcements CMS
+
+### Added
+- One-click Save Draft.
+- Edit existing announcements.
+- Preview before publishing.
+- Publish Now.
+- Schedule future publication.
+- Unpublish back to Draft.
+- Archive and restore to Draft.
+- Pin and unpin announcements.
+- Search and status/audience filters.
+- Public homepage continues to show only public posts whose publish time has arrived.
+
+### Preserved
+- W8DRZ/Jim Snell memorial homepage.
+- Split Member/Officer login.
+- Full Officer Portal.
+- Unified executive permissions.
+- Secure Document Vault Beta.
+- Existing Supabase configuration is not included in this update ZIP.
+
+
 ## 13.1.0 — W8DRZ Legacy Release
 
 ### Added

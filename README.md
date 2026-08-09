@@ -279,3 +279,21 @@ Run `supabase/migrations/v11_treasurer.sql` before using V11.
 - Existing data preserved when voting is disabled
 
 Run `supabase/migrations/v12_optional_voting.sql` before using V12.
+
+
+## V13 Operations Suite
+
+- Repeater asset management
+- Repeater maintenance history
+- Equipment inventory
+- Public/admin news system
+- Club analytics dashboard
+- Document approval workflow
+- JSON backup/export
+- Digital membership card backend/display
+- PWA manifest and service worker
+- Role-aware navigation for new modules
+- Notification data model (delivery staged)
+- Restore workflow intentionally staged for safety
+
+Run `supabase/migrations/v13_operations_suite.sql` before using V13.

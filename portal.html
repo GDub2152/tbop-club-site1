@@ -5,6 +5,7 @@
   <meta name="theme-color" content="#080a0c">
   <title>Officer Portal | The Blowtorch of Parma</title>
   <link rel="stylesheet" href="assets/styles.css">
+<link rel="manifest" href="manifest.webmanifest">
 </head>
 <body class="portal-body">
 <div class="portal-shell">
@@ -19,6 +20,11 @@
       <button data-view="treasurer">Treasurer</button>
       <button data-view="voting">Voting</button>
       <button data-view="repeater">Repeater Trustee</button>
+      <button data-view="equipment">Equipment</button>
+      <button data-view="news">News</button>
+      <button data-view="analytics">Analytics</button>
+      <button data-view="approvals">Approvals</button>
+      <button data-view="backup">Backup</button>
       <button data-view="website">Website Admin</button>
     </nav>
     <a class="sidebar-link" href="member.html">← Member Portal</a><button id="logoutBtn" class="sidebar-link sidebar-button">Sign Out</button><a class="sidebar-link" href="index.html">← Public Website</a>
@@ -449,18 +455,128 @@
     </section>
 
     <section id="view-repeater" class="portal-view">
-      <div class="page-head"><div><span class="eyebrow">Repeater Trustee</span><h1>Repeater Operations</h1></div></div>
-      <form id="repeaterForm" class="card form-grid">
-        <input id="taskTitle" placeholder="Maintenance task" required>
-        <input id="taskDate" type="date">
-        <select id="taskStatus"><option>Open</option><option>Scheduled</option><option>Completed</option></select>
-        <textarea id="taskNotes" placeholder="Notes"></textarea>
-        <button class="button" type="submit">Add Task</button>
-      </form>
-      <div id="repeaterTasks" class="event-list"></div>
+      <div class="page-head"><div><span class="eyebrow">Repeater Trustee</span><h1>Repeater Management Center</h1></div></div>
+      <div class="card-grid four">
+        <div class="metric"><span>Assets</span><strong id="repeaterAssetMetric">0</strong></div>
+        <div class="metric"><span>Maintenance Records</span><strong id="repeaterMaintMetric">0</strong></div>
+        <div class="metric"><span>Open Tasks</span><strong id="repeaterOpenMetric">0</strong></div>
+        <div class="metric"><span>Last Service</span><strong id="repeaterLastService" class="small-metric">—</strong></div>
+      </div>
+      <div class="ops-two-col">
+        <div class="card">
+          <h3>Repeater Asset</h3>
+          <form id="repeaterAssetForm" class="form-grid">
+            <input id="repAssetName" placeholder="Asset name" required>
+            <input id="repAssetType" placeholder="Type (Repeater, Duplexer, Antenna...)" required>
+            <input id="repManufacturer" placeholder="Manufacturer">
+            <input id="repModel" placeholder="Model">
+            <input id="repSerial" placeholder="Serial number">
+            <input id="repLocation" placeholder="Location">
+            <select id="repStatus"><option value="active">Active</option><option value="maintenance">Maintenance</option><option value="retired">Retired</option></select>
+            <textarea id="repAssetNotes" placeholder="Notes"></textarea>
+            <button class="button" type="submit">Add Asset</button>
+          </form>
+        </div>
+        <div class="card">
+          <h3>Maintenance Log</h3>
+          <form id="repeaterMaintenanceForm" class="form-grid">
+            <input id="repMaintDate" type="date" required>
+            <input id="repMaintTitle" placeholder="Maintenance title" required>
+            <input id="repMaintCategory" placeholder="Category">
+            <input id="repMaintBy" placeholder="Performed by">
+            <input id="repMaintSWR" type="number" step="0.01" placeholder="SWR">
+            <input id="repMaintPower" type="number" step="0.1" placeholder="Forward power">
+            <input id="repMaintFirmware" placeholder="Firmware/version">
+            <textarea id="repMaintNotes" placeholder="Maintenance notes"></textarea>
+            <button class="button" type="submit">Add Maintenance</button>
+          </form>
+        </div>
+      </div>
+      <div class="section-head"><div><span class="eyebrow">Inventory</span><h2>Repeater Assets</h2></div></div>
+      <div id="repeaterAssetList" class="event-list"></div>
+      <div class="section-head"><div><span class="eyebrow">History</span><h2>Maintenance History</h2></div></div>
+      <div id="repeaterMaintenanceList" class="event-list"></div>
     </section>
 
-    <section id="view-website" class="portal-view">
+    
+    <section id="view-equipment" class="portal-view">
+      <div class="page-head"><div><span class="eyebrow">Club Assets</span><h1>Equipment Inventory</h1></div></div>
+      <div class="card">
+        <form id="equipmentForm" class="form-grid">
+          <input id="eqName" placeholder="Equipment name" required>
+          <input id="eqCategory" placeholder="Category">
+          <input id="eqManufacturer" placeholder="Manufacturer">
+          <input id="eqModel" placeholder="Model">
+          <input id="eqSerial" placeholder="Serial number">
+          <input id="eqTag" placeholder="Asset tag">
+          <input id="eqLocation" placeholder="Location">
+          <select id="eqStatus"><option value="available">Available</option><option value="checked_out">Checked Out</option><option value="maintenance">Maintenance</option><option value="retired">Retired</option></select>
+          <textarea id="eqNotes" placeholder="Notes"></textarea>
+          <button class="button" type="submit">Add Equipment</button>
+        </form>
+      </div>
+      <div id="equipmentList" class="event-list"></div>
+    </section>
+
+    <section id="view-news" class="portal-view">
+      <div class="page-head"><div><span class="eyebrow">Content</span><h1>News & Announcements</h1></div></div>
+      <div class="card">
+        <form id="newsForm" class="form-grid">
+          <input id="newsTitle" placeholder="Headline" required>
+          <input id="newsPublishAt" type="datetime-local">
+          <select id="newsVisibility"><option value="public">Public</option><option value="members">Members</option><option value="officers">Officers</option></select>
+          <select id="newsStatus"><option value="draft">Draft</option><option value="published">Publish Now</option><option value="scheduled">Scheduled</option></select>
+          <textarea id="newsSummary" placeholder="Summary"></textarea>
+          <textarea id="newsBody" placeholder="Article body" required></textarea>
+          <label class="check-label"><input id="newsPinned" type="checkbox"> Pin this announcement</label>
+          <button class="button" type="submit">Save News Post</button>
+        </form>
+      </div>
+      <div id="newsAdminList" class="event-list"></div>
+    </section>
+
+    <section id="view-analytics" class="portal-view">
+      <div class="page-head"><div><span class="eyebrow">Analytics</span><h1>Club Dashboard</h1></div></div>
+      <div class="card-grid four">
+        <div class="metric"><span>Active Members</span><strong id="analyticsMembers">0</strong></div>
+        <div class="metric"><span>Events</span><strong id="analyticsEvents">0</strong></div>
+        <div class="metric"><span>Meetings</span><strong id="analyticsMeetings">0</strong></div>
+        <div class="metric"><span>Equipment</span><strong id="analyticsEquipment">0</strong></div>
+      </div>
+      <div class="card-grid three analytics-grid">
+        <div class="card"><h3>Membership</h3><div id="analyticsMembershipDetail"></div></div>
+        <div class="card"><h3>Finances</h3><div id="analyticsFinanceDetail"></div></div>
+        <div class="card"><h3>Operations</h3><div id="analyticsOpsDetail"></div></div>
+      </div>
+    </section>
+
+    <section id="view-approvals" class="portal-view">
+      <div class="page-head"><div><span class="eyebrow">Workflow</span><h1>Document Approvals</h1></div></div>
+      <div class="card">
+        <form id="approvalForm" class="form-grid">
+          <input id="approvalTitle" placeholder="Document / item title" required>
+          <select id="approvalType"><option value="minutes">Meeting Minutes</option><option value="policy">Policy</option><option value="newsletter">Newsletter</option><option value="document">Other Document</option></select>
+          <textarea id="approvalNotes" placeholder="Notes"></textarea>
+          <button class="button" type="submit">Submit for Approval</button>
+        </form>
+      </div>
+      <div id="approvalList" class="event-list"></div>
+    </section>
+
+    <section id="view-backup" class="portal-view">
+      <div class="page-head"><div><span class="eyebrow">Recovery</span><h1>Backup & Export</h1></div></div>
+      <div class="card backup-card">
+        <h3>Export Club Data</h3>
+        <p>Creates a JSON export of the data this browser is authorized to read. This is useful for manual backups and migration testing.</p>
+        <button id="exportDataBtn" class="button">Export Data</button>
+      </div>
+      <div class="card">
+        <h3>Restore</h3>
+        <p class="muted">Full automated restore is intentionally not enabled yet. Restoring production data safely requires validation, conflict handling, and administrator confirmation.</p>
+      </div>
+    </section>
+
+<section id="view-website" class="portal-view">
       <div class="page-head"><div><span class="eyebrow">Website Admin</span><h1>Content & System Settings</h1></div></div>
 
       <div class="card system-setting-card">
@@ -500,5 +616,6 @@
 <script src="assets/secretary-db.js"></script>
 <script src="assets/treasurer.js"></script>
 <script src="assets/voting.js"></script>
+<script src="assets/operations.js"></script>
 </body>
 </html>

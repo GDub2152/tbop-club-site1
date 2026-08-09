@@ -5,6 +5,7 @@
 <meta name="theme-color" content="#080a0c">
 <title>The Blowtorch of Parma - Amateur Radio Club</title>
 <link rel="stylesheet" href="assets/styles.css">
+<link rel="manifest" href="manifest.webmanifest">
 </head>
 <body>
 <header class="site-header"><div class="container nav-wrap">
@@ -78,7 +79,7 @@
 
 <section id="news" class="section"><div class="container">
 <div class="section-head"><div><span class="eyebrow">Latest News</span><h2>From the Club</h2></div></div>
-<div class="card-grid three"><article class="card news-card"><span class="pill public">Website</span><h3>New Club Site in Development</h3><p>The TBOP website and club-management portal are now under active development.</p></article><article class="card news-card"><span class="pill">Calendar</span><h3>Shared Calendar Added</h3><p>Public events can be displayed separately from officer-only events.</p></article><article class="card news-card"><span class="pill">Portal</span><h3>Officer Tools Underway</h3><p>Secretary, Treasurer, Voting, Membership, and Repeater Trustee modules are being built.</p></article></div>
+<div id="publicNewsList" class="card-grid three"></div>
 </div></section>
 
 <section id="documents" class="section alt"><div class="container"><span class="eyebrow">Public Documents</span><h2>Club resources</h2>
@@ -95,4 +96,5 @@
 <script src="assets/backend.js"></script>
 <script src="assets/app.js"></script>
 <script src="assets/database-modules.js"></script>
+<script src="assets/operations.js"></script>
 </body></html>

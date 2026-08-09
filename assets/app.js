@@ -469,14 +469,14 @@ function applyOfficerRole(){
   setText("officerRoleBadge",`Demo ${roleLabels[role]||"Administrator"}`);
 
   const allowed={
-    president:["dashboard","calendar","meetings","members","documents","treasurer","voting","repeater","website"],
-    vice_president:["dashboard","calendar","meetings","members","documents","voting","repeater"],
-    secretary:["dashboard","calendar","meetings","members","documents","voting"],
+    president:["dashboard","calendar","meetings","members","documents","treasurer","voting","repeater","equipment","news","analytics","approvals","backup","website"],
+    vice_president:["dashboard","calendar","meetings","members","documents","voting","repeater","equipment","news","analytics","approvals"],
+    secretary:["dashboard","calendar","meetings","members","documents","voting","news","analytics","approvals"],
     treasurer:["dashboard","calendar","members","documents","treasurer"],
     sergeant_at_arms:["dashboard","calendar","meetings","members","documents"],
     trustee:["dashboard","calendar","meetings","documents","voting"],
-    repeater_trustee:["dashboard","calendar","documents","repeater"],
-    admin:["dashboard","calendar","meetings","members","documents","treasurer","voting","repeater","website"]
+    repeater_trustee:["dashboard","calendar","documents","repeater","equipment","analytics"],
+    admin:["dashboard","calendar","meetings","members","documents","treasurer","voting","repeater","equipment","news","analytics","approvals","backup","website"]
   };
   const list=allowed[role]||allowed.admin;
   document.querySelectorAll("#portalNav button").forEach(btn=>{

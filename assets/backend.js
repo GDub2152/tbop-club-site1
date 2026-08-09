@@ -478,6 +478,67 @@ window.TBOP = window.TBOP || {};
     return data;
   }
 
+
+  async function listRepeaterAssets(){
+    const {data,error}=await window.TBOP.supabase.from("repeater_assets").select("*").order("name");
+    if(error)throw error; return data;
+  }
+  async function createRepeaterAsset(row){
+    const {data,error}=await window.TBOP.supabase.from("repeater_assets").insert(row).select().single();
+    if(error)throw error; return data;
+  }
+  async function listRepeaterMaintenance(){
+    const {data,error}=await window.TBOP.supabase.from("repeater_maintenance").select("*, repeater_assets(name)").order("maintenance_date",{ascending:false});
+    if(error)throw error; return data;
+  }
+  async function createRepeaterMaintenance(row){
+    const {data,error}=await window.TBOP.supabase.from("repeater_maintenance").insert(row).select().single();
+    if(error)throw error; return data;
+  }
+  async function listEquipment(){
+    const {data,error}=await window.TBOP.supabase.from("equipment_inventory").select("*").order("name");
+    if(error)throw error; return data;
+  }
+  async function createEquipment(row){
+    const {data,error}=await window.TBOP.supabase.from("equipment_inventory").insert(row).select().single();
+    if(error)throw error; return data;
+  }
+  async function listNews(publicOnly=false){
+    let q=window.TBOP.supabase.from("news_posts").select("*").order("pinned",{ascending:false}).order("publish_at",{ascending:false});
+    if(publicOnly)q=q.eq("status","published").eq("visibility","public");
+    const {data,error}=await q;if(error)throw error;return data;
+  }
+  async function createNews(row){
+    const {data,error}=await window.TBOP.supabase.from("news_posts").insert(row).select().single();
+    if(error)throw error;return data;
+  }
+  async function listApprovals(){
+    const {data,error}=await window.TBOP.supabase.from("document_approvals").select("*").order("created_at",{ascending:false});
+    if(error)throw error;return data;
+  }
+  async function createApproval(row){
+    const {data,error}=await window.TBOP.supabase.from("document_approvals").insert(row).select().single();
+    if(error)throw error;return data;
+  }
+  async function updateApproval(id,row){
+    const {data,error}=await window.TBOP.supabase.from("document_approvals").update(row).eq("id",id).select().single();
+    if(error)throw error;return data;
+  }
+  async function getMyMembershipCard(){
+    const session=await getSession();if(!session)return null;
+    const {data,error}=await window.TBOP.supabase.from("membership_cards").select("*").eq("profile_id",session.user.id).maybeSingle();
+    if(error)throw error;return data;
+  }
+  async function exportReadableData(){
+    const tables=["profiles","events","meetings","motions","financial_transactions","budget_items","membership_payments","repeater_assets","repeater_maintenance","equipment_inventory","news_posts","document_approvals"];
+    const out={exported_at:new Date().toISOString(),tables:{}};
+    for(const table of tables){
+      const {data,error}=await window.TBOP.supabase.from(table).select("*");
+      out.tables[table]=error?{error:error.message}:data;
+    }
+    return out;
+  }
+
   window.TBOP.api={
     configured,
     signIn,
@@ -522,6 +583,19 @@ window.TBOP = window.TBOP || {};
     replaceElectionPositions,
     castBallot,
     getElectionResults,
+    listRepeaterAssets,
+    createRepeaterAsset,
+    listRepeaterMaintenance,
+    createRepeaterMaintenance,
+    listEquipment,
+    createEquipment,
+    listNews,
+    createNews,
+    listApprovals,
+    createApproval,
+    updateApproval,
+    getMyMembershipCard,
+    exportReadableData,
     createProfileIfMissing
   };
 })();

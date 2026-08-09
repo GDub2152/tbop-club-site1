@@ -5,6 +5,7 @@
 <meta name="theme-color" content="#080a0c">
 <title>Member Portal | The Blowtorch of Parma</title>
 <link rel="stylesheet" href="assets/styles.css">
+<link rel="manifest" href="manifest.webmanifest">
 </head>
 <body class="portal-body">
 <div class="portal-shell member-shell">
@@ -36,7 +37,15 @@
         <div class="metric"><span>Upcoming Events</span><strong id="memberEventMetric">0</strong></div>
         <div class="metric"><span>Active Votes</span><strong id="memberVoteMetric">0</strong></div>
       </div>
-      <div class="card-grid three member-dashboard-cards">
+      <div class="card membership-card-panel">
+  <div class="membership-card-preview">
+    <div><span class="eyebrow">Digital Membership Card</span><h3 id="cardMemberName">Demo Member</h3><p id="cardCallsign" class="muted">N8XXX</p></div>
+    <div class="card-qr" id="cardQr">QR</div>
+  </div>
+  <div class="stat-row"><span>Card Number</span><strong id="cardNumber">Not issued</strong></div>
+  <div class="stat-row"><span>Expires</span><strong id="cardExpires">—</strong></div>
+</div>
+<div class="card-grid three member-dashboard-cards">
         <div class="card"><h3>Upcoming Events</h3><div id="memberUpcomingEvents"></div></div>
         <div class="card"><h3>Active Voting</h3><div id="memberActiveVotes"></div></div>
         <div class="card"><h3>Quick Links</h3><div class="mini-list"><a href="membership.html">Membership Information →</a><a href="calendar.html">Public Calendar →</a><a href="documents/TBOP-Membership-Application.pdf" target="_blank">Membership Application →</a></div></div>
@@ -100,5 +109,6 @@
 <script src="assets/app.js"></script>
 <script src="assets/database-modules.js"></script>
 <script src="assets/voting.js"></script>
+<script src="assets/operations.js"></script>
 </body>
 </html>

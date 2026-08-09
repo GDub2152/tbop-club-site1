@@ -206,3 +206,19 @@ It adds:
 Create the login under Supabase Authentication > Users.
 The trigger creates the member profile automatically.
 Do not manufacture Auth user IDs from the browser.
+
+
+## V9 Member & Officer Administration
+
+- Search/filter real member profiles
+- Edit callsign, email, license information, address and phones
+- Membership status
+- Dues status
+- Voting eligibility
+- Officer/system role assignment
+- ARRL/texting fields
+- Membership notes
+- Printable membership roster
+- Audit-log helper for administrator profile changes
+
+Run `supabase/migrations/v9_member_admin.sql` before using V9.

@@ -152,6 +152,16 @@ window.TBOP = window.TBOP || {};
     if(error) throw error;
   }
 
+  async function auditProfileChange(id,action,details={}){
+    if(!configured()) throw new Error("Backend not configured");
+    const {error}=await window.TBOP.supabase.rpc("audit_profile_change",{
+      target_profile:id,
+      action_name:action,
+      details
+    });
+    if(error) throw error;
+  }
+
   async function updateEvent(id,changes){
     if(!configured()) throw new Error("Backend not configured");
     const {data,error}=await window.TBOP.supabase
@@ -189,6 +199,7 @@ window.TBOP = window.TBOP || {};
     createProfile,
     updateProfile,
     deleteProfile,
+    auditProfileChange,
     createProfileIfMissing
   };
 })();

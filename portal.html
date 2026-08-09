@@ -129,30 +129,145 @@
 
     <section id="view-members" class="portal-view">
       <div class="page-head">
-        <div><span class="eyebrow">Membership</span><h1>Member Management</h1><p class="muted">Authenticated user accounts are created in Supabase Auth. This screen manages the club profile record attached to each account.</p></div>
-        <a class="button secondary small" href="documents/TBOP-Membership-Application.pdf" target="_blank" rel="noopener">Open Application PDF</a>
+        <div>
+          <span class="eyebrow">Membership</span>
+          <h1>Member & Officer Management</h1>
+          <p class="muted">Manage club profiles, dues, voting eligibility, callsigns, and officer roles. Login accounts are still created through Supabase Authentication.</p>
+        </div>
+        <div class="actions">
+          <a class="button secondary small" href="documents/TBOP-Membership-Application.pdf" target="_blank" rel="noopener">Open Application PDF</a>
+          <button id="printRosterBtn" class="button secondary small" type="button">Print Roster</button>
+        </div>
       </div>
-      <form id="memberForm" class="card form-grid">
-        <input id="memberName" placeholder="Member name" required>
-        <input id="memberCall" placeholder="Callsign">
-        <input id="memberEmail" type="email" placeholder="Email">
-        <select id="memberStatus"><option>Active</option><option>Inactive</option><option>Pending</option></select>
-        <select id="memberVoting"><option value="yes">Voting eligible</option><option value="no">Not voting eligible</option></select>
-        <select id="memberDues"><option value="paid">Dues paid</option><option value="unpaid">Dues unpaid</option><option value="family">Family member</option></select>
-        <button id="memberSubmitBtn" class="button" type="submit">Add Member Record</button>
-      </form>
+
+      <div class="card member-tools">
+        <div class="member-filter-grid">
+          <input id="memberSearch" placeholder="Search name, callsign, or email">
+          <select id="memberStatusFilter">
+            <option value="">All membership statuses</option>
+            <option value="active">Active</option>
+            <option value="pending">Pending</option>
+            <option value="inactive">Inactive</option>
+          </select>
+          <select id="memberRoleFilter">
+            <option value="">All roles</option>
+            <option value="member">Member</option>
+            <option value="president">President</option>
+            <option value="vice_president">Vice President</option>
+            <option value="secretary">Secretary</option>
+            <option value="treasurer">Treasurer</option>
+            <option value="sergeant_at_arms">Sergeant at Arms</option>
+            <option value="trustee">Trustee</option>
+            <option value="repeater_trustee">Repeater Trustee</option>
+            <option value="admin">Administrator</option>
+          </select>
+          <select id="memberDuesFilter">
+            <option value="">All dues statuses</option>
+            <option value="paid">Paid</option>
+            <option value="unpaid">Unpaid</option>
+            <option value="family">Family</option>
+          </select>
+        </div>
+      </div>
 
       <div class="member-summary-grid">
         <div class="metric"><span>Active</span><strong id="activeMemberCount">0</strong></div>
         <div class="metric"><span>Voting Eligible</span><strong id="eligibleMemberCount">0</strong></div>
         <div class="metric"><span>Dues Paid</span><strong id="paidMemberCount">0</strong></div>
+        <div class="metric"><span>Officers</span><strong id="officerMemberCount">0</strong></div>
       </div>
 
       <div class="card table-wrap">
-        <table>
-          <thead><tr><th>Name</th><th>Callsign</th><th>Status</th><th>Voting</th><th>Dues</th><th>Role</th></tr></thead>
+        <table class="member-table">
+          <thead>
+            <tr><th>Name</th><th>Callsign</th><th>Status</th><th>Voting</th><th>Dues</th><th>Role</th><th></th></tr>
+          </thead>
           <tbody id="memberTable"></tbody>
         </table>
+      </div>
+
+      <div id="memberEditor" class="card member-editor hidden">
+        <div class="section-head">
+          <div><span class="eyebrow">Edit Member</span><h3 id="memberEditorTitle">Member Profile</h3></div>
+          <button id="closeMemberEditor" class="text-button" type="button">Close</button>
+        </div>
+
+        <input id="editMemberId" type="hidden">
+        <div class="form-grid member-edit-grid">
+          <label>Name<input id="editDisplayName"></label>
+          <label>Callsign<input id="editCallsign"></label>
+          <label>Email<input id="editEmail" type="email"></label>
+          <label>License Class<input id="editLicenseClass"></label>
+          <label>License Expiration<input id="editLicenseExpiration" type="date"></label>
+          <label>Member Since<input id="editJoinedOn" type="date"></label>
+
+          <label>Membership Status
+            <select id="editMembershipStatus">
+              <option value="active">Active</option>
+              <option value="pending">Pending</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </label>
+
+          <label>Dues Status
+            <select id="editDuesStatus">
+              <option value="paid">Paid</option>
+              <option value="unpaid">Unpaid</option>
+              <option value="family">Family</option>
+            </select>
+          </label>
+
+          <label>Voting
+            <select id="editVotingEligible">
+              <option value="true">Eligible</option>
+              <option value="false">Not eligible</option>
+            </select>
+          </label>
+
+          <label>Officer / System Role
+            <select id="editRole">
+              <option value="member">Member</option>
+              <option value="president">President</option>
+              <option value="vice_president">Vice President</option>
+              <option value="secretary">Secretary</option>
+              <option value="treasurer">Treasurer</option>
+              <option value="sergeant_at_arms">Sergeant at Arms</option>
+              <option value="trustee">Trustee</option>
+              <option value="repeater_trustee">Repeater Trustee</option>
+              <option value="admin">Administrator</option>
+            </select>
+          </label>
+
+          <label>ARRL Member
+            <select id="editArrlMember">
+              <option value="">Unknown</option>
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </label>
+
+          <label>Texting Allowed
+            <select id="editTextingAllowed">
+              <option value="">Unknown</option>
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </label>
+
+          <label>Mobile Phone<input id="editMobilePhone"></label>
+          <label>Home Phone<input id="editHomePhone"></label>
+          <label>Address 1<input id="editAddress1"></label>
+          <label>Address 2<input id="editAddress2"></label>
+          <label>City<input id="editCity"></label>
+          <label>State<input id="editState"></label>
+          <label>ZIP<input id="editZip"></label>
+          <label class="full-field">Membership Notes<textarea id="editMembershipNotes"></textarea></label>
+        </div>
+
+        <div class="actions">
+          <button id="saveMemberBtn" class="button" type="button">Save Changes</button>
+          <button id="cancelMemberBtn" class="button secondary" type="button">Cancel</button>
+        </div>
       </div>
     </section>
 
@@ -238,5 +353,6 @@
 <script src="assets/auth.js"></script>
 <script src="assets/app.js"></script>
 <script src="assets/database-modules.js"></script>
+<script src="assets/member-admin.js"></script>
 </body>
 </html>

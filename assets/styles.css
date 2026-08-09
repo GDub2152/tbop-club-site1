@@ -145,3 +145,23 @@
   .auth-brand-panel{padding:28px}
   .auth-form-panel{padding:28px}
 }
+
+/* ===== V9 Member/Officer Management ===== */
+.member-tools{margin-bottom:16px}
+.member-filter-grid{display:grid;grid-template-columns:2fr repeat(3,1fr);gap:10px}
+.member-summary-grid{grid-template-columns:repeat(4,1fr)}
+.member-table td,.member-table th{white-space:nowrap}
+.member-editor{margin-top:20px;border-top:2px solid var(--accent)}
+.member-edit-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.member-edit-grid label{display:grid;gap:6px;color:#dde1e4;font-size:.82rem;font-weight:700}
+.member-edit-grid .full-field{grid-column:1/-1}
+.member-edit-grid textarea{min-height:100px}
+
+@media(max-width:1000px){
+  .member-filter-grid{grid-template-columns:1fr 1fr}
+  .member-edit-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:650px){
+  .member-filter-grid,.member-edit-grid,.member-summary-grid{grid-template-columns:1fr}
+  .member-edit-grid .full-field{grid-column:auto}
+}

@@ -37,6 +37,9 @@ function profileToUi(p){
     voting:p.voting_eligible?"yes":"no",
     dues:p.dues_status||"unpaid",
     role:p.role||"member",
+    license_class:p.license_class||"",
+    license_expiration:p.license_expiration||"",
+    joined_on:p.joined_on||"",
     _db:true
   };
 }

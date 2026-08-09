@@ -40,7 +40,7 @@
       const { data: { session } } = await client.auth.getSession();
 
       if (!session) {
-        location.href = "login.html";
+        location.href = "officer-login.html";
       } else {
         const { data: profile, error } = await client
           .from("profiles")

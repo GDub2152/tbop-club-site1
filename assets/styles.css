@@ -247,3 +247,10 @@
   border:1px solid rgba(255,106,0,.22)!important;
   margin:3px 0 8px;
 }
+
+/* Split Member / Officer login */
+.portal-choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.portal-choice-grid .card{display:flex;flex-direction:column;align-items:flex-start}
+.portal-choice-grid .auth-submit{margin-top:auto;text-decoration:none;text-align:center}
+.auth-security-note a{color:var(--accent,#ff6a00)}
+@media(max-width:700px){.portal-choice-grid{grid-template-columns:1fr}}

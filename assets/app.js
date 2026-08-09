@@ -524,7 +524,8 @@ async function tbopLogout(){
     if(window.TBOP?.api?.configured()) await window.TBOP.api.signOut();
   }catch(e){console.error(e)}
   sessionStorage.removeItem("tbop_demo_session");
-  location.href="login.html";
+  const target=document.body?.dataset?.loginPage || "login.html";
+  location.href=target;
 }
 
 async function tbopUpdateAuthUi(){

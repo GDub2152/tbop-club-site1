@@ -52,7 +52,7 @@ window.TBOP = window.TBOP || {};
   async function requirePortal(kind){
     const user=await currentUser();
     if(!user){
-      location.href="login.html";
+      location.href=kind==="officer"?"officer-login.html":"member-login.html";
       return null;
     }
     if(kind==="officer" && !isOfficer(user.role)){

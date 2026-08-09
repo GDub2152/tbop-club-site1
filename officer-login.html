@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080a0c">
+<title>Officer Login | The Blowtorch of Parma</title>
+<link rel="stylesheet" href="assets/styles.css">
+<link rel="manifest" href="manifest.webmanifest">
+</head>
+<body class="auth-body">
+<header class="site-header"><div class="container nav-wrap">
+<a class="brand" href="index.html"><span class="tower-icon">⌁</span><span><strong>THE BLOWTORCH OF PARMA</strong><small>OFFICER PORTAL</small></span></a>
+<nav class="main-nav"><a href="index.html">Public Website</a><a href="member-login.html">Member Login</a></nav>
+</div></header>
+<main class="auth-main"><section class="auth-shell">
+<div class="auth-brand-panel">
+<img src="assets/tbop-logo.png" alt="The Blowtorch of Parma logo" class="auth-logo">
+<span class="eyebrow">Club Leadership</span><h1>Officer Portal</h1>
+<p>Administrative access for club officers, trustees, repeater management, finances, records, and system tools.</p>
+<div class="auth-feature-list"><span>✓ Member administration</span><span>✓ Secretary & Treasurer</span><span>✓ Repeater operations</span><span>✓ Secure Document Vault</span></div>
+</div>
+<div class="auth-form-panel">
+<div id="officerAuthModeNotice" class="demo-auth-notice">Checking login mode…</div>
+<span class="eyebrow">Officer Sign In</span><h2>Officer Login</h2>
+<p class="muted">Choose the officer position you are signing in as. In secure mode, Supabase verifies that selection against your assigned role.</p>
+<form id="officerLoginForm" class="auth-form">
+<label>Officer Role
+<select id="officerLoginRole">
+<option value="auto">Auto-detect my assigned role</option>
+<option value="president">President</option>
+<option value="vice_president">Vice President</option>
+<option value="secretary">Secretary</option>
+<option value="treasurer">Treasurer</option>
+<option value="sergeant_at_arms">Sergeant at Arms</option>
+<option value="trustee">Trustee</option>
+<option value="repeater_trustee">Repeater Trustee</option>
+<option value="admin">System Administrator</option>
+</select></label>
+<label>Email<input id="officerLoginEmail" type="email" autocomplete="username" required></label>
+<label>Password<input id="officerLoginPassword" type="password" autocomplete="current-password" required></label>
+<button id="officerLoginBtn" class="button auth-submit" type="submit">Enter Officer Portal</button>
+</form>
+<div class="auth-security-note"><strong>Security</strong><p>Selecting a role does not grant that role. Your stored Supabase profile must match the selected officer role.</p></div>
+</div>
+</section></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="assets/supabase-client.js"></script>
+<script src="assets/backend.js"></script>
+<script src="assets/auth.js"></script>
+<script src="assets/split-login.js"></script>
+</body></html>

@@ -1,5 +1,13 @@
 # TBOP Club Site Changelog
 
+## 13.2.2 — Full News Reader
+
+- Public news cards are now clickable.
+- Clicking a card opens the complete announcement in a modal.
+- Full body text, title, publish date, pinned state, and summary are shown.
+- Keyboard activation and Escape-to-close supported.
+
+
 ## 13.2.1 — News CMS Hotfix
 
 - Fixed `operations.js` syntax error that disabled all News & Announcements buttons.

@@ -99,10 +99,11 @@ function renderNews(){
   }
 
   const pub=document.getElementById("publicNewsList");
-  if(pub)pub.innerHTML=TBOP_OPS.news.slice(0,6).map(x=>`<article class="card news-card">
+  if(pub)pub.innerHTML=TBOP_OPS.news.slice(0,6).map(x=>`<article class="card news-card public-news-card" role="button" tabindex="0" onclick="openPublicNews('${x.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openPublicNews('${x.id}')}">
     <span class="pill public">${x.pinned?"Pinned":"News"}</span>
     <h3>${x.title}</h3>
     <p>${x.summary||x.body.slice(0,160)}</p>
+    <span class="news-read-more">Read full announcement →</span>
   </article>`).join("")||`<article class="card"><p>No public news yet.</p></article>`;
 }
 function getNewsById(id){return TBOP_OPS.news.find(x=>x.id===id);}
@@ -235,6 +236,55 @@ window.unpublishNews=unpublishNews;
 window.archiveNews=archiveNews;
 window.restoreNewsDraft=restoreNewsDraft;
 window.toggleNewsPin=toggleNewsPin;
+
+function openPublicNews(id){
+  const post=(TBOP_OPS.news||[]).find(x=>x.id===id);
+  if(!post)return;
+
+  const overlay=document.createElement("div");
+  overlay.className="news-public-overlay";
+  overlay.innerHTML=`<div class="news-public-modal">
+    <div class="news-public-head">
+      <div>
+        <div class="news-card-badges">
+          <span class="pill public">${post.pinned?"Pinned":"News"}</span>
+          <span class="pill">${post.visibility||"public"}</span>
+        </div>
+        <h2>${escapePublicNews(post.title||"Announcement")}</h2>
+        <div class="event-meta">${post.publish_at?`Published ${new Date(post.publish_at).toLocaleString()}`:""}</div>
+      </div>
+      <button class="text-button" data-close-public-news type="button">Close</button>
+    </div>
+    ${post.summary?`<p class="news-public-summary">${escapePublicNews(post.summary)}</p>`:""}
+    <div class="news-public-body">
+      ${String(post.body||"")
+        .split(/\n{2,}/)
+        .map(p=>p.trim())
+        .filter(Boolean)
+        .map(p=>`<p>${escapePublicNews(p).replace(/\n/g,"<br>")}</p>`)
+        .join("")}
+    </div>
+  </div>`;
+
+  document.body.appendChild(overlay);
+  document.body.classList.add("modal-open");
+
+  const close=()=>{
+    overlay.remove();
+    document.body.classList.remove("modal-open");
+  };
+  overlay.querySelector("[data-close-public-news]")?.addEventListener("click",close);
+  overlay.addEventListener("click",e=>{if(e.target===overlay)close();});
+  const esc=e=>{if(e.key==="Escape"){close();document.removeEventListener("keydown",esc);}};
+  document.addEventListener("keydown",esc);
+}
+window.openPublicNews=openPublicNews;
+
+function escapePublicNews(value){
+  const div=document.createElement("div");
+  div.textContent=value??"";
+  return div.innerHTML;
+}
 
 function renderApprovals(){
   const el=document.getElementById("approvalList");if(!el)return;

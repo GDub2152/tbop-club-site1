@@ -1,5 +1,13 @@
 # TBOP Club Site Changelog
 
+## 14.0.1 — Member Signup API Hotfix
+- Exported signUpMember to TBOP.api.
+- Exported password reset/update helpers to TBOP.api.
+- Exported self-profile update and member approval helpers to TBOP.api.
+- Bumped service-worker cache to v14.0.1.
+- Added new member self-service pages/scripts to cache list.
+
+
 ## 14.0.0 — Member Self-Service & Approval Center
 - Public member self-signup with optional callsign.
 - New accounts are forced to member/pending/unpaid/non-voting.

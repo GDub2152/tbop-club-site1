@@ -470,10 +470,10 @@ function applyOfficerRole(){
 
   const allowed={
     president:["dashboard","calendar","meetings","members","documents","treasurer","voting","repeater","equipment","news","analytics","approvals","backup","website"],
-    vice_president:["dashboard","calendar","meetings","members","documents","voting","repeater","equipment","news","analytics","approvals"],
-    secretary:["dashboard","calendar","meetings","members","documents","voting","news","analytics","approvals"],
-    treasurer:["dashboard","calendar","members","documents","treasurer"],
-    sergeant_at_arms:["dashboard","calendar","meetings","members","documents"],
+    vice_president:["dashboard","calendar","meetings","members","documents","treasurer","voting","repeater","equipment","news","analytics","approvals","backup","website"],
+    secretary:["dashboard","calendar","meetings","members","documents","treasurer","voting","repeater","equipment","news","analytics","approvals","backup","website"],
+    treasurer:["dashboard","calendar","meetings","members","documents","treasurer","voting","repeater","equipment","news","analytics","approvals","backup","website"],
+    sergeant_at_arms:["dashboard","calendar","meetings","members","documents","treasurer","voting","repeater","equipment","news","analytics","approvals","backup","website"],
     trustee:["dashboard","calendar","meetings","documents","voting"],
     repeater_trustee:["dashboard","calendar","documents","repeater","equipment","analytics"],
     admin:["dashboard","calendar","meetings","members","documents","treasurer","voting","repeater","equipment","news","analytics","approvals","backup","website"]

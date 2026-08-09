@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080a0c">
+<title>Login | The Blowtorch of Parma</title>
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body class="auth-body">
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="brand" href="index.html"><span class="tower-icon">⌁</span><span><strong>THE BLOWTORCH OF PARMA</strong><small>SECURE PORTAL</small></span></a>
+    <nav class="main-nav"><a href="index.html">Public Website</a><a href="membership.html">Membership</a></nav>
+  </div>
+</header>
+
+<main class="auth-main">
+  <section class="auth-shell">
+    <div class="auth-brand-panel">
+      <img src="assets/tbop-logo.png" alt="The Blowtorch of Parma logo" class="auth-logo">
+      <span class="eyebrow">Club Access</span>
+      <h1>Member & Officer Portal</h1>
+      <p>One secure entry point for members, officers, voting, club records, and repeater administration.</p>
+      <div class="auth-feature-list">
+        <span>✓ Member resources</span>
+        <span>✓ Elections & voting</span>
+        <span>✓ Secretary tools</span>
+        <span>✓ Treasurer tools</span>
+        <span>✓ Repeater Trustee tools</span>
+      </div>
+    </div>
+
+    <div class="auth-form-panel">
+      <div class="demo-auth-notice">
+        DEMO LOGIN — this version does not authenticate against a real account database yet.
+      </div>
+      <span class="eyebrow">Sign In</span>
+      <h2>Portal Login</h2>
+      <p class="muted">Choose a demo role to preview what each type of user will see.</p>
+
+      <form id="demoLoginForm" class="auth-form">
+        <label>Email
+          <input id="loginEmail" type="email" placeholder="member@example.com" value="demo@theblowtorchofparma.com">
+        </label>
+        <label>Password
+          <input id="loginPassword" type="password" placeholder="••••••••" value="demo">
+        </label>
+        <label>Demo role
+          <select id="loginRole">
+            <option value="member">Member</option>
+            <option value="president">President</option>
+            <option value="vice_president">Vice President</option>
+            <option value="secretary">Secretary</option>
+            <option value="treasurer">Treasurer</option>
+            <option value="sergeant_at_arms">Sergeant at Arms</option>
+            <option value="trustee">Trustee</option>
+            <option value="repeater_trustee">Repeater Trustee</option>
+            <option value="admin">Administrator</option>
+          </select>
+        </label>
+        <button class="button auth-submit" type="submit">Enter Demo Portal</button>
+      </form>
+
+      <div class="auth-security-note">
+        <strong>Production plan</strong>
+        <p>Real passwords will never be stored in GitHub. Authentication will be handled by the backend provider and the portal will only receive a secure session.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="assets/app.js"></script>
+</body>
+</html>

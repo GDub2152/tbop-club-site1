@@ -21,14 +21,14 @@
       <button data-view="repeater">Repeater Trustee</button>
       <button data-view="website">Website Admin</button>
     </nav>
-    <a class="sidebar-link" href="index.html">← Public Website</a>
+    <a class="sidebar-link" href="member.html">← Member Portal</a><button id="logoutBtn" class="sidebar-link sidebar-button">Sign Out</button><a class="sidebar-link" href="index.html">← Public Website</a>
   </aside>
 
   <main class="portal-main">
     <div class="warning-banner">DEMO FRONT END — Do not store real private member, financial, password, or ballot data here until the secure backend is connected.</div>
 
     <section id="view-dashboard" class="portal-view active">
-      <div class="page-head"><div><span class="eyebrow">Officer Portal</span><h1>Dashboard</h1></div><span class="role-badge">Demo Administrator</span></div>
+      <div class="page-head"><div><span class="eyebrow">Officer Portal</span><h1>Dashboard</h1></div><span id="officerRoleBadge" class="role-badge">Demo Administrator</span></div>
       <div class="card-grid four">
         <div class="metric"><span>Active Members</span><strong id="memberMetric">0</strong></div>
         <div class="metric"><span>Upcoming Events</span><strong id="eventMetric">0</strong></div>

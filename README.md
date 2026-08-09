@@ -144,3 +144,20 @@ All Secretary data remains demo/local-only until the authenticated backend is co
 - Supports write-in setting and hidden/live result setting in the demo UI
 
 Voting and membership data are still browser-local demo data only and must move to an authenticated backend before real use.
+
+
+## V6 authentication-ready structure
+
+- New login.html
+- New member.html member portal
+- Demo role selector for all club roles
+- Role-aware officer navigation preview
+- Member dashboard, calendar, voting, documents, and profile screens
+- Sign-out flow for demo sessions
+- Supabase/PostgreSQL starter schema
+- Row Level Security starter policies
+- Secret-ballot database structure separating voter receipts from ballot choices
+- .env.example and .gitignore
+- BACKEND-SETUP.md production roadmap
+
+The demo login uses sessionStorage only. It is not a security boundary.

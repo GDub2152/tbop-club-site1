@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080a0c">
+<title>Member Portal | The Blowtorch of Parma</title>
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body class="portal-body">
+<div class="portal-shell member-shell">
+  <aside class="sidebar">
+    <a class="brand portal-brand" href="index.html"><span class="brand-mark">TBOP</span><span><strong>Member Portal</strong><small>Club Access</small></span></a>
+    <nav id="memberNav">
+      <button data-member-view="member-dashboard" class="active">Dashboard</button>
+      <button data-member-view="member-calendar">Calendar</button>
+      <button data-member-view="member-voting">Voting</button>
+      <button data-member-view="member-documents">Documents</button>
+      <button data-member-view="member-profile">My Profile</button>
+    </nav>
+    <a id="officerPortalLink" class="sidebar-link hidden" href="portal.html">Officer Portal →</a>
+    <button id="logoutBtn" class="sidebar-link sidebar-button">Sign Out</button>
+    <a class="sidebar-link" href="index.html">← Public Website</a>
+  </aside>
+
+  <main class="portal-main">
+    <div class="warning-banner">DEMO SESSION — role-based screens are being previewed locally. Real login and permission checks require the secure backend.</div>
+
+    <section id="member-dashboard" class="member-view active">
+      <div class="page-head">
+        <div><span class="eyebrow">Member Portal</span><h1>Welcome</h1></div>
+        <span id="memberRoleBadge" class="role-badge">Member</span>
+      </div>
+      <div class="card-grid four">
+        <div class="metric"><span>Membership</span><strong class="small-metric">Active</strong></div>
+        <div class="metric"><span>Dues</span><strong class="small-metric">Demo Status</strong></div>
+        <div class="metric"><span>Upcoming Events</span><strong id="memberEventMetric">0</strong></div>
+        <div class="metric"><span>Active Votes</span><strong id="memberVoteMetric">0</strong></div>
+      </div>
+      <div class="card-grid three member-dashboard-cards">
+        <div class="card"><h3>Upcoming Events</h3><div id="memberUpcomingEvents"></div></div>
+        <div class="card"><h3>Active Voting</h3><div id="memberActiveVotes"></div></div>
+        <div class="card"><h3>Quick Links</h3><div class="mini-list"><a href="membership.html">Membership Information →</a><a href="calendar.html">Public Calendar →</a><a href="documents/TBOP-Membership-Application.pdf" target="_blank">Membership Application →</a></div></div>
+      </div>
+    </section>
+
+    <section id="member-calendar" class="member-view">
+      <div class="page-head"><div><span class="eyebrow">Calendar</span><h1>Club Events</h1></div></div>
+      <div id="memberCalendarList" class="event-list"></div>
+    </section>
+
+    <section id="member-voting" class="member-view">
+      <div class="page-head"><div><span class="eyebrow">Voting</span><h1>Member Ballots</h1></div></div>
+      <div class="card security-callout">
+        <strong>Secret-ballot design</strong>
+        <p>When the backend is connected, voter eligibility and ballot choices will be stored separately so administrators can verify that a member voted without linking that member to a specific choice.</p>
+      </div>
+      <div id="memberVotingList" class="event-list"></div>
+    </section>
+
+    <section id="member-documents" class="member-view">
+      <div class="page-head"><div><span class="eyebrow">Documents</span><h1>Member Documents</h1></div></div>
+      <div class="card-grid three">
+        <article class="card"><h3>Membership Application</h3><p>Official printable membership application.</p><a class="button secondary small" href="documents/TBOP-Membership-Application.pdf" target="_blank">Open PDF</a></article>
+        <article class="card"><h3>Club Bylaws</h3><p>Placeholder for approved club bylaws.</p><button class="button secondary small" disabled>Coming soon</button></article>
+        <article class="card"><h3>Members-Only Files</h3><p>These will become visible only after authenticated access is enabled.</p><button class="button secondary small" disabled>Backend required</button></article>
+      </div>
+    </section>
+
+    <section id="member-profile" class="member-view">
+      <div class="page-head"><div><span class="eyebrow">Profile</span><h1>My Profile</h1></div></div>
+      <div class="card profile-card">
+        <div class="profile-avatar">TB</div>
+        <div>
+          <h3 id="profileDisplayName">Demo Member</h3>
+          <p id="profileDisplayRole" class="muted">Member</p>
+        </div>
+      </div>
+      <div class="card form-grid">
+        <label>Display name<input id="profileName" value="Demo Member"></label>
+        <label>Callsign<input id="profileCallsign" value="N8XXX"></label>
+        <label>Email<input id="profileEmail" type="email" value="demo@theblowtorchofparma.com"></label>
+        <label>Phone<input id="profilePhone" placeholder="Optional"></label>
+        <button class="button" disabled>Save Profile (backend required)</button>
+      </div>
+    </section>
+  </main>
+</div>
+<script src="assets/app.js"></script>
+</body>
+</html>

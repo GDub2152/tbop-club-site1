@@ -387,3 +387,106 @@ function setupOfficerElection(){
   });
 }
 document.addEventListener("DOMContentLoaded",setupOfficerElection);
+
+
+/* ===== V6 demo auth / role preview ===== */
+const AUTH_KEY="tbop_demo_session";
+const roleLabels={
+  member:"Member",president:"President",vice_president:"Vice President",
+  secretary:"Secretary",treasurer:"Treasurer",sergeant_at_arms:"Sergeant at Arms",
+  trustee:"Trustee",repeater_trustee:"Repeater Trustee",admin:"Administrator"
+};
+const officerRoles=new Set(["president","vice_president","secretary","treasurer","sergeant_at_arms","trustee","repeater_trustee","admin"]);
+
+function getSession(){
+  try{return JSON.parse(sessionStorage.getItem(AUTH_KEY)||"null")}catch(e){return null}
+}
+function setSession(data){sessionStorage.setItem(AUTH_KEY,JSON.stringify(data))}
+function clearSession(){sessionStorage.removeItem(AUTH_KEY)}
+
+function setupDemoLogin(){
+  const form=document.getElementById("demoLoginForm");
+  if(!form)return;
+  form.addEventListener("submit",e=>{
+    e.preventDefault();
+    const role=document.getElementById("loginRole").value;
+    const email=document.getElementById("loginEmail").value||"demo@theblowtorchofparma.com";
+    setSession({role,email,name:"Demo Member",demo:true});
+    location.href=officerRoles.has(role)?"portal.html":"member.html";
+  });
+}
+function setupLogout(){
+  document.querySelectorAll("#logoutBtn").forEach(btn=>btn.addEventListener("click",()=>{
+    clearSession();location.href="login.html";
+  }));
+}
+function setupMemberNav(){
+  document.querySelectorAll("#memberNav button").forEach(btn=>btn.addEventListener("click",()=>{
+    document.querySelectorAll("#memberNav button").forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll(".member-view").forEach(v=>v.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById(btn.dataset.memberView)?.classList.add("active");
+  }));
+}
+function memberVoteMarkup(v){
+  if(v.kind==="officer-election"){
+    return `<article class="event-item"><div><span class="pill public">Officer Election</span><h3>${v.title}</h3><div class="event-meta">${v.close?("Closes "+fmtDate(v.close)):"No closing date"}</div><p>Ballot preview is available. Actual voting will be enabled only after secure authentication and database storage are connected.</p></div><button class="button secondary small" disabled>Secure voting required</button></article>`;
+  }
+  return `<article class="event-item"><div><h3>${v.title}</h3><p>${v.question||""}</p></div><button class="button secondary small" disabled>Secure voting required</button></article>`;
+}
+function renderMemberPortal(){
+  const session=getSession();
+  if(!document.getElementById("memberRoleBadge"))return;
+  const role=session?.role||"member";
+  const label=roleLabels[role]||"Member";
+  setText("memberRoleBadge",label);
+  setText("profileDisplayRole",label);
+  if(session?.name)setText("profileDisplayName",session.name);
+  const officerLink=document.getElementById("officerPortalLink");
+  if(officerLink&&officerRoles.has(role))officerLink.classList.remove("hidden");
+
+  const events=load("events").filter(e=>e.visibility==="public").sort((a,b)=>a.date.localeCompare(b.date));
+  const votes=load("votes");
+  setText("memberEventMetric",events.length);
+  setText("memberVoteMetric",votes.length);
+
+  const upcoming=document.getElementById("memberUpcomingEvents");
+  if(upcoming)upcoming.innerHTML=events.slice(0,3).map(e=>`<div class="mini-list-item"><strong>${e.title}</strong><small>${fmtDate(e.date)}</small></div>`).join("")||"<p class='muted'>No events scheduled.</p>";
+
+  const active=document.getElementById("memberActiveVotes");
+  if(active)active.innerHTML=votes.slice(0,3).map(v=>`<div class="mini-list-item"><strong>${v.title}</strong><small>${v.close?("Closes "+fmtDate(v.close)):"Open"}</small></div>`).join("")||"<p class='muted'>No active ballots.</p>";
+
+  const cal=document.getElementById("memberCalendarList");
+  if(cal)cal.innerHTML=events.map(e=>`<article class="event-item"><div><h3>${e.title}</h3><div class="event-meta">${fmtDate(e.date)} ${e.time?("• "+e.time):""}${e.location?(" • "+e.location):""}</div><p>${e.description||""}</p></div></article>`).join("")||"<div class='card'><p>No public events scheduled.</p></div>";
+
+  const voting=document.getElementById("memberVotingList");
+  if(voting)voting.innerHTML=votes.map(memberVoteMarkup).join("")||"<div class='card'><p>No active ballots.</p></div>";
+}
+function applyOfficerRole(){
+  if(!document.getElementById("officerRoleBadge"))return;
+  const session=getSession();
+  const role=session?.role||"admin";
+  setText("officerRoleBadge",`Demo ${roleLabels[role]||"Administrator"}`);
+
+  const allowed={
+    president:["dashboard","calendar","meetings","members","documents","treasurer","voting","repeater","website"],
+    vice_president:["dashboard","calendar","meetings","members","documents","voting","repeater"],
+    secretary:["dashboard","calendar","meetings","members","documents","voting"],
+    treasurer:["dashboard","calendar","members","documents","treasurer"],
+    sergeant_at_arms:["dashboard","calendar","meetings","members","documents"],
+    trustee:["dashboard","calendar","meetings","documents","voting"],
+    repeater_trustee:["dashboard","calendar","documents","repeater"],
+    admin:["dashboard","calendar","meetings","members","documents","treasurer","voting","repeater","website"]
+  };
+  const list=allowed[role]||allowed.admin;
+  document.querySelectorAll("#portalNav button").forEach(btn=>{
+    btn.style.display=list.includes(btn.dataset.view)?"":"none";
+  });
+}
+document.addEventListener("DOMContentLoaded",()=>{
+  setupDemoLogin();
+  setupLogout();
+  setupMemberNav();
+  renderMemberPortal();
+  applyOfficerRole();
+});

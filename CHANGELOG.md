@@ -1,5 +1,14 @@
 # TBOP Club Site Changelog
 
+## 13.2.5 — Repeater Management Edit Hotfix
+- Repeater Assets now have an Edit button.
+- Existing repeater assets can be loaded back into the form and saved.
+- Maintenance History now has an Edit button.
+- Existing maintenance records can be corrected and saved.
+- Both editors include Cancel Edit and return to Add mode after saving.
+- Backend update methods added for repeater_assets and repeater_maintenance.
+
+
 ## 13.2.4 — Usability & Editing
 - Current-time defaults for empty time inputs.
 - Member/Officer profile editing wired to Supabase.

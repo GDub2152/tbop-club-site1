@@ -468,6 +468,7 @@
         <div class="card">
           <h3>Repeater Asset</h3>
           <form id="repeaterAssetForm" class="form-grid">
+            <input id="repAssetEditId" type="hidden">
             <input id="repAssetName" placeholder="Asset name" required>
             <input id="repAssetType" placeholder="Type (Repeater, Duplexer, Antenna...)" required>
             <input id="repManufacturer" placeholder="Manufacturer">
@@ -476,12 +477,16 @@
             <input id="repLocation" placeholder="Location">
             <select id="repStatus"><option value="active">Active</option><option value="maintenance">Maintenance</option><option value="retired">Retired</option></select>
             <textarea id="repAssetNotes" placeholder="Notes"></textarea>
-            <button class="button" type="submit">Add Asset</button>
+            <div class="repeater-form-actions">
+              <button id="repAssetSaveBtn" class="button" type="submit">Add Asset</button>
+              <button id="repAssetCancelBtn" class="button secondary hidden" type="button">Cancel Edit</button>
+            </div>
           </form>
         </div>
         <div class="card">
           <h3>Maintenance Log</h3>
           <form id="repeaterMaintenanceForm" class="form-grid">
+            <input id="repMaintEditId" type="hidden">
             <input id="repMaintDate" type="date" required>
             <input id="repMaintTitle" placeholder="Maintenance title" required>
             <input id="repMaintCategory" placeholder="Category">
@@ -490,7 +495,10 @@
             <input id="repMaintPower" type="number" step="0.1" placeholder="Forward power">
             <input id="repMaintFirmware" placeholder="Firmware/version">
             <textarea id="repMaintNotes" placeholder="Maintenance notes"></textarea>
-            <button class="button" type="submit">Add Maintenance</button>
+            <div class="repeater-form-actions">
+              <button id="repMaintSaveBtn" class="button" type="submit">Add Maintenance</button>
+              <button id="repMaintCancelBtn" class="button secondary hidden" type="button">Cancel Edit</button>
+            </div>
           </form>
         </div>
       </div>

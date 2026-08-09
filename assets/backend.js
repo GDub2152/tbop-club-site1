@@ -487,12 +487,30 @@ window.TBOP = window.TBOP || {};
     const {data,error}=await window.TBOP.supabase.from("repeater_assets").insert(row).select().single();
     if(error)throw error; return data;
   }
+  async function updateRepeaterAsset(id,row){
+    const {data,error}=await window.TBOP.supabase
+      .from("repeater_assets")
+      .update({...row,updated_at:new Date().toISOString()})
+      .eq("id",id)
+      .select()
+      .single();
+    if(error)throw error; return data;
+  }
   async function listRepeaterMaintenance(){
     const {data,error}=await window.TBOP.supabase.from("repeater_maintenance").select("*, repeater_assets(name)").order("maintenance_date",{ascending:false});
     if(error)throw error; return data;
   }
   async function createRepeaterMaintenance(row){
     const {data,error}=await window.TBOP.supabase.from("repeater_maintenance").insert(row).select().single();
+    if(error)throw error; return data;
+  }
+  async function updateRepeaterMaintenance(id,row){
+    const {data,error}=await window.TBOP.supabase
+      .from("repeater_maintenance")
+      .update({...row,updated_at:new Date().toISOString()})
+      .eq("id",id)
+      .select()
+      .single();
     if(error)throw error; return data;
   }
   async function listEquipment(){
@@ -603,8 +621,10 @@ window.TBOP = window.TBOP || {};
     getElectionResults,
     listRepeaterAssets,
     createRepeaterAsset,
+    updateRepeaterAsset,
     listRepeaterMaintenance,
     createRepeaterMaintenance,
+    updateRepeaterMaintenance,
     listEquipment,
     createEquipment,
     updateEquipment,

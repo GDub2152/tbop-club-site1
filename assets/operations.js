@@ -27,11 +27,93 @@ function renderRepeaterOps(){
   const open=(load("repeater")||[]).filter(x=>x.status!=="Completed").length;
   setText("repeaterOpenMetric",open);
   setText("repeaterLastService",TBOP_OPS.repeaterMaintenance[0]?.maintenance_date?fmtDate(TBOP_OPS.repeaterMaintenance[0].maintenance_date):"—");
+
   const a=document.getElementById("repeaterAssetList");
-  if(a)a.innerHTML=TBOP_OPS.repeaterAssets.map(x=>`<article class="event-item"><div><span class="pill">${x.asset_type}</span><h3>${x.name}</h3><div class="event-meta">${x.manufacturer||""} ${x.model||""}${x.location?` • ${x.location}`:""}</div><p>${x.notes||""}</p></div><span class="pill">${x.status}</span></article>`).join("")||`<div class="card"><p>No repeater assets recorded.</p></div>`;
+  if(a)a.innerHTML=TBOP_OPS.repeaterAssets.map(x=>`<article class="event-item">
+    <div>
+      <span class="pill">${x.asset_type}</span>
+      <h3>${x.name}</h3>
+      <div class="event-meta">${x.manufacturer||""} ${x.model||""}${x.serial_number?` • SN ${x.serial_number}`:""}${x.location?` • ${x.location}`:""}</div>
+      <p>${x.notes||""}</p>
+    </div>
+    <div class="repeater-item-actions">
+      <span class="pill">${x.status}</span>
+      <button class="button secondary small" type="button" onclick="editRepeaterAsset('${x.id}')">Edit</button>
+    </div>
+  </article>`).join("")||`<div class="card"><p>No repeater assets recorded.</p></div>`;
+
   const m=document.getElementById("repeaterMaintenanceList");
-  if(m)m.innerHTML=TBOP_OPS.repeaterMaintenance.map(x=>`<article class="event-item"><div><h3>${x.title}</h3><div class="event-meta">${fmtDate(x.maintenance_date)}${x.performed_by?` • ${x.performed_by}`:""}</div><p>${x.notes||""}</p></div></article>`).join("")||`<div class="card"><p>No maintenance history yet.</p></div>`;
+  if(m)m.innerHTML=TBOP_OPS.repeaterMaintenance.map(x=>`<article class="event-item">
+    <div>
+      <span class="pill">${x.category||"Maintenance"}</span>
+      <h3>${x.title}</h3>
+      <div class="event-meta">${fmtDate(x.maintenance_date)}${x.performed_by?` • ${x.performed_by}`:""}${x.swr!=null?` • SWR ${x.swr}`:""}${x.forward_power!=null?` • ${x.forward_power} W`:""}${x.firmware_version?` • FW ${x.firmware_version}`:""}</div>
+      <p>${x.notes||""}</p>
+    </div>
+    <div class="repeater-item-actions">
+      <button class="button secondary small" type="button" onclick="editRepeaterMaintenance('${x.id}')">Edit</button>
+    </div>
+  </article>`).join("")||`<div class="card"><p>No maintenance history yet.</p></div>`;
 }
+
+function resetRepeaterAssetEditor(){
+  document.getElementById("repeaterAssetForm")?.reset();
+  const id=document.getElementById("repAssetEditId");if(id)id.value="";
+  setText("repAssetSaveBtn","Add Asset");
+  document.getElementById("repAssetCancelBtn")?.classList.add("hidden");
+}
+
+function editRepeaterAsset(id){
+  const x=TBOP_OPS.repeaterAssets.find(a=>a.id===id);if(!x)return;
+  const values={
+    repAssetEditId:x.id,
+    repAssetName:x.name||"",
+    repAssetType:x.asset_type||"",
+    repManufacturer:x.manufacturer||"",
+    repModel:x.model||"",
+    repSerial:x.serial_number||"",
+    repLocation:x.location||"",
+    repStatus:x.status||"active",
+    repAssetNotes:x.notes||""
+  };
+  Object.entries(values).forEach(([id,val])=>{
+    const el=document.getElementById(id);if(el)el.value=val;
+  });
+  setText("repAssetSaveBtn","Save Changes");
+  document.getElementById("repAssetCancelBtn")?.classList.remove("hidden");
+  document.getElementById("repeaterAssetForm")?.scrollIntoView({behavior:"smooth",block:"start"});
+}
+window.editRepeaterAsset=editRepeaterAsset;
+
+function resetRepeaterMaintenanceEditor(){
+  document.getElementById("repeaterMaintenanceForm")?.reset();
+  const id=document.getElementById("repMaintEditId");if(id)id.value="";
+  const date=document.getElementById("repMaintDate");if(date)date.value=opsToday();
+  setText("repMaintSaveBtn","Add Maintenance");
+  document.getElementById("repMaintCancelBtn")?.classList.add("hidden");
+}
+
+function editRepeaterMaintenance(id){
+  const x=TBOP_OPS.repeaterMaintenance.find(m=>m.id===id);if(!x)return;
+  const values={
+    repMaintEditId:x.id,
+    repMaintDate:x.maintenance_date||opsToday(),
+    repMaintTitle:x.title||"",
+    repMaintCategory:x.category||"",
+    repMaintBy:x.performed_by||"",
+    repMaintSWR:x.swr??"",
+    repMaintPower:x.forward_power??"",
+    repMaintFirmware:x.firmware_version||"",
+    repMaintNotes:x.notes||""
+  };
+  Object.entries(values).forEach(([id,val])=>{
+    const el=document.getElementById(id);if(el)el.value=val;
+  });
+  setText("repMaintSaveBtn","Save Changes");
+  document.getElementById("repMaintCancelBtn")?.classList.remove("hidden");
+  document.getElementById("repeaterMaintenanceForm")?.scrollIntoView({behavior:"smooth",block:"start"});
+}
+window.editRepeaterMaintenance=editRepeaterMaintenance;
 
 function renderEquipment(){
   const el=document.getElementById("equipmentList");if(!el)return;
@@ -321,6 +403,8 @@ async function exportData(){
 }
 
 document.addEventListener("DOMContentLoaded",()=>{
+  document.getElementById("repAssetCancelBtn")?.addEventListener("click",resetRepeaterAssetEditor);
+  document.getElementById("repMaintCancelBtn")?.addEventListener("click",resetRepeaterMaintenanceEditor);
   document.getElementById("equipmentCancelEditBtn")?.addEventListener("click",resetEquipmentEditor);
 
   document.getElementById("newsForm")?.addEventListener("submit",e=>e.preventDefault());
@@ -336,8 +420,54 @@ document.addEventListener("DOMContentLoaded",()=>{
 
   const d=opsToday();
   if(document.getElementById("repMaintDate"))document.getElementById("repMaintDate").value=d;
-  document.getElementById("repeaterAssetForm")?.addEventListener("submit",async e=>{e.preventDefault();const s=await TBOP.api.getSession();await TBOP.api.createRepeaterAsset({name:repAssetName.value,asset_type:repAssetType.value,manufacturer:repManufacturer.value||null,model:repModel.value||null,serial_number:repSerial.value||null,location:repLocation.value||null,status:repStatus.value,notes:repAssetNotes.value||null,created_by:s?.user?.id||null});e.target.reset();await loadOps();});
-  document.getElementById("repeaterMaintenanceForm")?.addEventListener("submit",async e=>{e.preventDefault();const s=await TBOP.api.getSession();await TBOP.api.createRepeaterMaintenance({maintenance_date:repMaintDate.value,title:repMaintTitle.value,category:repMaintCategory.value||null,performed_by:repMaintBy.value||null,notes:repMaintNotes.value||null,swr:repMaintSWR.value?Number(repMaintSWR.value):null,forward_power:repMaintPower.value?Number(repMaintPower.value):null,firmware_version:repMaintFirmware.value||null,created_by:s?.user?.id||null});e.target.reset();repMaintDate.value=d;await loadOps();});
+  document.getElementById("repeaterAssetForm")?.addEventListener("submit",async e=>{
+    e.preventDefault();
+    const s=await TBOP.api.getSession();
+    const row={
+      name:repAssetName.value,
+      asset_type:repAssetType.value,
+      manufacturer:repManufacturer.value||null,
+      model:repModel.value||null,
+      serial_number:repSerial.value||null,
+      location:repLocation.value||null,
+      status:repStatus.value,
+      notes:repAssetNotes.value||null
+    };
+    try{
+      const id=document.getElementById("repAssetEditId")?.value;
+      if(id)await TBOP.api.updateRepeaterAsset(id,row);
+      else{
+        row.created_by=s?.user?.id||null;
+        await TBOP.api.createRepeaterAsset(row);
+      }
+      resetRepeaterAssetEditor();
+      await loadOps();
+    }catch(err){alert("Could not save repeater asset: "+(err.message||err))}
+  });
+  document.getElementById("repeaterMaintenanceForm")?.addEventListener("submit",async e=>{
+    e.preventDefault();
+    const s=await TBOP.api.getSession();
+    const row={
+      maintenance_date:repMaintDate.value,
+      title:repMaintTitle.value,
+      category:repMaintCategory.value||null,
+      performed_by:repMaintBy.value||null,
+      notes:repMaintNotes.value||null,
+      swr:repMaintSWR.value?Number(repMaintSWR.value):null,
+      forward_power:repMaintPower.value?Number(repMaintPower.value):null,
+      firmware_version:repMaintFirmware.value||null
+    };
+    try{
+      const id=document.getElementById("repMaintEditId")?.value;
+      if(id)await TBOP.api.updateRepeaterMaintenance(id,row);
+      else{
+        row.created_by=s?.user?.id||null;
+        await TBOP.api.createRepeaterMaintenance(row);
+      }
+      resetRepeaterMaintenanceEditor();
+      await loadOps();
+    }catch(err){alert("Could not save maintenance record: "+(err.message||err))}
+  });
   document.getElementById("equipmentForm")?.addEventListener("submit",async e=>{
     e.preventDefault();const s=await TBOP.api.getSession();
     const row={name:eqName.value,category:eqCategory.value||null,manufacturer:eqManufacturer.value||null,model:eqModel.value||null,

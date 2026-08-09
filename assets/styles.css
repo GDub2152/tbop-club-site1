@@ -491,3 +491,8 @@ body.modal-open{overflow:hidden}
 .equipment-form-actions{grid-column:1/-1;display:flex;gap:9px;flex-wrap:wrap}
 .equipment-item-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:flex-end}
 @media(max-width:760px){.member-table{min-width:920px}.equipment-item-actions{width:100%;justify-content:flex-start}}
+
+/* TBOP 13.2.5 — Repeater Management Editing */
+.repeater-form-actions{grid-column:1/-1;display:flex;gap:9px;flex-wrap:wrap}
+.repeater-item-actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+@media(max-width:760px){.repeater-item-actions{width:100%;justify-content:flex-start}}

@@ -117,32 +117,18 @@ window.TBOP = window.TBOP || {};
       email,
       password,
       options:{
-        data:{display_name:displayName,first_name:firstName,last_name:lastName,callsign:callsign||null}
+        data:{
+          display_name:displayName,
+          first_name:firstName||null,
+          last_name:lastName||null,
+          callsign:callsign?callsign.trim().toUpperCase():null,
+          mobile_phone:mobilePhone||null,
+          city:city||null,
+          state:state?state.trim().toUpperCase():null
+        }
       }
     });
     if(error)throw error;
-
-    const user=data.user;
-    if(user){
-      const profile={
-        id:user.id,
-        email,
-        first_name:firstName||null,
-        last_name:lastName||null,
-        display_name:displayName||email.split("@")[0],
-        callsign:callsign?callsign.trim().toUpperCase():null,
-        mobile_phone:mobilePhone||null,
-        city:city||null,
-        state:state||null,
-        role:"member",
-        membership_status:"pending",
-        dues_status:"unpaid",
-        voting_eligible:false
-      };
-      const {error:profileError}=await window.TBOP.supabase
-        .from("profiles").upsert(profile,{onConflict:"id"});
-      if(profileError)throw profileError;
-    }
     return data;
   }
 

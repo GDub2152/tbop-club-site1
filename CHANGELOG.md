@@ -1,5 +1,13 @@
 # TBOP Club Site Changelog
 
+## 14.0.2 — Signup RLS Fix
+- Removed browser-side insert into public.profiles during signup.
+- Added auth.users trigger that creates the profile server-side.
+- Supports Supabase email confirmation with session=null after signup.
+- New signup profiles remain member / pending / unpaid / non-voting.
+- Bumped service-worker cache to v14.0.2.
+
+
 ## 14.0.1 — Member Signup API Hotfix
 - Exported signUpMember to TBOP.api.
 - Exported password reset/update helpers to TBOP.api.

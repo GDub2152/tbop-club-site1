@@ -1,5 +1,13 @@
 # TBOP Club Site Changelog
 
+## 13.2.6 — Repeater Delete Controls
+- Added Delete button to Repeater Assets.
+- Added Delete button to Maintenance History.
+- Added confirmation prompt before deletion.
+- Backend delete methods added for repeater_assets and repeater_maintenance.
+- Editing form resets automatically if the currently edited record is deleted.
+
+
 ## 13.2.5 — Repeater Management Edit Hotfix
 - Repeater Assets now have an Edit button.
 - Existing repeater assets can be loaded back into the form and saved.

@@ -496,6 +496,10 @@ window.TBOP = window.TBOP || {};
       .single();
     if(error)throw error; return data;
   }
+  async function deleteRepeaterAsset(id){
+    const {error}=await window.TBOP.supabase.from("repeater_assets").delete().eq("id",id);
+    if(error)throw error;
+  }
   async function listRepeaterMaintenance(){
     const {data,error}=await window.TBOP.supabase.from("repeater_maintenance").select("*, repeater_assets(name)").order("maintenance_date",{ascending:false});
     if(error)throw error; return data;
@@ -512,6 +516,10 @@ window.TBOP = window.TBOP || {};
       .select()
       .single();
     if(error)throw error; return data;
+  }
+  async function deleteRepeaterMaintenance(id){
+    const {error}=await window.TBOP.supabase.from("repeater_maintenance").delete().eq("id",id);
+    if(error)throw error;
   }
   async function listEquipment(){
     const {data,error}=await window.TBOP.supabase.from("equipment_inventory").select("*").order("name");
@@ -622,9 +630,11 @@ window.TBOP = window.TBOP || {};
     listRepeaterAssets,
     createRepeaterAsset,
     updateRepeaterAsset,
+    deleteRepeaterAsset,
     listRepeaterMaintenance,
     createRepeaterMaintenance,
     updateRepeaterMaintenance,
+    deleteRepeaterMaintenance,
     listEquipment,
     createEquipment,
     updateEquipment,

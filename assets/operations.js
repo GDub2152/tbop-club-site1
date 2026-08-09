@@ -39,6 +39,7 @@ function renderRepeaterOps(){
     <div class="repeater-item-actions">
       <span class="pill">${x.status}</span>
       <button class="button secondary small" type="button" onclick="editRepeaterAsset('${x.id}')">Edit</button>
+      <button class="button danger small" type="button" onclick="deleteRepeaterAssetRecord('${x.id}','${String(x.name||"").replace(/'/g,"&#39;")}')">Delete</button>
     </div>
   </article>`).join("")||`<div class="card"><p>No repeater assets recorded.</p></div>`;
 
@@ -52,9 +53,30 @@ function renderRepeaterOps(){
     </div>
     <div class="repeater-item-actions">
       <button class="button secondary small" type="button" onclick="editRepeaterMaintenance('${x.id}')">Edit</button>
+      <button class="button danger small" type="button" onclick="deleteRepeaterMaintenanceRecord('${x.id}','${String(x.title||"").replace(/'/g,"&#39;")}')">Delete</button>
     </div>
   </article>`).join("")||`<div class="card"><p>No maintenance history yet.</p></div>`;
 }
+
+async function deleteRepeaterAssetRecord(id,name){
+  if(!confirm(`Delete repeater asset "${name}"? This cannot be undone.`))return;
+  try{
+    await TBOP.api.deleteRepeaterAsset(id);
+    if(document.getElementById("repAssetEditId")?.value===id)resetRepeaterAssetEditor();
+    await loadOps();
+  }catch(err){alert("Could not delete repeater asset: "+(err.message||err))}
+}
+window.deleteRepeaterAssetRecord=deleteRepeaterAssetRecord;
+
+async function deleteRepeaterMaintenanceRecord(id,title){
+  if(!confirm(`Delete maintenance record "${title}"? This cannot be undone.`))return;
+  try{
+    await TBOP.api.deleteRepeaterMaintenance(id);
+    if(document.getElementById("repMaintEditId")?.value===id)resetRepeaterMaintenanceEditor();
+    await loadOps();
+  }catch(err){alert("Could not delete maintenance record: "+(err.message||err))}
+}
+window.deleteRepeaterMaintenanceRecord=deleteRepeaterMaintenanceRecord;
 
 function resetRepeaterAssetEditor(){
   document.getElementById("repeaterAssetForm")?.reset();

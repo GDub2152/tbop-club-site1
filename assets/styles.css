@@ -223,3 +223,27 @@
 .membership-card-preview{display:flex;justify-content:space-between;align-items:center;gap:20px}
 .card-qr{width:92px;height:92px;border:2px solid var(--accent);display:grid;place-items:center;font-family:monospace;font-weight:900;letter-spacing:.08em;background:#fff;color:#111}
 @media(max-width:850px){.ops-two-col{grid-template-columns:1fr}}
+
+/* Vault integration patch 2.2 */
+.sidebar .portal-nav-link{
+  display:block;
+  width:100%;
+  box-sizing:border-box;
+  text-align:left;
+  text-decoration:none;
+  color:inherit;
+  background:transparent;
+  border:0;
+  padding:10px 12px;
+  border-radius:8px;
+  font:inherit;
+  cursor:pointer;
+}
+.sidebar .portal-nav-link:hover{
+  background:rgba(255,106,0,.10);
+  color:var(--accent,#ff6a00);
+}
+.vault-nav-link{
+  border:1px solid rgba(255,106,0,.22)!important;
+  margin:3px 0 8px;
+}

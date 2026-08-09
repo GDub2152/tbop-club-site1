@@ -110,6 +110,79 @@ window.TBOP = window.TBOP || {};
   }
 
 
+
+  async function signUpMember({email,password,firstName,lastName,callsign,mobilePhone,city,state}){
+    const displayName=[firstName,lastName].filter(Boolean).join(" ").trim();
+    const {data,error}=await window.TBOP.supabase.auth.signUp({
+      email,
+      password,
+      options:{
+        data:{display_name:displayName,first_name:firstName,last_name:lastName,callsign:callsign||null}
+      }
+    });
+    if(error)throw error;
+
+    const user=data.user;
+    if(user){
+      const profile={
+        id:user.id,
+        email,
+        first_name:firstName||null,
+        last_name:lastName||null,
+        display_name:displayName||email.split("@")[0],
+        callsign:callsign?callsign.trim().toUpperCase():null,
+        mobile_phone:mobilePhone||null,
+        city:city||null,
+        state:state||null,
+        role:"member",
+        membership_status:"pending",
+        dues_status:"unpaid",
+        voting_eligible:false
+      };
+      const {error:profileError}=await window.TBOP.supabase
+        .from("profiles").upsert(profile,{onConflict:"id"});
+      if(profileError)throw profileError;
+    }
+    return data;
+  }
+
+  async function sendPasswordReset(email,redirectTo){
+    const {data,error}=await window.TBOP.supabase.auth.resetPasswordForEmail(email,{redirectTo});
+    if(error)throw error;return data;
+  }
+
+  async function updatePassword(password){
+    const {data,error}=await window.TBOP.supabase.auth.updateUser({password});
+    if(error)throw error;return data;
+  }
+
+  async function updateMyProfile(row){
+    const {error}=await window.TBOP.supabase.rpc("tbop_update_my_profile",{
+      p_first_name:row.first_name??null,
+      p_last_name:row.last_name??null,
+      p_display_name:row.display_name??null,
+      p_callsign:row.callsign??null,
+      p_mobile_phone:row.mobile_phone??null,
+      p_home_phone:row.home_phone??null,
+      p_address1:row.address1??null,
+      p_address2:row.address2??null,
+      p_city:row.city??null,
+      p_state:row.state??null,
+      p_zip:row.zip??null,
+      p_license_class:row.license_class??null,
+      p_license_expiration:row.license_expiration||null,
+      p_arrl_member:row.arrl_member??null,
+      p_texting_allowed:row.texting_allowed??null
+    });
+    if(error)throw error;
+  }
+
+  async function setMemberStatus(id,status){
+    const {error}=await window.TBOP.supabase.rpc("tbop_set_member_status",{
+      p_member:id,p_status:status
+    });
+    if(error)throw error;
+  }
   async function listProfiles(){
     if(!configured()) return null;
     const {data,error}=await window.TBOP.supabase

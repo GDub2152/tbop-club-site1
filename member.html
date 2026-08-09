@@ -16,6 +16,7 @@
       <button data-member-view="member-calendar">Calendar</button>
       <button data-member-view="member-voting">Voting</button>
       <button data-member-view="member-documents">Documents</button>
+      <button data-member-view="my-profile">My Profile</button>
       <a class="member-nav-link vault-nav-link" href="vault.html">🔒 Secure Documents</a>
       <button data-member-view="member-profile">My Profile</button>
     </nav>
@@ -100,7 +101,47 @@
         <button class="button" disabled>Save Profile (backend required)</button>
       </div>
     </section>
-  </main>
+  
+<section id="member-view-my-profile" class="member-view">
+  <div class="page-head"><div><span class="eyebrow">My Account</span><h1>My Profile</h1><p class="muted">Update your personal information and Amateur Radio details.</p></div></div>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Profile Information</h3>
+      <form id="myProfileForm" class="form-grid">
+        <input id="myFirstName" placeholder="First name">
+        <input id="myLastName" placeholder="Last name">
+        <input id="myDisplayName" placeholder="Display name">
+        <input id="myCallsign" placeholder="Callsign (optional)">
+        <input id="myMobilePhone" placeholder="Mobile phone">
+        <input id="myHomePhone" placeholder="Home phone">
+        <input id="myAddress1" placeholder="Address">
+        <input id="myAddress2" placeholder="Address line 2">
+        <input id="myCity" placeholder="City">
+        <input id="myState" placeholder="State" maxlength="2">
+        <input id="myZip" placeholder="ZIP">
+        <input id="myLicenseClass" placeholder="License class">
+        <label>License expiration<input id="myLicenseExpiration" type="date"></label>
+        <label>ARRL member<select id="myArrlMember"><option value="">Not specified</option><option value="true">Yes</option><option value="false">No</option></select></label>
+        <label>Texting allowed<select id="myTextingAllowed"><option value="">Not specified</option><option value="true">Yes</option><option value="false">No</option></select></label>
+        <button class="button" type="submit">Save Profile</button>
+      </form>
+      <p class="field-help"><strong>Have a callsign?</strong> Make sure you add it here. If you are not licensed yet, leave it blank and add it later.</p>
+    </div>
+    <div class="card">
+      <h3>Membership</h3>
+      <div id="myMembershipSummary"></div>
+      <hr>
+      <h3>Change Password</h3>
+      <form id="changePasswordForm" class="auth-form">
+        <label>New Password<input id="memberNewPassword" type="password" minlength="8" required></label>
+        <label>Confirm Password<input id="memberNewPassword2" type="password" minlength="8" required></label>
+        <button class="button" type="submit">Change Password</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
@@ -111,5 +152,7 @@
 <script src="assets/database-modules.js"></script>
 <script src="assets/voting.js"></script>
 <script src="assets/operations.js"></script>
+<script src="assets/member-profile.js"></script>
+<script src="assets/member-self-service.js"></script>
 </body>
 </html>

@@ -496,3 +496,10 @@ body.modal-open{overflow:hidden}
 .repeater-form-actions{grid-column:1/-1;display:flex;gap:9px;flex-wrap:wrap}
 .repeater-item-actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
 @media(max-width:760px){.repeater-item-actions{width:100%;justify-content:flex-start}}
+
+/* TBOP 14.0 Member Self-Service */
+.field-help{display:block;color:#aeb5bc;font-size:.82rem;line-height:1.5;margin-top:5px}
+.member-login-links{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:14px}
+.member-login-links a{color:var(--accent,#ff6a00)}
+.approval-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+@media(max-width:700px){.approval-actions{width:100%;justify-content:flex-start}}

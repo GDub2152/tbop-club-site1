@@ -1,5 +1,17 @@
 # TBOP Club Site Changelog
 
+## 14.0.0 — Member Self-Service & Approval Center
+- Public member self-signup with optional callsign.
+- New accounts are forced to member/pending/unpaid/non-voting.
+- Forgot Password and Reset Password pages.
+- Logged-in Change Password.
+- Member My Profile editor.
+- Callsign reminder for licensed applicants/members.
+- Officer Approval Center with pending membership review.
+- Approve / Reject membership actions.
+- Homepage Become a Member now links to self-service signup.
+
+
 ## 13.2.6 — Repeater Delete Controls
 - Added Delete button to Repeater Assets.
 - Added Delete button to Maintenance History.

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Become a Member | The Blowtorch of Parma</title>
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body class="auth-body">
+<header class="site-header"><div class="container nav-wrap">
+<a class="brand" href="index.html"><span class="tower-icon">⌁</span><span><strong>THE BLOWTORCH OF PARMA</strong><small>MEMBERSHIP</small></span></a>
+<nav class="main-nav"><a href="index.html">Public Website</a><a href="member-login.html">Member Login</a></nav>
+</div></header>
+<main class="auth-main"><section class="auth-shell">
+<div class="auth-brand-panel">
+<img src="assets/tbop-logo.png" alt="The Blowtorch of Parma logo" class="auth-logo">
+<span class="eyebrow">Join the Club</span><h1>Become a Member</h1>
+<p>Licensed Amateur Radio operator or simply interested in learning? You're welcome here.</p>
+</div>
+<div class="auth-form-panel">
+<div id="signupNotice" class="demo-auth-notice">Checking signup availability…</div>
+<form id="memberSignupForm" class="auth-form">
+<label>First Name *<input id="signupFirstName" required></label>
+<label>Last Name *<input id="signupLastName" required></label>
+<label>Email Address *<input id="signupEmail" type="email" required autocomplete="email"></label>
+<label>Mobile Phone<input id="signupPhone" type="tel"></label>
+<label>City<input id="signupCity"></label>
+<label>State<input id="signupState" maxlength="2" value="OH"></label>
+<label>Callsign <span class="muted">(Optional)</span>
+<input id="signupCallsign" autocapitalize="characters" placeholder="e.g. W8ABC">
+<small class="field-help"><strong>If you already have an Amateur Radio callsign, make sure you add it here.</strong> If you're new to Amateur Radio or not licensed yet, leave it blank and add it later from your Member Profile.</small>
+</label>
+<label>Password *<input id="signupPassword" type="password" minlength="8" required autocomplete="new-password"></label>
+<label>Confirm Password *<input id="signupPassword2" type="password" minlength="8" required autocomplete="new-password"></label>
+<label class="check-label"><input id="signupAgree" type="checkbox" required> I agree to follow the club's Constitution, Bylaws, and membership policies.</label>
+<button id="signupBtn" class="button auth-submit" type="submit">Create My Account</button>
+</form>
+<div class="auth-security-note"><strong>What happens next?</strong><p>Your account is created as a general member with Pending status. Club officers review membership status and dues separately. You cannot assign yourself an officer role.</p></div>
+</div></section></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script><script src="assets/supabase-client.js"></script><script src="assets/backend.js"></script>
+<script src="assets/member-self-service.js"></script>
+</body></html>

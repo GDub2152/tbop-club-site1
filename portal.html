@@ -25,6 +25,7 @@
       <button data-view="news">News</button>
       <button data-view="analytics">Analytics</button>
       <button data-view="approvals">Approvals</button>
+      <button data-view="approval-center">Approval Center</button>
       <button data-view="backup">Backup</button>
       <button data-view="website">Website Admin</button>
     </nav>
@@ -670,7 +671,24 @@
         <div class="card"><h3>Homepage</h3><p>Manage featured notices, repeater information and quick links.</p></div>
       </div>
     </section>
-  </main>
+  
+<section id="view-approval-center" class="portal-view">
+  <div class="page-head"><div><span class="eyebrow">Officer Inbox</span><h1>Approval Center</h1><p class="muted">Review pending membership applications and other items awaiting officer action.</p></div></div>
+  <div class="metric-grid">
+    <div class="metric-card"><span>Pending Members</span><strong id="pendingMemberMetric">0</strong></div>
+    <div class="metric-card"><span>Other Approvals</span><strong id="otherApprovalMetric">0</strong></div>
+  </div>
+  <div class="card">
+    <h3>Pending Membership Applications</h3>
+    <div id="pendingMemberList" class="event-list"></div>
+  </div>
+  <div class="card">
+    <h3>Other Approval Requests</h3>
+    <div id="approvalCenterOther" class="event-list"></div>
+  </div>
+</section>
+
+</main>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
@@ -684,5 +702,6 @@
 <script src="assets/treasurer.js"></script>
 <script src="assets/voting.js"></script>
 <script src="assets/operations.js"></script>
+<script src="assets/approval-center.js"></script>
 </body>
 </html>

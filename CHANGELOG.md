@@ -1,5 +1,14 @@
 # TBOP Club Site Changelog
 
+## 13.2.3 — Audited Stability Release
+- Fixed stale service-worker cache version that could serve old site code.
+- Expanded cached assets to include split logins, Vault, backend, auth, and operations scripts.
+- Standardized public Portal Login wording.
+- Updated visible site version.
+- Performed JavaScript syntax, file-reference, duplicate-ID, and portal-navigation checks.
+- Retains 13.2.2 Full News Reader.
+
+
 ## 13.2.2 — Full News Reader
 
 - Public news cards are now clickable.

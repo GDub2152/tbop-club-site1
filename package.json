@@ -1,0 +1,10 @@
+{
+  "name": "tbop-cms",
+  "version": "1.0.0-beta.1",
+  "private": true,
+  "scripts": {
+    "test": "node tests/vault-policy-tests.mjs",
+    "lint": "echo \"Add lint configuration\""
+  },
+  "description": "TBOP Club Management System 1.0 LTS modular rebuild"
+}

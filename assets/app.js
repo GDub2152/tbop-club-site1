@@ -2,7 +2,7 @@
 const KEY={events:"tbop_events",members:"tbop_members",votes:"tbop_votes",repeater:"tbop_repeater",meetings:"tbop_meetings"};
 const defaults={
 events:[{id:1,title:"Monthly Club Meeting",date:"2026-09-10",time:"19:00",location:"To be announced",visibility:"public",description:"Regular monthly club meeting."},{id:2,title:"Repeater Work Session",date:"2026-09-19",time:"10:00",location:"Technical site",visibility:"officers",description:"Maintenance and inspection."}],
-members:[{id:1,name:"Demo Member",call:"N8XXX",email:"demo@example.org",status:"Active"}],
+members:[{id:1,name:"Demo Member",call:"N8XXX",email:"demo@example.org",status:"Active",voting:"yes",dues:"paid"}],
 votes:[],
 repeater:[{id:1,title:"Quarterly site inspection",date:"2026-09-19",status:"Scheduled",notes:"Check power, antenna system and logs."}],
 meetings:[]
@@ -15,14 +15,40 @@ function renderPublic(){const events=load("events").filter(e=>e.visibility==="pu
 function renderHomeEvents(){const wrap=document.getElementById("homeEvents");if(!wrap)return;const events=load("events").filter(e=>e.visibility==="public").sort((a,b)=>a.date.localeCompare(b.date)).slice(0,3);wrap.innerHTML=events.length?events.map(e=>`<article class="event-item"><div><span class="pill public">${fmtDate(e.date)}</span><h3>${e.title}</h3><div class="event-meta">${e.time||""}${e.location?(" • "+e.location):""}</div><p>${e.description||""}</p></div></article>`).join(""):`<div class="card"><p>No public events are currently scheduled.</p></div>`}
 function portalNav(){document.querySelectorAll("#portalNav button").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll("#portalNav button").forEach(b=>b.classList.remove("active"));document.querySelectorAll(".portal-view").forEach(v=>v.classList.remove("active"));btn.classList.add("active");document.getElementById("view-"+btn.dataset.view)?.classList.add("active")}))}
 function renderEvents(){const wrap=document.getElementById("adminEvents");if(!wrap)return;wrap.innerHTML=load("events").sort((a,b)=>a.date.localeCompare(b.date)).map(e=>`<article class="event-item"><div><h3>${e.title}</h3><div class="event-meta">${fmtDate(e.date)} ${e.time?("• "+e.time):""} ${e.location?("• "+e.location):""}</div><p>${e.description||""}</p></div><div><span class="pill ${e.visibility}">${e.visibility}</span> <button class="button danger small" onclick="removeItem('events',${e.id})">Remove</button></div></article>`).join("")}
-function renderMembers(){const body=document.getElementById("memberTable");if(body)body.innerHTML=load("members").map(m=>`<tr><td>${m.name}</td><td>${m.call||""}</td><td>${m.status}</td><td><button class="button danger small" onclick="removeItem('members',${m.id})">Remove</button></td></tr>`).join("")}
-function renderVotes(){const wrap=document.getElementById("voteList");if(!wrap)return;const votes=load("votes");wrap.innerHTML=votes.length?votes.map(v=>`<article class="event-item"><div><h3>${v.title}</h3><div class="event-meta">${v.type}${v.close?(" • closes "+fmtDate(v.close)):""}</div><p>${v.question}</p><div>${v.options.map(o=>`<span class="pill">${o}</span>`).join(" ")}</div></div><button class="button danger small" onclick="removeItem('votes',${v.id})">Archive/Remove</button></article>`).join(""):`<div class="card"><p>No active demo votes.</p></div>`}
+function renderMembers(){
+  const body=document.getElementById("memberTable");
+  const members=load("members");
+  if(body)body.innerHTML=members.map(m=>`<tr>
+    <td>${m.name}</td>
+    <td>${m.call||""}</td>
+    <td><span class="${m.status==="Active"?"status-good":m.status==="Pending"?"status-warn":"status-muted"}">${m.status}</span></td>
+    <td>${(m.voting||"yes")==="yes"?"Eligible":"Not eligible"}</td>
+    <td>${(m.dues||"paid")==="paid"?"Paid":(m.dues==="family"?"Family":"Unpaid")}</td>
+    <td><button class="button danger small" onclick="removeItem('members',${m.id})">Remove</button></td>
+  </tr>`).join("");
+  setText("activeMemberCount",members.filter(m=>m.status==="Active").length);
+  setText("eligibleMemberCount",members.filter(m=>m.status==="Active"&&(m.voting||"yes")==="yes").length);
+  setText("paidMemberCount",members.filter(m=>(m.dues||"paid")==="paid"||m.dues==="family").length);
+  setText("votingEligibleMetric",members.filter(m=>m.status==="Active"&&(m.voting||"yes")==="yes").length);
+}
+function renderVotes(){
+  const wrap=document.getElementById("voteList");if(!wrap)return;
+  const votes=load("votes");
+  setText("activeBallotMetric",votes.length);
+  wrap.innerHTML=votes.length?votes.map(v=>{
+    if(v.kind==="officer-election"){
+      const positions=(v.positions||[]).map(p=>`<div class="ballot-position"><strong>${p.office}</strong><small>${p.candidates.length?p.candidates.join(", "):"No candidates entered"}${v.writeIn==="yes"?" • Write-ins allowed":""}</small></div>`).join("");
+      return `<article class="event-item"><div><span class="pill public">Officer Election</span><h3>${v.title}</h3><div class="event-meta">Secret ballot${v.close?(" • closes "+fmtDate(v.close)):""} • ${v.results==="closed"?"Results hidden until close":"Live results enabled"}</div><div class="ballot-positions">${positions}</div></div><button class="button danger small" onclick="removeItem('votes',${v.id})">Archive/Remove</button></article>`;
+    }
+    return `<article class="event-item"><div><h3>${v.title}</h3><div class="event-meta">${v.type}${v.close?(" • closes "+fmtDate(v.close)):""}</div><p>${v.question}</p><div>${(v.options||[]).map(o=>`<span class="pill">${o}</span>`).join(" ")}</div></div><button class="button danger small" onclick="removeItem('votes',${v.id})">Archive/Remove</button></article>`;
+  }).join(""):`<div class="card"><p>No active demo votes.</p></div>`;
+}
 function renderRepeater(){const wrap=document.getElementById("repeaterTasks");if(wrap)wrap.innerHTML=load("repeater").map(t=>`<article class="event-item"><div><h3>${t.title}</h3><div class="event-meta">${fmtDate(t.date)} • ${t.status}</div><p>${t.notes||""}</p></div><button class="button danger small" onclick="removeItem('repeater',${t.id})">Remove</button></article>`).join("")}
 function renderMetrics(){const m=document.getElementById("memberMetric");if(!m)return;m.textContent=load("members").filter(x=>x.status==="Active").length;document.getElementById("eventMetric").textContent=load("events").length;document.getElementById("voteMetric").textContent=load("votes").length;document.getElementById("repeaterMetric").textContent=load("repeater").filter(x=>x.status!=="Completed").length}
 function removeItem(type,id){save(type,load(type).filter(x=>x.id!==id));renderAll()}window.removeItem=removeItem;
 function forms(){
 document.getElementById("eventForm")?.addEventListener("submit",e=>{e.preventDefault();const d=load("events");d.push({id:uid(),title:eventTitle.value,date:eventDate.value,time:eventTime.value,location:eventLocation.value,visibility:eventVisibility.value,repeat:(document.getElementById("eventRepeat")?.value||"none"),description:eventDescription.value});save("events",d);e.target.reset();renderAll()});
-document.getElementById("memberForm")?.addEventListener("submit",e=>{e.preventDefault();const d=load("members");d.push({id:uid(),name:memberName.value,call:memberCall.value,email:memberEmail.value,status:memberStatus.value});save("members",d);e.target.reset();renderAll()});
+document.getElementById("memberForm")?.addEventListener("submit",e=>{e.preventDefault();const d=load("members");d.push({id:uid(),name:memberName.value,call:memberCall.value,email:memberEmail.value,status:memberStatus.value,voting:(document.getElementById("memberVoting")?.value||"yes"),dues:(document.getElementById("memberDues")?.value||"paid")});save("members",d);e.target.reset();renderAll()});
 document.getElementById("voteForm")?.addEventListener("submit",e=>{e.preventDefault();const d=load("votes");d.push({id:uid(),title:voteTitle.value,question:voteQuestion.value,options:voteOptions.value.split(",").map(s=>s.trim()).filter(Boolean),close:voteClose.value,type:voteType.value});save("votes",d);e.target.reset();renderAll()});
 document.getElementById("repeaterForm")?.addEventListener("submit",e=>{e.preventDefault();const d=load("repeater");d.push({id:uid(),title:taskTitle.value,date:taskDate.value,status:taskStatus.value,notes:taskNotes.value});save("repeater",d);e.target.reset();renderAll()});
 }
@@ -334,3 +360,30 @@ function renderMeetingArchive(){
 const renderAllV3=renderAll;
 renderAll=function(){renderAllV3();renderMonthCalendar();renderMeetingArchive();};
 document.addEventListener("DOMContentLoaded",()=>{setupCalendarControls();setupSecretary();renderMonthCalendar();});
+
+
+function splitCandidates(id){
+  return (document.getElementById(id)?.value||"").split(",").map(x=>x.trim()).filter(Boolean);
+}
+function setupOfficerElection(){
+  document.getElementById("createOfficerElectionBtn")?.addEventListener("click",()=>{
+    const positions=[
+      ["President","candPresident"],["Vice President","candVicePresident"],["Secretary","candSecretary"],
+      ["Treasurer","candTreasurer"],["Sergeant at Arms","candSergeant"],["Trustee 1","candTrustee1"],
+      ["Trustee 2","candTrustee2"],["Trustee 3","candTrustee3"],["Repeater Trustee","candRepeaterTrustee"]
+    ].map(([office,id])=>({office,candidates:splitCandidates(id)}));
+    const votes=load("votes");
+    votes.push({
+      id:uid(),
+      kind:"officer-election",
+      title:document.getElementById("electionTitle")?.value||"Annual Officer Election",
+      close:document.getElementById("electionClose")?.value||"",
+      writeIn:document.getElementById("electionWriteIn")?.value||"yes",
+      results:document.getElementById("electionResults")?.value||"closed",
+      positions
+    });
+    save("votes",votes);
+    renderAll();
+  });
+}
+document.addEventListener("DOMContentLoaded",setupOfficerElection);

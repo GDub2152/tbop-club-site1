@@ -130,3 +130,17 @@ The band labels are estimates, not propagation guarantees.
 - Meeting draft archive
 
 All Secretary data remains demo/local-only until the authenticated backend is connected.
+
+
+## V5 membership + voting
+
+- Added public Membership page
+- Added official TBOP membership application PDF to /documents
+- Annual dues shown as $25 with $7 additional family members, matching the provided application
+- Homepage membership buttons now link to the membership page / PDF
+- Membership admin now tracks active status, voting eligibility, and dues status
+- Voting dashboard now includes a dedicated officer-election builder
+- Officer ballot positions: President, Vice President, Secretary, Treasurer, Sergeant at Arms, Trustee 1, Trustee 2, Trustee 3, Repeater Trustee
+- Supports write-in setting and hidden/live result setting in the demo UI
+
+Voting and membership data are still browser-local demo data only and must move to an authenticated backend before real use.

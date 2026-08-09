@@ -128,15 +128,32 @@
     </section>
 
     <section id="view-members" class="portal-view">
-      <div class="page-head"><div><span class="eyebrow">Membership</span><h1>Member Management</h1></div></div>
+      <div class="page-head">
+        <div><span class="eyebrow">Membership</span><h1>Member Management</h1></div>
+        <a class="button secondary small" href="documents/TBOP-Membership-Application.pdf" target="_blank" rel="noopener">Open Application PDF</a>
+      </div>
       <form id="memberForm" class="card form-grid">
         <input id="memberName" placeholder="Member name" required>
         <input id="memberCall" placeholder="Callsign">
         <input id="memberEmail" type="email" placeholder="Email">
         <select id="memberStatus"><option>Active</option><option>Inactive</option><option>Pending</option></select>
+        <select id="memberVoting"><option value="yes">Voting eligible</option><option value="no">Not voting eligible</option></select>
+        <select id="memberDues"><option value="paid">Dues paid</option><option value="unpaid">Dues unpaid</option><option value="family">Family member</option></select>
         <button class="button" type="submit">Add Demo Member</button>
       </form>
-      <div class="card table-wrap"><table><thead><tr><th>Name</th><th>Callsign</th><th>Status</th><th></th></tr></thead><tbody id="memberTable"></tbody></table></div>
+
+      <div class="member-summary-grid">
+        <div class="metric"><span>Active</span><strong id="activeMemberCount">0</strong></div>
+        <div class="metric"><span>Voting Eligible</span><strong id="eligibleMemberCount">0</strong></div>
+        <div class="metric"><span>Dues Paid</span><strong id="paidMemberCount">0</strong></div>
+      </div>
+
+      <div class="card table-wrap">
+        <table>
+          <thead><tr><th>Name</th><th>Callsign</th><th>Status</th><th>Voting</th><th>Dues</th><th></th></tr></thead>
+          <tbody id="memberTable"></tbody>
+        </table>
+      </div>
     </section>
 
     <section id="view-documents" class="portal-view">
@@ -151,6 +168,33 @@
 
     <section id="view-voting" class="portal-view">
       <div class="page-head"><div><span class="eyebrow">Members Voting</span><h1>Elections & Polls</h1></div></div>
+
+      <div class="card election-builder">
+        <div class="section-head"><div><span class="eyebrow">Officer Election</span><h3>Build Officer Ballot</h3></div></div>
+        <p class="muted">Create a standard club officer election using the club's current officer structure.</p>
+        <div class="officer-ballot-grid">
+          <label>President <input id="candPresident" placeholder="Candidate names, comma-separated"></label>
+          <label>Vice President <input id="candVicePresident" placeholder="Candidate names, comma-separated"></label>
+          <label>Secretary <input id="candSecretary" placeholder="Candidate names, comma-separated"></label>
+          <label>Treasurer <input id="candTreasurer" placeholder="Candidate names, comma-separated"></label>
+          <label>Sergeant at Arms <input id="candSergeant" placeholder="Candidate names, comma-separated"></label>
+          <label>Trustee 1 <input id="candTrustee1" placeholder="Candidate names, comma-separated"></label>
+          <label>Trustee 2 <input id="candTrustee2" placeholder="Candidate names, comma-separated"></label>
+          <label>Trustee 3 <input id="candTrustee3" placeholder="Candidate names, comma-separated"></label>
+          <label>Repeater Trustee <input id="candRepeaterTrustee" placeholder="Candidate names, comma-separated"></label>
+        </div>
+        <div class="form-grid election-meta">
+          <input id="electionTitle" value="Annual Officer Election" placeholder="Election title">
+          <input id="electionClose" type="date">
+          <select id="electionWriteIn"><option value="yes">Allow write-ins</option><option value="no">No write-ins</option></select>
+          <select id="electionResults"><option value="closed">Hide results until closed</option><option value="live">Show live results</option></select>
+        </div>
+        <button id="createOfficerElectionBtn" type="button" class="button">Create Demo Officer Election</button>
+      </div>
+
+      <div class="card vote-divider-card">
+        <span class="eyebrow">General Vote / Motion</span>
+      </div>
       <form id="voteForm" class="card form-grid">
         <input id="voteTitle" placeholder="Vote title" required>
         <textarea id="voteQuestion" placeholder="Question / motion" required></textarea>
@@ -159,6 +203,13 @@
         <select id="voteType"><option>Secret ballot</option><option>Open poll</option></select>
         <button class="button" type="submit">Create Demo Vote</button>
       </form>
+
+      <div class="voting-summary card-grid three">
+        <div class="metric"><span>Eligible Members</span><strong id="votingEligibleMetric">0</strong></div>
+        <div class="metric"><span>Active Ballots</span><strong id="activeBallotMetric">0</strong></div>
+        <div class="metric"><span>Ballot Security</span><strong class="small-metric">Backend Required</strong></div>
+      </div>
+
       <div id="voteList" class="event-list"></div>
     </section>
 

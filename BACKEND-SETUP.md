@@ -84,3 +84,29 @@ Never expose:
 6. Replace demo login/sessionStorage with Supabase Auth.
 7. Replace localStorage membership/calendar/voting data with database calls.
 8. Test each role using separate test accounts before production.
+
+
+# V7 connection steps
+
+After creating the Supabase project:
+
+1. Open Supabase Project Settings.
+2. Copy the Project URL.
+3. Copy the public anon/publishable key.
+4. Open `config.js`.
+5. Replace:
+   - `https://YOUR-PROJECT.supabase.co`
+   - `YOUR_PUBLIC_ANON_KEY`
+6. Commit `config.js` to GitHub.
+
+Those two values are designed for browser use when Row Level Security is configured correctly.
+Never place the service-role key in `config.js`.
+
+The site will detect valid configuration automatically:
+- Login page switches from demo login to real email/password login.
+- Demo role selector disappears.
+- Member/officer page routing reads the user's role from `profiles`.
+- Sign out uses Supabase Auth.
+
+The current app still uses localStorage for several modules. This is intentional during migration.
+We will move one module at a time to database tables after authentication is working.

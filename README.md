@@ -161,3 +161,18 @@ Voting and membership data are still browser-local demo data only and must move 
 - BACKEND-SETUP.md production roadmap
 
 The demo login uses sessionStorage only. It is not a security boundary.
+
+
+## V7 Supabase connection layer
+
+- Added config.js placeholder
+- Added Supabase browser client
+- Added backend API adapter
+- Added auth routing helper
+- Login auto-switches between demo and secure mode
+- Real sessions route by database role
+- Real sign-out support
+- Demo mode remains available until configuration is filled in
+- SETUP-CHECKLIST.md added
+
+Do not put service-role credentials or database passwords in browser-accessible files.

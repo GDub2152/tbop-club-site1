@@ -490,3 +490,89 @@ document.addEventListener("DOMContentLoaded",()=>{
   renderMemberPortal();
   applyOfficerRole();
 });
+
+
+/* ===== V7 Supabase bridge ===== */
+async function tbopLoginSubmit(e){
+  e.preventDefault();
+  const email=document.getElementById("loginEmail")?.value?.trim()||"";
+  const password=document.getElementById("loginPassword")?.value||"";
+  const role=document.getElementById("loginRole")?.value||"member";
+  const btn=document.getElementById("loginSubmitBtn");
+
+  if(window.TBOP?.api?.configured()){
+    try{
+      if(btn){btn.disabled=true;btn.textContent="Signing in…";}
+      const data=await window.TBOP.api.signIn(email,password);
+      await window.TBOP.api.createProfileIfMissing(data.user,email.split("@")[0]||"Member");
+      const profile=await window.TBOP.api.getMyProfile();
+      location.href=window.TBOP.auth.isOfficer(profile?.role)?"portal.html":"member.html";
+      return;
+    }catch(err){
+      alert("Sign in failed: "+(err.message||err));
+      if(btn){btn.disabled=false;btn.textContent="Enter Portal";}
+      return;
+    }
+  }
+
+  sessionStorage.setItem("tbop_demo_session",JSON.stringify({role,email,name:"Demo Member",demo:true}));
+  location.href=window.TBOP?.auth?.isOfficer(role)?"portal.html":"member.html";
+}
+
+async function tbopLogout(){
+  try{
+    if(window.TBOP?.api?.configured()) await window.TBOP.api.signOut();
+  }catch(e){console.error(e)}
+  sessionStorage.removeItem("tbop_demo_session");
+  location.href="login.html";
+}
+
+async function tbopUpdateAuthUi(){
+  const notice=document.getElementById("authModeNotice");
+  const roleSelect=document.getElementById("loginRole");
+  if(window.TBOP?.api?.configured()){
+    if(notice){
+      notice.textContent="SECURE LOGIN ENABLED — authentication is connected to Supabase.";
+      notice.classList.add("secure-auth-notice");
+    }
+    if(roleSelect){
+      roleSelect.closest("label").style.display="none";
+    }
+  }
+}
+
+async function tbopProtectPortal(){
+  const isOfficerPage=Boolean(document.getElementById("officerRoleBadge"));
+  const isMemberPage=Boolean(document.getElementById("memberRoleBadge"));
+  if(!isOfficerPage&&!isMemberPage)return;
+
+  const user=await window.TBOP?.auth?.requirePortal(isOfficerPage?"officer":"member");
+  if(!user)return;
+
+  if(isOfficerPage){
+    setText("officerRoleBadge",`${user.mode==="demo"?"Demo ":""}${roleLabels[user.role]||"Officer"}`);
+  }
+  if(isMemberPage){
+    setText("memberRoleBadge",roleLabels[user.role]||"Member");
+    setText("profileDisplayName",user.name||"Member");
+    setText("profileDisplayRole",roleLabels[user.role]||"Member");
+    const officerLink=document.getElementById("officerPortalLink");
+    if(officerLink&&window.TBOP.auth.isOfficer(user.role)) officerLink.classList.remove("hidden");
+  }
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+  const loginForm=document.getElementById("demoLoginForm");
+  if(loginForm){
+    loginForm.replaceWith(loginForm.cloneNode(true));
+    document.getElementById("demoLoginForm")?.addEventListener("submit",tbopLoginSubmit);
+  }
+
+  document.querySelectorAll("#logoutBtn").forEach(btn=>{
+    btn.replaceWith(btn.cloneNode(true));
+  });
+  document.querySelectorAll("#logoutBtn").forEach(btn=>btn.addEventListener("click",tbopLogout));
+
+  tbopUpdateAuthUi();
+  tbopProtectPortal();
+});

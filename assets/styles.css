@@ -484,3 +484,10 @@ body.modal-open{overflow:hidden}
   .news-public-head{display:block}
   .news-public-head .text-button{margin-top:12px}
 }
+
+/* TBOP 13.2.4 */
+.member-edit-help{margin:16px 0;border-left:3px solid var(--accent,#ff6a00)}
+.member-table td:nth-child(3){max-width:240px;overflow-wrap:anywhere}
+.equipment-form-actions{grid-column:1/-1;display:flex;gap:9px;flex-wrap:wrap}
+.equipment-item-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:flex-end}
+@media(max-width:760px){.member-table{min-width:920px}.equipment-item-actions{width:100%;justify-content:flex-start}}

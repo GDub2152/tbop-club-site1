@@ -1,4 +1,25 @@
 
+function tbopLocalNowParts(){
+  const d=new Date(),pad=n=>String(n).padStart(2,"0");
+  return {
+    time:`${pad(d.getHours())}:${pad(d.getMinutes())}`,
+    datetime:`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`
+  };
+}
+function installCurrentTimeDefaults(){
+  const fill=e=>{
+    const input=e.currentTarget;if(input.value)return;
+    const now=tbopLocalNowParts();
+    if(input.type==="time")input.value=now.time;
+    if(input.type==="datetime-local")input.value=now.datetime;
+  };
+  document.querySelectorAll('input[type="time"],input[type="datetime-local"]').forEach(input=>{
+    input.addEventListener("focus",fill);
+    input.addEventListener("click",fill);
+  });
+}
+
+
 const KEY={events:"tbop_events",members:"tbop_members",votes:"tbop_votes",repeater:"tbop_repeater",meetings:"tbop_meetings"};
 const defaults={
 events:[{id:1,title:"Monthly Club Meeting",date:"2026-09-10",time:"19:00",location:"To be announced",visibility:"public",description:"Regular monthly club meeting."},{id:2,title:"Repeater Work Session",date:"2026-09-19",time:"10:00",location:"Technical site",visibility:"officers",description:"Maintenance and inspection."}],
@@ -577,3 +598,5 @@ document.addEventListener("DOMContentLoaded",()=>{
   tbopUpdateAuthUi();
   tbopProtectPortal();
 });
+
+document.addEventListener("DOMContentLoaded",installCurrentTimeDefaults);

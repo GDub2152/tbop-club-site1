@@ -40,6 +40,7 @@ function profileToUi(p){
     license_class:p.license_class||"",
     license_expiration:p.license_expiration||"",
     joined_on:p.joined_on||"",
+    _raw:p,
     _db:true
   };
 }
@@ -146,22 +147,76 @@ async function deleteDbEvent(id){
 }
 window.deleteDbEvent=deleteDbEvent;
 
+function filteredDbMembers(){
+  let members=[...window.TBOP_DB.profiles];
+  const q=(document.getElementById("memberSearch")?.value||"").trim().toLowerCase();
+  const status=document.getElementById("memberStatusFilter")?.value||"";
+  const role=document.getElementById("memberRoleFilter")?.value||"";
+  const dues=document.getElementById("memberDuesFilter")?.value||"";
+  if(q)members=members.filter(m=>(m.name||"").toLowerCase().includes(q)||(m.call||"").toLowerCase().includes(q)||(m.email||"").toLowerCase().includes(q));
+  if(status)members=members.filter(m=>m.status.toLowerCase()===status);
+  if(role)members=members.filter(m=>m.role===role);
+  if(dues)members=members.filter(m=>m.dues===dues);
+  return members;
+}
 function renderMembersDb(){
-  if(!dbConfigured()) return;
-  const body=document.getElementById("memberTable"); if(!body)return;
-  const members=window.TBOP_DB.profiles;
-  body.innerHTML=members.map(m=>`<tr>
-    <td>${m.name}</td><td>${m.call}</td>
+  if(!dbConfigured())return;
+  const body=document.getElementById("memberTable");if(!body)return;
+  const all=window.TBOP_DB.profiles,members=filteredDbMembers();
+  body.innerHTML=members.length?members.map(m=>`<tr>
+    <td>${m.name||""}</td><td>${m.call||""}</td><td>${m.email||""}</td>
     <td><span class="${m.status==="Active"?"status-good":m.status==="Pending"?"status-warn":"status-muted"}">${m.status}</span></td>
     <td>${m.voting==="yes"?"Eligible":"Not eligible"}</td>
     <td>${m.dues==="paid"?"Paid":m.dues==="family"?"Family":"Unpaid"}</td>
-    <td><span class="pill">${m.role.replaceAll("_"," ")}</span></td>
-  </tr>`).join("");
-  setText("activeMemberCount",members.filter(m=>m.status==="Active").length);
-  setText("eligibleMemberCount",members.filter(m=>m.status==="Active"&&m.voting==="yes").length);
-  setText("paidMemberCount",members.filter(m=>m.dues==="paid"||m.dues==="family").length);
-  setText("votingEligibleMetric",members.filter(m=>m.status==="Active"&&m.voting==="yes").length);
+    <td><span class="pill">${(m.role||"member").replaceAll("_"," ")}</span></td>
+    <td><button class="button secondary small" type="button" onclick="openDbMemberEditor('${m.id}')">Edit</button></td>
+  </tr>`).join(""):`<tr><td colspan="8">No members match the current filters.</td></tr>`;
+  setText("activeMemberCount",all.filter(m=>m.status==="Active").length);
+  setText("eligibleMemberCount",all.filter(m=>m.status==="Active"&&m.voting==="yes").length);
+  setText("paidMemberCount",all.filter(m=>m.dues==="paid"||m.dues==="family").length);
+  setText("officerMemberCount",all.filter(m=>m.role!=="member").length);
+  setText("votingEligibleMetric",all.filter(m=>m.status==="Active"&&m.voting==="yes").length);
 }
+function boolSelectValue(v){return v===true?"true":v===false?"false":""}
+function openDbMemberEditor(id){
+  const m=window.TBOP_DB.profiles.find(x=>x.id===id);if(!m)return;const p=m._raw||{};
+  const values={
+    editMemberId:id,editDisplayName:p.display_name||"",editCallsign:p.callsign||"",editEmail:p.email||"",
+    editLicenseClass:p.license_class||"",editLicenseExpiration:p.license_expiration||"",editJoinedOn:p.joined_on||"",
+    editMembershipStatus:p.membership_status||"pending",editDuesStatus:p.dues_status||"unpaid",
+    editVotingEligible:String(Boolean(p.voting_eligible)),editRole:p.role||"member",
+    editArrlMember:boolSelectValue(p.arrl_member),editTextingAllowed:boolSelectValue(p.texting_allowed),
+    editMobilePhone:p.mobile_phone||"",editHomePhone:p.home_phone||"",editAddress1:p.address1||"",
+    editAddress2:p.address2||"",editCity:p.city||"",editState:p.state||"",editZip:p.zip||"",
+    editMembershipNotes:p.membership_notes||""
+  };
+  Object.entries(values).forEach(([id,v])=>{const el=document.getElementById(id);if(el)el.value=v});
+  setText("memberEditorTitle",`${p.display_name||"Member"}${p.callsign?` • ${p.callsign}`:""}`);
+  const editor=document.getElementById("memberEditor");editor?.classList.remove("hidden");editor?.scrollIntoView({behavior:"smooth",block:"start"});
+}
+window.openDbMemberEditor=openDbMemberEditor;
+function nullableBool(id){const v=document.getElementById(id)?.value;return v==="true"?true:v==="false"?false:null}
+async function saveDbMemberEditor(){
+  const id=document.getElementById("editMemberId")?.value;if(!id)return;
+  const changes={
+    display_name:editDisplayName.value.trim(),callsign:editCallsign.value.trim()||null,email:editEmail.value.trim()||null,
+    license_class:editLicenseClass.value.trim()||null,license_expiration:editLicenseExpiration.value||null,joined_on:editJoinedOn.value||null,
+    membership_status:editMembershipStatus.value,dues_status:editDuesStatus.value,voting_eligible:editVotingEligible.value==="true",
+    role:editRole.value,arrl_member:nullableBool("editArrlMember"),texting_allowed:nullableBool("editTextingAllowed"),
+    mobile_phone:editMobilePhone.value.trim()||null,home_phone:editHomePhone.value.trim()||null,
+    address1:editAddress1.value.trim()||null,address2:editAddress2.value.trim()||null,city:editCity.value.trim()||null,
+    state:editState.value.trim()||null,zip:editZip.value.trim()||null,membership_notes:editMembershipNotes.value.trim()||null,
+    updated_at:new Date().toISOString()
+  };
+  if(!changes.display_name){alert("Name is required.");return}
+  try{
+    await TBOP.api.updateProfile(id,changes);
+    try{await TBOP.api.auditProfileChange(id,"profile_updated",{fields:Object.keys(changes)})}catch(_){}
+    document.getElementById("memberEditor")?.classList.add("hidden");await refreshDbModules();
+  }catch(e){alert("Could not save member: "+(e.message||e))}
+}
+function closeDbMemberEditor(){document.getElementById("memberEditor")?.classList.add("hidden")}
+window.saveDbMemberEditor=saveDbMemberEditor;
 
 function renderMetricsDb(){
   if(!dbConfigured()) return;
@@ -259,4 +314,14 @@ document.addEventListener("DOMContentLoaded",()=>{
   }
 
   refreshDbModules();
+});
+
+document.addEventListener("DOMContentLoaded",()=>{
+  ["memberSearch","memberStatusFilter","memberRoleFilter","memberDuesFilter"].forEach(id=>{
+    document.getElementById(id)?.addEventListener("input",renderMembersDb);
+    document.getElementById(id)?.addEventListener("change",renderMembersDb);
+  });
+  document.getElementById("saveMemberBtn")?.addEventListener("click",saveDbMemberEditor);
+  document.getElementById("cancelMemberBtn")?.addEventListener("click",closeDbMemberEditor);
+  document.getElementById("closeMemberEditor")?.addEventListener("click",closeDbMemberEditor);
 });

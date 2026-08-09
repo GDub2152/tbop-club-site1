@@ -1,5 +1,12 @@
 # TBOP Club Site Changelog
 
+## 13.2.4 — Usability & Editing
+- Current-time defaults for empty time inputs.
+- Member/Officer profile editing wired to Supabase.
+- Email shown in roster.
+- Equipment edit/save/cancel workflow.
+
+
 ## 13.2.3 — Audited Stability Release
 - Fixed stale service-worker cache version that could serve old site code.
 - Expanded cached assets to include split logins, Vault, backend, auth, and operations scripts.

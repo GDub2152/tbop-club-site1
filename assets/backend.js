@@ -503,6 +503,12 @@ window.TBOP = window.TBOP || {};
     const {data,error}=await window.TBOP.supabase.from("equipment_inventory").insert(row).select().single();
     if(error)throw error; return data;
   }
+  async function updateEquipment(id,row){
+    const {data,error}=await window.TBOP.supabase
+      .from("equipment_inventory").update({...row,updated_at:new Date().toISOString()})
+      .eq("id",id).select().single();
+    if(error)throw error; return data;
+  }
   async function listNews(publicOnly=false){
     let q=window.TBOP.supabase.from("news_posts").select("*").order("pinned",{ascending:false}).order("publish_at",{ascending:false});
     if(publicOnly)q=q.eq("status","published").eq("visibility","public");
@@ -601,6 +607,7 @@ window.TBOP = window.TBOP || {};
     createRepeaterMaintenance,
     listEquipment,
     createEquipment,
+    updateEquipment,
     listNews,
     createNews,
     updateNews,

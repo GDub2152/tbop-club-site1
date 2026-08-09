@@ -202,13 +202,14 @@
       <div class="card table-wrap">
         <table class="member-table">
           <thead>
-            <tr><th>Name</th><th>Callsign</th><th>Status</th><th>Voting</th><th>Dues</th><th>Role</th><th></th></tr>
+            <tr><th>Name</th><th>Callsign</th><th>Email</th><th>Status</th><th>Voting</th><th>Dues</th><th>Role</th><th>Actions</th></tr>
           </thead>
           <tbody id="memberTable"></tbody>
         </table>
       </div>
 
-      <div id="memberEditor" class="card member-editor hidden">
+      <div class="card member-edit-help"><strong>Member / Officer Details:</strong> Select <strong>Edit</strong> beside a roster entry to change name, email, callsign, dues, voting eligibility, membership status, officer role, and contact information.</div>
+<div id="memberEditor" class="card member-editor hidden">
         <div class="section-head">
           <div><span class="eyebrow">Edit Member</span><h3 id="memberEditorTitle">Member Profile</h3></div>
           <button id="closeMemberEditor" class="text-button" type="button">Close</button>
@@ -504,6 +505,7 @@
       <div class="page-head"><div><span class="eyebrow">Club Assets</span><h1>Equipment Inventory</h1></div></div>
       <div class="card">
         <form id="equipmentForm" class="form-grid">
+          <input id="eqEditId" type="hidden">
           <input id="eqName" placeholder="Equipment name" required>
           <input id="eqCategory" placeholder="Category">
           <input id="eqManufacturer" placeholder="Manufacturer">
@@ -513,7 +515,10 @@
           <input id="eqLocation" placeholder="Location">
           <select id="eqStatus"><option value="available">Available</option><option value="checked_out">Checked Out</option><option value="maintenance">Maintenance</option><option value="retired">Retired</option></select>
           <textarea id="eqNotes" placeholder="Notes"></textarea>
-          <button class="button" type="submit">Add Equipment</button>
+          <div class="equipment-form-actions">
+            <button id="equipmentSaveBtn" class="button" type="submit">Add Equipment</button>
+            <button id="equipmentCancelEditBtn" class="button secondary hidden" type="button">Cancel Edit</button>
+          </div>
         </form>
       </div>
       <div id="equipmentList" class="event-list"></div>

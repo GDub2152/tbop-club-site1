@@ -35,40 +35,29 @@ function renderRepeaterOps(){
 
 function renderEquipment(){
   const el=document.getElementById("equipmentList");if(!el)return;
-  el.innerHTML=TBOP_OPS.equipment.map(x=>`<article class="event-item"><div><span class="pill">${x.category||"Equipment"}</span><h3>${x.name}</h3><div class="event-meta">${x.manufacturer||""} ${x.model||""}${x.asset_tag?` • Tag ${x.asset_tag}`:""}</div><p>${x.notes||""}</p></div><span class="pill">${x.status.replaceAll("_"," ")}</span></article>`).join("")||`<div class="card"><p>No equipment recorded.</p></div>`;
+  el.innerHTML=TBOP_OPS.equipment.length?TBOP_OPS.equipment.map(x=>`<article class="event-item">
+    <div><span class="pill">${x.category||"Equipment"}</span><h3>${x.name}</h3>
+    <div class="event-meta">${x.manufacturer||""} ${x.model||""}${x.asset_tag?` • Tag ${x.asset_tag}`:""}${x.location?` • ${x.location}`:""}</div><p>${x.notes||""}</p></div>
+    <div class="equipment-item-actions"><span class="pill">${x.status.replaceAll("_"," ")}</span>
+    <button class="button secondary small" type="button" onclick="editEquipment('${x.id}')">Edit</button></div>
+  </article>`).join(""):`<div class="card"><p>No equipment recorded.</p></div>`;
 }
+function resetEquipmentEditor(){
+  document.getElementById("equipmentForm")?.reset();
+  const id=document.getElementById("eqEditId");if(id)id.value="";
+  setText("equipmentSaveBtn","Add Equipment");
+  document.getElementById("equipmentCancelEditBtn")?.classList.add("hidden");
+}
+function editEquipment(id){
+  const x=TBOP_OPS.equipment.find(e=>e.id===id);if(!x)return;
+  const v={eqEditId:x.id,eqName:x.name||"",eqCategory:x.category||"",eqManufacturer:x.manufacturer||"",eqModel:x.model||"",
+    eqSerial:x.serial_number||"",eqTag:x.asset_tag||"",eqLocation:x.location||"",eqStatus:x.status||"available",eqNotes:x.notes||""};
+  Object.entries(v).forEach(([id,val])=>{const el=document.getElementById(id);if(el)el.value=val});
+  setText("equipmentSaveBtn","Save Changes");document.getElementById("equipmentCancelEditBtn")?.classList.remove("hidden");
+  document.getElementById("equipmentForm")?.scrollIntoView({behavior:"smooth",block:"start"});
+}
+window.editEquipment=editEquipment;
 
-function newsDisplayStatus(post){
-  if(post.status==="archived")return "archived";
-  if(post.status==="draft")return "draft";
-  if(post.status==="published" && post.publish_at && new Date(post.publish_at)>new Date())return "scheduled";
-  if(post.status==="published")return "published";
-  if(post.status==="scheduled")return "scheduled";
-  return post.status||"draft";
-}
-function newsStatusLabel(status){
-  return status.charAt(0).toUpperCase()+status.slice(1);
-}
-function newsDateLabel(post){
-  const s=newsDisplayStatus(post);
-  if(s==="scheduled" && post.publish_at)return `Scheduled ${new Date(post.publish_at).toLocaleString()}`;
-  if(s==="published" && post.publish_at)return `Published ${new Date(post.publish_at).toLocaleString()}`;
-  return `Updated ${new Date(post.updated_at||post.created_at).toLocaleString()}`;
-}
-function filteredNewsPosts(){
-  let rows=[...TBOP_OPS.news];
-  const q=(document.getElementById("newsSearch")?.value||"").trim().toLowerCase();
-  const status=document.getElementById("newsStatusFilter")?.value||"";
-  const visibility=document.getElementById("newsVisibilityFilter")?.value||"";
-  if(q)rows=rows.filter(x=>
-    (x.title||"").toLowerCase().includes(q)||
-    (x.summary||"").toLowerCase().includes(q)||
-    (x.body||"").toLowerCase().includes(q)
-  );
-  if(status)rows=rows.filter(x=>newsDisplayStatus(x)===status);
-  if(visibility)rows=rows.filter(x=>x.visibility===visibility);
-  return rows;
-}
 function renderNews(){
   const admin=document.getElementById("newsAdminList");
   if(admin){
@@ -332,6 +321,7 @@ async function exportData(){
 }
 
 document.addEventListener("DOMContentLoaded",()=>{
+  document.getElementById("equipmentCancelEditBtn")?.addEventListener("click",resetEquipmentEditor);
 
   document.getElementById("newsForm")?.addEventListener("submit",e=>e.preventDefault());
   document.getElementById("saveNewsDraftBtn")?.addEventListener("click",saveNewsDraft);
@@ -348,7 +338,17 @@ document.addEventListener("DOMContentLoaded",()=>{
   if(document.getElementById("repMaintDate"))document.getElementById("repMaintDate").value=d;
   document.getElementById("repeaterAssetForm")?.addEventListener("submit",async e=>{e.preventDefault();const s=await TBOP.api.getSession();await TBOP.api.createRepeaterAsset({name:repAssetName.value,asset_type:repAssetType.value,manufacturer:repManufacturer.value||null,model:repModel.value||null,serial_number:repSerial.value||null,location:repLocation.value||null,status:repStatus.value,notes:repAssetNotes.value||null,created_by:s?.user?.id||null});e.target.reset();await loadOps();});
   document.getElementById("repeaterMaintenanceForm")?.addEventListener("submit",async e=>{e.preventDefault();const s=await TBOP.api.getSession();await TBOP.api.createRepeaterMaintenance({maintenance_date:repMaintDate.value,title:repMaintTitle.value,category:repMaintCategory.value||null,performed_by:repMaintBy.value||null,notes:repMaintNotes.value||null,swr:repMaintSWR.value?Number(repMaintSWR.value):null,forward_power:repMaintPower.value?Number(repMaintPower.value):null,firmware_version:repMaintFirmware.value||null,created_by:s?.user?.id||null});e.target.reset();repMaintDate.value=d;await loadOps();});
-  document.getElementById("equipmentForm")?.addEventListener("submit",async e=>{e.preventDefault();const s=await TBOP.api.getSession();await TBOP.api.createEquipment({name:eqName.value,category:eqCategory.value||null,manufacturer:eqManufacturer.value||null,model:eqModel.value||null,serial_number:eqSerial.value||null,asset_tag:eqTag.value||null,location:eqLocation.value||null,status:eqStatus.value,notes:eqNotes.value||null,created_by:s?.user?.id||null});e.target.reset();await loadOps();});
+  document.getElementById("equipmentForm")?.addEventListener("submit",async e=>{
+    e.preventDefault();const s=await TBOP.api.getSession();
+    const row={name:eqName.value,category:eqCategory.value||null,manufacturer:eqManufacturer.value||null,model:eqModel.value||null,
+      serial_number:eqSerial.value||null,asset_tag:eqTag.value||null,location:eqLocation.value||null,status:eqStatus.value,notes:eqNotes.value||null};
+    try{
+      const id=document.getElementById("eqEditId")?.value;
+      if(id)await TBOP.api.updateEquipment(id,row);
+      else{row.created_by=s?.user?.id||null;await TBOP.api.createEquipment(row)}
+      resetEquipmentEditor();await loadOps();
+    }catch(err){alert("Could not save equipment: "+(err.message||err))}
+  });
   document.getElementById("approvalForm")?.addEventListener("submit",async e=>{e.preventDefault();const s=await TBOP.api.getSession();await TBOP.api.createApproval({title:approvalTitle.value,approval_type:approvalType.value,status:"pending",requested_by:s?.user?.id||null,requested_at:new Date().toISOString(),notes:approvalNotes.value||null});e.target.reset();await loadOps();});
   document.getElementById("exportDataBtn")?.addEventListener("click",exportData);
   if(opsEnabled())setTimeout(loadOps,1100);

@@ -129,7 +129,7 @@
 
     <section id="view-members" class="portal-view">
       <div class="page-head">
-        <div><span class="eyebrow">Membership</span><h1>Member Management</h1></div>
+        <div><span class="eyebrow">Membership</span><h1>Member Management</h1><p class="muted">Authenticated user accounts are created in Supabase Auth. This screen manages the club profile record attached to each account.</p></div>
         <a class="button secondary small" href="documents/TBOP-Membership-Application.pdf" target="_blank" rel="noopener">Open Application PDF</a>
       </div>
       <form id="memberForm" class="card form-grid">
@@ -139,7 +139,7 @@
         <select id="memberStatus"><option>Active</option><option>Inactive</option><option>Pending</option></select>
         <select id="memberVoting"><option value="yes">Voting eligible</option><option value="no">Not voting eligible</option></select>
         <select id="memberDues"><option value="paid">Dues paid</option><option value="unpaid">Dues unpaid</option><option value="family">Family member</option></select>
-        <button class="button" type="submit">Add Demo Member</button>
+        <button id="memberSubmitBtn" class="button" type="submit">Add Member Record</button>
       </form>
 
       <div class="member-summary-grid">
@@ -150,7 +150,7 @@
 
       <div class="card table-wrap">
         <table>
-          <thead><tr><th>Name</th><th>Callsign</th><th>Status</th><th>Voting</th><th>Dues</th><th></th></tr></thead>
+          <thead><tr><th>Name</th><th>Callsign</th><th>Status</th><th>Voting</th><th>Dues</th><th>Role</th></tr></thead>
           <tbody id="memberTable"></tbody>
         </table>
       </div>
@@ -237,5 +237,6 @@
 <script src="assets/backend.js"></script>
 <script src="assets/auth.js"></script>
 <script src="assets/app.js"></script>
+<script src="assets/database-modules.js"></script>
 </body>
 </html>

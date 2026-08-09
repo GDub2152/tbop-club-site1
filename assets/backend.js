@@ -109,6 +109,70 @@ window.TBOP = window.TBOP || {};
     return data;
   }
 
+
+  async function listProfiles(){
+    if(!configured()) return null;
+    const {data,error}=await window.TBOP.supabase
+      .from("profiles")
+      .select("*")
+      .order("display_name",{ascending:true});
+    if(error) throw error;
+    return data;
+  }
+
+  async function createProfile(profile){
+    if(!configured()) throw new Error("Backend not configured");
+    const {data,error}=await window.TBOP.supabase
+      .from("profiles")
+      .insert(profile)
+      .select()
+      .single();
+    if(error) throw error;
+    return data;
+  }
+
+  async function updateProfile(id,changes){
+    if(!configured()) throw new Error("Backend not configured");
+    const {data,error}=await window.TBOP.supabase
+      .from("profiles")
+      .update(changes)
+      .eq("id",id)
+      .select()
+      .single();
+    if(error) throw error;
+    return data;
+  }
+
+  async function deleteProfile(id){
+    if(!configured()) throw new Error("Backend not configured");
+    const {error}=await window.TBOP.supabase
+      .from("profiles")
+      .delete()
+      .eq("id",id);
+    if(error) throw error;
+  }
+
+  async function updateEvent(id,changes){
+    if(!configured()) throw new Error("Backend not configured");
+    const {data,error}=await window.TBOP.supabase
+      .from("events")
+      .update(changes)
+      .eq("id",id)
+      .select()
+      .single();
+    if(error) throw error;
+    return data;
+  }
+
+  async function deleteEvent(id){
+    if(!configured()) throw new Error("Backend not configured");
+    const {error}=await window.TBOP.supabase
+      .from("events")
+      .delete()
+      .eq("id",id);
+    if(error) throw error;
+  }
+
   window.TBOP.api={
     configured,
     signIn,
@@ -119,6 +183,12 @@ window.TBOP = window.TBOP || {};
     listMyAccessibleEvents,
     listElections,
     createEvent,
+    updateEvent,
+    deleteEvent,
+    listProfiles,
+    createProfile,
+    updateProfile,
+    deleteProfile,
     createProfileIfMissing
   };
 })();

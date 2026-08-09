@@ -176,3 +176,33 @@ The demo login uses sessionStorage only. It is not a security boundary.
 - SETUP-CHECKLIST.md added
 
 Do not put service-role credentials or database passwords in browser-accessible files.
+
+
+## V8 database migration: Events + Membership
+
+V8 begins replacing browser-only localStorage with the real Supabase database.
+
+### Before uploading/using V8
+Run this migration in Supabase SQL Editor:
+
+`supabase/migrations/v8_profiles_events_rls.sql`
+
+It adds:
+- trusted database role helper functions
+- admin profile management policies
+- public/member/officer event read policies
+- officer event create/update/delete policies
+- indexes for events and profile roles
+
+### V8 behavior
+- Public calendar reads public events from Supabase
+- Homepage upcoming events read Supabase
+- Officer Calendar creates/removes database events
+- Member Portal reads permitted events
+- Officer Membership list reads real `profiles`
+- LocalStorage remains as fallback only when Supabase is not configured
+
+### Creating a member
+Create the login under Supabase Authentication > Users.
+The trigger creates the member profile automatically.
+Do not manufacture Auth user IDs from the browser.

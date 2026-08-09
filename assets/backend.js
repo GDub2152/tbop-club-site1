@@ -378,6 +378,106 @@ window.TBOP = window.TBOP || {};
     if(error) throw error;
   }
 
+
+  async function getFeatureFlag(key){
+    if(!configured()) return null;
+    const {data,error}=await window.TBOP.supabase
+      .from("feature_flags")
+      .select("*")
+      .eq("feature_key",key)
+      .single();
+    if(error) throw error;
+    return data;
+  }
+
+  async function setFeatureFlag(key,enabled,configuration=null){
+    if(!configured()) throw new Error("Backend not configured");
+    const session=await getSession();
+    const row={
+      feature_key:key,
+      enabled:Boolean(enabled),
+      updated_by:session?.user?.id||null,
+      updated_at:new Date().toISOString()
+    };
+    if(configuration!==null)row.configuration=configuration;
+    const {data,error}=await window.TBOP.supabase
+      .from("feature_flags")
+      .upsert(row,{onConflict:"feature_key"})
+      .select()
+      .single();
+    if(error) throw error;
+    return data;
+  }
+
+  async function createElection(row){
+    if(!configured()) throw new Error("Backend not configured");
+    const {data,error}=await window.TBOP.supabase
+      .from("elections").insert(row).select().single();
+    if(error) throw error;
+    return data;
+  }
+
+  async function updateElection(id,row){
+    if(!configured()) throw new Error("Backend not configured");
+    const {data,error}=await window.TBOP.supabase
+      .from("elections").update(row).eq("id",id).select().single();
+    if(error) throw error;
+    return data;
+  }
+
+  async function deleteElection(id){
+    if(!configured()) throw new Error("Backend not configured");
+    const {error}=await window.TBOP.supabase.from("elections").delete().eq("id",id);
+    if(error) throw error;
+  }
+
+  async function replaceElectionPositions(electionId,positions){
+    if(!configured()) throw new Error("Backend not configured");
+    const del=await window.TBOP.supabase.from("election_positions").delete().eq("election_id",electionId);
+    if(del.error) throw del.error;
+    for(let i=0;i<positions.length;i++){
+      const p=positions[i];
+      const {data:pos,error}=await window.TBOP.supabase
+        .from("election_positions")
+        .insert({
+          election_id:electionId,
+          office_name:p.office,
+          seat_count:p.seat_count||1,
+          sort_order:i,
+          allow_write_in:p.allow_write_in!==false
+        }).select().single();
+      if(error) throw error;
+      if(p.candidates?.length){
+        const rows=p.candidates.map((name,j)=>({
+          position_id:pos.id,
+          candidate_name:name,
+          sort_order:j
+        }));
+        const c=await window.TBOP.supabase.from("candidates").insert(rows);
+        if(c.error) throw c.error;
+      }
+    }
+  }
+
+  async function castBallot(electionId,choices){
+    if(!configured()) throw new Error("Backend not configured");
+    const {data,error}=await window.TBOP.supabase.rpc("cast_ballot",{
+      p_election:electionId,
+      p_choices:choices
+    });
+    if(error) throw error;
+    return data;
+  }
+
+  async function getElectionResults(electionId){
+    if(!configured()) throw new Error("Backend not configured");
+    const {data,error}=await window.TBOP.supabase.rpc("get_election_results",{
+      p_election:electionId
+    });
+    if(error) throw error;
+    return data;
+  }
+
   window.TBOP.api={
     configured,
     signIn,
@@ -414,6 +514,14 @@ window.TBOP = window.TBOP || {};
     createMembershipPayment,
     deleteMembershipPayment,
     auditFinancialChange,
+    getFeatureFlag,
+    setFeatureFlag,
+    createElection,
+    updateElection,
+    deleteElection,
+    replaceElectionPositions,
+    castBallot,
+    getElectionResults,
     createProfileIfMissing
   };
 })();

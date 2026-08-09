@@ -258,3 +258,24 @@ Run `supabase/migrations/v10_secretary_workspace.sql` before using V10.
 - Financial audit-log helper
 
 Run `supabase/migrations/v11_treasurer.sql` before using V11.
+
+
+## V12 Optional Voting & Elections
+
+- Voting can be enabled or disabled without deleting data
+- President/Admin feature-toggle control
+- Disabled voting disappears from Member and Officer navigation
+- Officer election builder writes to Supabase
+- Election Draft/Open/Closed workflow
+- Nine TBOP officer positions supported
+- Candidate management
+- Write-in voting
+- Eligible members only
+- One ballot per member per election
+- Voter receipt separated from anonymous ballot choices
+- Secure ballot RPC
+- Results hidden until close unless configured live
+- Internal election results view
+- Existing data preserved when voting is disabled
+
+Run `supabase/migrations/v12_optional_voting.sql` before using V12.

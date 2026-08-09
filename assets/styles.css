@@ -189,3 +189,26 @@
 @media(max-width:950px){
   .finance-layout{grid-template-columns:1fr}
 }
+
+/* ===== V12 Optional Voting ===== */
+.system-setting-card{margin-bottom:22px;border-left:3px solid var(--accent)}
+.setting-row{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
+.setting-status{display:flex;align-items:center;gap:12px;margin-top:15px;padding-top:15px;border-top:1px solid var(--line)}
+.switch{position:relative;display:inline-block;width:60px;height:34px}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;cursor:pointer;inset:0;background:#34383d;border-radius:34px;transition:.2s;border:1px solid #484d52}
+.slider:before{content:"";position:absolute;height:26px;width:26px;left:3px;bottom:3px;background:white;border-radius:50%;transition:.2s}
+.switch input:checked + .slider{background:var(--accent);border-color:var(--accent)}
+.switch input:checked + .slider:before{transform:translateX(26px)}
+.voting-disabled-card{text-align:center;padding:50px 25px;border:1px dashed #6b4a2b}
+.ballot-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:999;display:grid;place-items:center;padding:20px}
+.ballot-modal{width:min(760px,100%);max-height:90vh;overflow:auto;background:#0d1012;border:1px solid var(--line);border-radius:18px;padding:25px;box-shadow:0 30px 100px rgba(0,0,0,.55)}
+.ballot-fieldset{border:1px solid var(--line);border-radius:12px;margin:0 0 16px;padding:15px}
+.ballot-fieldset legend{color:var(--accent);font-weight:900;padding:0 8px}
+.ballot-choice{display:block;padding:9px;border-bottom:1px solid #222;cursor:pointer}
+.ballot-choice:last-child{border-bottom:0}
+.ballot-choice input[type="radio"]{width:auto;margin-right:8px}
+.write-in-input{display:inline-block;width:min(280px,55%);margin-left:10px;padding:7px}
+@media(max-width:650px){
+  .setting-row{grid-template-columns:1fr}
+}

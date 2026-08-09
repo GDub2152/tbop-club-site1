@@ -395,6 +395,12 @@
     </section>
 
     <section id="view-voting" class="portal-view">
+      <div id="votingDisabledAdmin" class="card voting-disabled-card hidden">
+        <span class="eyebrow">Voting Disabled</span>
+        <h3>Built-in voting is currently turned off.</h3>
+        <p>The club may use paper ballots, an outside service, or another method. Existing election records are preserved.</p>
+      </div>
+      <div id="votingAdminContent">
       <div class="page-head"><div><span class="eyebrow">Members Voting</span><h1>Elections & Polls</h1></div></div>
 
       <div class="card election-builder">
@@ -439,6 +445,7 @@
       </div>
 
       <div id="voteList" class="event-list"></div>
+      </div>
     </section>
 
     <section id="view-repeater" class="portal-view">
@@ -454,8 +461,31 @@
     </section>
 
     <section id="view-website" class="portal-view">
-      <div class="page-head"><div><span class="eyebrow">Website Admin</span><h1>Content Management</h1></div></div>
-      <div class="card-grid three"><div class="card"><h3>Announcements</h3><p>Post club news without manually editing HTML.</p></div><div class="card"><h3>Public Documents</h3><p>Choose which approved files appear on the public site.</p></div><div class="card"><h3>Homepage</h3><p>Manage featured notices, repeater information and quick links.</p></div></div>
+      <div class="page-head"><div><span class="eyebrow">Website Admin</span><h1>Content & System Settings</h1></div></div>
+
+      <div class="card system-setting-card">
+        <div class="setting-row">
+          <div>
+            <span class="eyebrow">Optional Module</span>
+            <h3>Member Voting & Elections</h3>
+            <p class="muted">Turn the entire built-in voting system on or off. Disabling it hides voting from members and officers without deleting archived elections or results.</p>
+          </div>
+          <label class="switch">
+            <input id="votingEnabledToggle" type="checkbox">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="setting-status">
+          <span id="votingFeatureStatus" class="pill">Checking…</span>
+          <small id="votingFeatureHelp" class="muted">Only the President or Administrator can change this setting.</small>
+        </div>
+      </div>
+
+      <div class="card-grid three">
+        <div class="card"><h3>Announcements</h3><p>Post club news without manually editing HTML.</p></div>
+        <div class="card"><h3>Public Documents</h3><p>Choose which approved files appear on the public site.</p></div>
+        <div class="card"><h3>Homepage</h3><p>Manage featured notices, repeater information and quick links.</p></div>
+      </div>
     </section>
   </main>
 </div>
@@ -469,5 +499,6 @@
 <script src="assets/member-admin.js"></script>
 <script src="assets/secretary-db.js"></script>
 <script src="assets/treasurer.js"></script>
+<script src="assets/voting.js"></script>
 </body>
 </html>

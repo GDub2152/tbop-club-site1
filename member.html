@@ -49,12 +49,19 @@
     </section>
 
     <section id="member-voting" class="member-view">
+      <div id="memberVotingDisabled" class="card voting-disabled-card hidden">
+        <span class="eyebrow">Voting</span>
+        <h2>Online voting is not currently enabled.</h2>
+        <p>The club may choose another voting method. Check club announcements for election instructions.</p>
+      </div>
+      <div id="memberVotingContent">
       <div class="page-head"><div><span class="eyebrow">Voting</span><h1>Member Ballots</h1></div></div>
       <div class="card security-callout">
         <strong>Secret-ballot design</strong>
         <p>When the backend is connected, voter eligibility and ballot choices will be stored separately so administrators can verify that a member voted without linking that member to a specific choice.</p>
       </div>
       <div id="memberVotingList" class="event-list"></div>
+      </div>
     </section>
 
     <section id="member-documents" class="member-view">
@@ -92,5 +99,6 @@
 <script src="assets/auth.js"></script>
 <script src="assets/app.js"></script>
 <script src="assets/database-modules.js"></script>
+<script src="assets/voting.js"></script>
 </body>
 </html>

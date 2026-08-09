@@ -100,3 +100,15 @@ The next major step should be authentication + database integration. The static 
 
 ## V2 redesign
 Dark/orange TBOP branding, supplied logo placeholder, homepage dashboard, public events, membership, news, documents, contact, and responsive navigation.
+
+
+## V3 live data
+
+- Live current weather for ZIP 44135 area via Open-Meteo
+- NOAA SWPC F10.7 solar flux and planetary Kp feeds
+- Automatic HF qualitative band estimates based on SFI and Kp
+- 6m shown as Variable; 2m/70cm shown as Local because these are not reliably inferred from HF solar indices
+- Automatic refresh every 10 minutes
+- Graceful fallback if a public feed is unavailable
+
+The band labels are estimates, not propagation guarantees.

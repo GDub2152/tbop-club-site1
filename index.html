@@ -23,11 +23,37 @@
 </div></section>
 
 <section class="dashboard-strip"><div class="container dashboard-grid">
-<article class="dash-card"><span class="dash-label">Repeater Status</span><strong>Information Pending</strong><small>Frequency, PL tone, and link status will appear here.</small></article>
-<article class="dash-card"><span class="dash-label">Weather</span><strong>Live Weather</strong><small>Cleveland-area weather feed coming next.</small></article>
-<article class="dash-card"><span class="dash-label">Solar Conditions</span><strong>SFI • A • K</strong><small>Live propagation values will populate here.</small></article>
-<article class="dash-card"><span class="dash-label">Band Conditions</span><strong>HF • 6m • 2m • 70cm</strong><small>Live amateur-radio band conditions coming next.</small></article>
-<article class="dash-card"><span class="dash-label">Next Club Meeting</span><strong id="nextEvent">Loading…</strong><a href="calendar.html">View Calendar →</a></article>
+<article class="dash-card">
+  <span class="dash-label">Repeater Status</span>
+  <strong>Information Pending</strong>
+  <small>Frequency, PL tone, and link status will appear here when finalized.</small>
+</article>
+<article class="dash-card">
+  <span class="dash-label">Weather • 44135</span>
+  <strong id="wxTemp">Loading…</strong>
+  <small id="wxDetail">Cleveland, Ohio</small>
+  <div class="mini-data"><span id="wxHumidity">Humidity —</span><span id="wxWind">Wind —</span></div>
+</article>
+<article class="dash-card">
+  <span class="dash-label">Solar Conditions</span>
+  <strong><span id="solarSfi">SFI —</span> <span class="sep">•</span> <span id="solarKp">Kp —</span></strong>
+  <small id="solarDetail">Loading NOAA space-weather data…</small>
+  <div class="mini-data"><span id="solarRating">HF outlook —</span></div>
+</article>
+<article class="dash-card">
+  <span class="dash-label">Band Conditions</span>
+  <div id="bandGrid" class="band-grid">
+    <span>80m <b>—</b></span><span>40m <b>—</b></span><span>20m <b>—</b></span>
+    <span>17m <b>—</b></span><span>15m <b>—</b></span><span>10m <b>—</b></span>
+    <span>6m <b>Variable</b></span><span>2m <b>Local</b></span><span>70cm <b>Local</b></span>
+  </div>
+</article>
+<article class="dash-card">
+  <span class="dash-label">Next Club Meeting</span>
+  <strong id="nextEvent">Loading…</strong>
+  <a href="calendar.html">View Calendar →</a>
+  <small id="liveUpdated">Live data loading…</small>
+</article>
 </div></section>
 
 <section id="about" class="section"><div class="container split">

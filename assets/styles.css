@@ -503,3 +503,21 @@ body.modal-open{overflow:hidden}
 .member-login-links a{color:var(--accent,#ff6a00)}
 .approval-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
 @media(max-width:700px){.approval-actions{width:100%;justify-content:flex-start}}
+
+/* TBOP 14.0.3 — Expandable homepage conditions */
+.expandable-dash-card{padding:0;display:block;min-height:150px}
+.expandable-dash-card summary{list-style:none;cursor:pointer;padding:20px;min-height:110px;display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+.expandable-dash-card summary::-webkit-details-marker{display:none}
+.dash-summary-copy{display:flex;flex-direction:column;gap:8px;min-width:0}
+.dash-expand-label{margin-left:auto;color:var(--accent);font-size:.72rem;font-weight:900;white-space:nowrap;text-transform:uppercase;letter-spacing:.06em}
+.expandable-dash-card .dash-expand-label:after{content:'  +';font-size:1rem}
+.expandable-dash-card[open] .dash-expand-label{font-size:0}
+.expandable-dash-card[open] .dash-expand-label:before{content:'Hide Details';font-size:.72rem}
+.expandable-dash-card[open] .dash-expand-label:after{content:'  −';font-size:1rem}
+.dash-expand-body{padding:0 20px 20px;border-top:1px solid var(--line);animation:tbopExpandIn .16s ease-out}
+.dash-expand-body>small{display:block;margin-top:14px}
+.expandable-dash-card .mini-data{margin-top:12px}
+.band-expand-card .dash-expand-body{padding-top:14px}
+.expandable-dash-card summary:hover,.expandable-dash-card summary:focus-visible{background:rgba(255,106,0,.035);outline:none}
+@keyframes tbopExpandIn{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+@media(max-width:650px){.expandable-dash-card summary{min-height:auto;padding:17px}.dash-expand-body{padding:0 17px 17px}}

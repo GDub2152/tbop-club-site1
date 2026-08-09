@@ -1,5 +1,13 @@
 # TBOP Club Site Changelog
 
+## 14.0.3 — Expandable Conditions
+- Weather remains visible with current temperature and expands for detail.
+- Solar conditions remain visible with SFI/Kp and expand for detail.
+- Band Conditions remains on the homepage and expands to the full band grid.
+- Native details/summary controls work without JavaScript.
+- Service-worker cache bumped to v14.0.3.
+
+
 ## 14.0.2 — Signup RLS Fix
 - Removed browser-side insert into public.profiles during signup.
 - Added auth.users trigger that creates the profile server-side.

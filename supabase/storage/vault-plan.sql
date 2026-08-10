@@ -1,4 +1,0 @@
--- Replaced by the finalized beta migration:
--- ../migrations/20260808_001_document_vault.sql
---
--- Do not create a public bucket for protected club documents.

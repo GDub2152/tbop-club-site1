@@ -284,3 +284,16 @@ document.addEventListener("DOMContentLoaded",()=>{
 
   if(votingBackend())setTimeout(loadVotingFeature,900);
 });
+
+function productionGeneralVoteGuard(e){
+  e.preventDefault();
+  alert("General polls are not enabled in this production release. Use Officer Elections or the club's alternate voting method.");
+}
+document.addEventListener("DOMContentLoaded",()=>{
+  const f=document.getElementById("voteForm");
+  if(f){
+    const fresh=f.cloneNode(true);
+    f.replaceWith(fresh);
+    fresh.addEventListener("submit",productionGeneralVoteGuard);
+  }
+});

@@ -668,3 +668,6 @@ body.modal-open{overflow:hidden}
   .condition-detail-grid,
   .condition-band-table{grid-template-columns:1fr}
 }
+
+/* TBOP 15.0 RC1 production status */
+.warning-banner.production-ready-banner{background:#12351f;border-color:#2d7141;color:#c9f7d5}

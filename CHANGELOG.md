@@ -1,5 +1,14 @@
 # TBOP Club Site Changelog
 
+## 15.0.0 RC1 — Production Candidate
+- Removed demo-login fallback; authentication now fails closed.
+- Added secure backend status messaging.
+- Cleaned Demo labels from production controls.
+- Disabled legacy local-only General Poll creation for launch safety.
+- Added production launch checklist and RC release notes.
+- Bumped service-worker cache.
+
+
 ## 14.0.4 — Conditions Detail Viewer
 - Restored Weather, Solar Conditions, and Band Conditions to the normal homepage card layout.
 - Removed the inline expandable/collapsible treatment introduced in 14.0.3.

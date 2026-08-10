@@ -37,10 +37,8 @@ window.TBOP = window.TBOP || {};
       return;
     }
 
-    sessionStorage.setItem(DEMO_KEY,JSON.stringify({
-      role:"member",email,name:"Demo Member",demo:true
-    }));
-    location.href="member.html";
+    alert("Member login is temporarily unavailable because the secure backend is not configured.");
+    btn.disabled=false;
   }
 
   async function officerLogin(e){
@@ -76,11 +74,8 @@ window.TBOP = window.TBOP || {};
       return;
     }
 
-    const demoRole=expected==="auto"?"president":expected;
-    sessionStorage.setItem(DEMO_KEY,JSON.stringify({
-      role:demoRole,email,name:"Demo Officer",demo:true
-    }));
-    location.href="portal.html";
+    alert("Officer login is temporarily unavailable because the secure backend is not configured.");
+    btn.disabled=false;
   }
 
   document.addEventListener("DOMContentLoaded",()=>{
@@ -90,17 +85,21 @@ window.TBOP = window.TBOP || {};
     const memberNotice=document.getElementById("memberAuthModeNotice");
     const officerNotice=document.getElementById("officerAuthModeNotice");
     const secure=Boolean(window.TBOP.api?.configured());
+    const memberBtn=document.getElementById("memberLoginBtn");
+    const officerBtn=document.getElementById("officerLoginBtn");
+    if(memberBtn)memberBtn.disabled=!secure;
+    if(officerBtn)officerBtn.disabled=!secure;
 
     if(memberNotice){
       memberNotice.textContent=secure
         ?"SECURE MEMBER LOGIN — connected to Supabase."
-        :"DEMO MEMBER LOGIN — Supabase is not configured.";
+        :"MEMBER LOGIN UNAVAILABLE — secure backend is not configured.";
       if(secure)memberNotice.classList.add("secure-auth-notice");
     }
     if(officerNotice){
       officerNotice.textContent=secure
         ?"SECURE OFFICER LOGIN — your selected role is verified against Supabase."
-        :"DEMO OFFICER LOGIN — choose a role to preview the Officer Portal.";
+        :"OFFICER LOGIN UNAVAILABLE — secure backend is not configured.";
       if(secure)officerNotice.classList.add("secure-auth-notice");
     }
   });

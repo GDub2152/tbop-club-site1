@@ -33,10 +33,10 @@
   </aside>
 
   <main class="portal-main">
-    <div class="warning-banner">DEMO FRONT END — Do not store real private member, financial, password, or ballot data here until the secure backend is connected.</div>
+    <div class="warning-banner">Checking secure backend connection…</div>
 
     <section id="view-dashboard" class="portal-view active">
-      <div class="page-head"><div><span class="eyebrow">Officer Portal</span><h1>Dashboard</h1></div><span id="officerRoleBadge" class="role-badge">Demo Administrator</span></div>
+      <div class="page-head"><div><span class="eyebrow">Officer Portal</span><h1>Dashboard</h1></div><span id="officerRoleBadge" class="role-badge">Officer</span></div>
       <div class="card-grid four">
         <div class="metric"><span>Active Members</span><strong id="memberMetric">0</strong></div>
         <div class="metric"><span>Upcoming Events</span><strong id="eventMetric">0</strong></div>
@@ -432,7 +432,7 @@
           <select id="electionWriteIn"><option value="yes">Allow write-ins</option><option value="no">No write-ins</option></select>
           <select id="electionResults"><option value="closed">Hide results until closed</option><option value="live">Show live results</option></select>
         </div>
-        <button id="createOfficerElectionBtn" type="button" class="button">Create Demo Officer Election</button>
+        <button id="createOfficerElectionBtn" type="button" class="button">Create Officer Election</button>
       </div>
 
       <div class="card vote-divider-card">
@@ -444,13 +444,14 @@
         <input id="voteOptions" placeholder="Choices separated by commas" required>
         <input id="voteClose" type="date">
         <select id="voteType"><option>Secret ballot</option><option>Open poll</option></select>
-        <button class="button" type="submit">Create Demo Vote</button>
+        <button class="button secondary" type="submit" disabled>General Polls Not Yet Enabled</button>
+        <p class="field-help">For launch, general polls remain disabled until their secure database workflow is completed. Officer Elections can still be used when the Voting feature is enabled.</p>
       </form>
 
       <div class="voting-summary card-grid three">
         <div class="metric"><span>Eligible Members</span><strong id="votingEligibleMetric">0</strong></div>
         <div class="metric"><span>Active Ballots</span><strong id="activeBallotMetric">0</strong></div>
-        <div class="metric"><span>Ballot Security</span><strong class="small-metric">Backend Required</strong></div>
+        <div class="metric"><span>Ballot Security</span><strong class="small-metric">Supabase Secured</strong></div>
       </div>
 
       <div id="voteList" class="event-list"></div>

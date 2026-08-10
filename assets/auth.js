@@ -18,9 +18,6 @@ window.TBOP = window.TBOP || {};
     try{return await window.TBOP.api.getMyProfile()}catch(e){console.error(e);return null}
   }
 
-  function demoSession(){
-    try{return JSON.parse(sessionStorage.getItem(DEMO_KEY)||"null")}catch(e){return null}
-  }
 
   async function currentUser(){
     const session=await realSession();
@@ -35,15 +32,8 @@ window.TBOP = window.TBOP || {};
         profile
       };
     }
-    const demo=demoSession();
-    if(demo){
-      return {
-        mode:"demo",
-        email:demo.email,
-        role:demo.role||"member",
-        name:demo.name||"Demo Member"
-      };
-    }
+    // Production mode fails closed: no secure Supabase session means no user.
+    sessionStorage.removeItem(DEMO_KEY);
     return null;
   }
 

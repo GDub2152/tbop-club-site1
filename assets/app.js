@@ -1,4 +1,18 @@
 
+function tbopProductionStatusUi(){
+  const banner=document.querySelector(".warning-banner");
+  if(!banner)return;
+  const secure=Boolean(window.TBOP?.api?.configured?.());
+  if(secure){
+    banner.textContent="SECURE BACKEND CONNECTED — Officer Portal data is using the configured Supabase project.";
+    banner.classList.add("production-ready-banner");
+  }else{
+    banner.textContent="SECURE BACKEND UNAVAILABLE — Officer Portal access is disabled until Supabase configuration is restored.";
+    banner.classList.remove("production-ready-banner");
+  }
+}
+
+
 function tbopLocalNowParts(){
   const d=new Date(),pad=n=>String(n).padStart(2,"0");
   return {
@@ -487,7 +501,7 @@ function applyOfficerRole(){
   if(!document.getElementById("officerRoleBadge"))return;
   const session=getSession();
   const role=session?.role||"admin";
-  setText("officerRoleBadge",`Demo ${roleLabels[role]||"Administrator"}`);
+  setText("officerRoleBadge",`${roleLabels[role]||"Administrator"}`);
 
   const allowed={
     president:["dashboard","calendar","meetings","members","documents","treasurer","voting","repeater","equipment","news","analytics","approvals","backup","website"],
@@ -600,3 +614,5 @@ document.addEventListener("DOMContentLoaded",()=>{
 });
 
 document.addEventListener("DOMContentLoaded",installCurrentTimeDefaults);
+
+document.addEventListener("DOMContentLoaded",tbopProductionStatusUi);

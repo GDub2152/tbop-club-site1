@@ -1,0 +1,20 @@
+TBOP EASY ADMIN SETUP
+=====================
+
+1. Upload this site to GitHub Pages.
+2. Open setup.html in your browser.
+3. Paste your Supabase Project URL and public publishable/anon key.
+4. Click Test Connection.
+5. Click Create Configuration File.
+6. Your browser downloads supabase-config.js.
+7. In the GitHub repository, replace the existing placeholder supabase-config.js with the downloaded file.
+8. Run supabase-setup.sql once in Supabase SQL Editor if you have not already done so.
+9. Create officer accounts under Supabase > Authentication > Users.
+10. Add each officer's Auth UUID to public.site_admins.
+11. Open admin.html and sign in using that officer's EMAIL and PASSWORD.
+
+IMPORTANT
+---------
+The static GitHub Pages site cannot permanently rewrite its own files from a browser. The setup page safely generates the one configuration file you upload once. After that, normal admin work (document upload/delete) is done entirely from the website.
+
+Never put a service_role or secret key in GitHub. Use only the public publishable/anon key.

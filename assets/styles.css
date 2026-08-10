@@ -671,3 +671,6 @@ body.modal-open{overflow:hidden}
 
 /* TBOP 15.0 RC1 production status */
 .warning-banner.production-ready-banner{background:#12351f;border-color:#2d7141;color:#c9f7d5}
+
+/* TBOP 15.0.0 RC2 — permanent News cleanup */
+.news-delete-permanent{border-style:dashed}

@@ -186,6 +186,7 @@ function renderNews(){
           ${status==="published"?`<button class="button secondary small" onclick="unpublishNews('${x.id}')">Unpublish</button>`:""}
           ${status!=="archived"?`<button class="button secondary small" onclick="toggleNewsPin('${x.id}')">${x.pinned?"Unpin":"Pin"}</button>`:""}
           ${status!=="archived"?`<button class="button danger small" onclick="archiveNews('${x.id}')">Archive</button>`:`<button class="button secondary small" onclick="restoreNewsDraft('${x.id}')">Restore to Draft</button>`}
+          ${(status==="archived"||status==="draft")?`<button class="button danger small news-delete-permanent" onclick="deleteNewsPermanently('${x.id}')">Delete Permanently</button>`:""}
         </div>
       </article>`;
     }).join(""):`<div class="card"><p>No news posts match the current filters.</p></div>`;
@@ -319,6 +320,21 @@ async function restoreNewsDraft(id){
   try{await TBOP.api.updateNews(id,{status:"draft",publish_at:null});await loadOps();}
   catch(e){alert("Could not restore: "+(e.message||e))}
 }
+async function deleteNewsPermanently(id){
+  const post=getNewsById(id);
+  if(!post)return;
+  const label=post.title||"this news post";
+  if(!confirm(`Permanently delete "${label}"?\n\nThis cannot be undone.`))return;
+  if(!confirm("Final confirmation: permanently remove this news/announcement from the database?"))return;
+  try{
+    await TBOP.api.deleteNews(id);
+    if(TBOP_NEWS_EDITOR.editingId===id)resetNewsEditor();
+    await loadOps();
+    alert("News post permanently deleted.");
+  }catch(e){
+    alert("Could not delete news post: "+(e.message||e));
+  }
+}
 async function toggleNewsPin(id){
   const p=getNewsById(id);if(!p)return;
   try{await TBOP.api.updateNews(id,{pinned:!p.pinned});await loadOps();}
@@ -328,6 +344,7 @@ window.publishStoredNews=publishStoredNews;
 window.unpublishNews=unpublishNews;
 window.archiveNews=archiveNews;
 window.restoreNewsDraft=restoreNewsDraft;
+window.deleteNewsPermanently=deleteNewsPermanently;
 window.toggleNewsPin=toggleNewsPin;
 
 function openPublicNews(id){

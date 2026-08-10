@@ -1,5 +1,13 @@
 # TBOP Club Site Changelog
 
+## 15.0.0 RC2 — News Cleanup Hotfix
+- Added Delete Permanently to archived News & Announcements.
+- Draft/test posts may also be permanently deleted.
+- Published/scheduled announcements must be unpublished or archived first.
+- Permanent deletion requires two confirmations.
+- News editor resets if the post currently being edited is deleted.
+
+
 ## 15.0.0 RC1 — Production Candidate
 - Removed demo-login fallback; authentication now fails closed.
 - Added secure backend status messaging.

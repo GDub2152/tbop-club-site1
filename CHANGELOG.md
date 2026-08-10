@@ -1,5 +1,13 @@
 # TBOP Club Site Changelog
 
+## 15.0.0 RC3 — News Permanent Delete / RLS Fix
+- Delete Permanently is now available for all News statuses, including the current published test card.
+- Published/scheduled deletion warns that the item will disappear immediately.
+- Backend verifies that Supabase actually removed a row instead of treating an RLS-blocked zero-row delete as success.
+- Adds explicit executive DELETE RLS policy for `news_posts`.
+- Public news query now hides scheduled posts until their publish time arrives.
+
+
 ## 15.0.0 RC2 — News Cleanup Hotfix
 - Added Delete Permanently to archived News & Announcements.
 - Draft/test posts may also be permanently deleted.

@@ -186,7 +186,7 @@ function renderNews(){
           ${status==="published"?`<button class="button secondary small" onclick="unpublishNews('${x.id}')">Unpublish</button>`:""}
           ${status!=="archived"?`<button class="button secondary small" onclick="toggleNewsPin('${x.id}')">${x.pinned?"Unpin":"Pin"}</button>`:""}
           ${status!=="archived"?`<button class="button danger small" onclick="archiveNews('${x.id}')">Archive</button>`:`<button class="button secondary small" onclick="restoreNewsDraft('${x.id}')">Restore to Draft</button>`}
-          ${(status==="archived"||status==="draft")?`<button class="button danger small news-delete-permanent" onclick="deleteNewsPermanently('${x.id}')">Delete Permanently</button>`:""}
+          <button class="button danger small news-delete-permanent" onclick="deleteNewsPermanently('${x.id}')">Delete Permanently</button>
         </div>
       </article>`;
     }).join(""):`<div class="card"><p>No news posts match the current filters.</p></div>`;
@@ -324,8 +324,13 @@ async function deleteNewsPermanently(id){
   const post=getNewsById(id);
   if(!post)return;
   const label=post.title||"this news post";
+  const status=newsDisplayStatus(post);
+
+  if(status==="published"||status==="scheduled"){
+    if(!confirm(`"${label}" is currently ${status}. Permanently deleting it will remove it from the public website immediately.\n\nContinue?`))return;
+  }
   if(!confirm(`Permanently delete "${label}"?\n\nThis cannot be undone.`))return;
-  if(!confirm("Final confirmation: permanently remove this news/announcement from the database?"))return;
+
   try{
     await TBOP.api.deleteNews(id);
     if(TBOP_NEWS_EDITOR.editingId===id)resetNewsEditor();

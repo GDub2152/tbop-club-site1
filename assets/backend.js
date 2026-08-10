@@ -596,7 +596,10 @@ window.TBOP = window.TBOP || {};
   }
   async function listNews(publicOnly=false){
     let q=window.TBOP.supabase.from("news_posts").select("*").order("pinned",{ascending:false}).order("publish_at",{ascending:false});
-    if(publicOnly)q=q.eq("status","published").eq("visibility","public");
+    if(publicOnly){
+      q=q.eq("status","published").eq("visibility","public")
+        .or(`publish_at.is.null,publish_at.lte.${new Date().toISOString()}`);
+    }
     const {data,error}=await q;if(error)throw error;return data;
   }
   async function createNews(row){
@@ -612,8 +615,16 @@ window.TBOP = window.TBOP || {};
   }
 
   async function deleteNews(id){
-    const {error}=await window.TBOP.supabase.from("news_posts").delete().eq("id",id);
+    const {data,error}=await window.TBOP.supabase
+      .from("news_posts")
+      .delete()
+      .eq("id",id)
+      .select("id");
     if(error)throw error;
+    if(!data || data.length===0){
+      throw new Error("Supabase did not delete the post. The news_posts DELETE RLS policy is probably blocking this account.");
+    }
+    return data[0];
   }
   async function listApprovals(){
     const {data,error}=await window.TBOP.supabase.from("document_approvals").select("*").order("created_at",{ascending:false});

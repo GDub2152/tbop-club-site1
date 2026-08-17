@@ -1,65 +1,21 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0c1117"><title>Solar | The Blowtorch of Parma</title><link rel="stylesheet" href="styles.css"></head><body><header class="site-header"><div class="wrap nav"><a class="brand" href="index.html"><span class="brand-mark">⌁</span><span>THE BLOWTORCH OF PARMA<small>AMATEUR RADIO CLUB</small></span></a><nav class="menu"><a href="index.html">Home</a><a href="calendar.html">Calendar</a><a href="solar.html">Solar</a><a href="membership.html">Membership</a><a href="documents.html">Documents</a><a href="news.html">News</a></nav></div></header><main><section class="page-head solar-head"><div class="wrap"><div class="eyebrow">Propagation Dashboard</div><h1>Solar Conditions</h1><p class="muted">Live space-weather indicators for amateur-radio operators, presented in a quick station-dashboard format.</p><div class="solar-head-status"><span class="pulse-dot"></span><span id="solar-status">Connecting to NOAA SWPC…</span></div></div></section>
-<section class="solar-dashboard"><div class="wrap"><div class="solar-main-grid">
-<article class="solar-gauge-card"><div class="gauge-label"><span>Solar Flux Index</span><span class="data-source">NOAA LIVE</span></div><div class="gauge-row"><div class="orb sun-orb"><span id="sfi">—</span><small>SFI</small></div><div class="gauge-copy"><h2 id="sfi-rating">Reading solar flux…</h2><p>Higher SFI generally improves propagation on the upper HF bands.</p><div class="scale"><span>Low</span><div class="scale-track"><div id="sfi-bar" class="scale-fill"></div></div><span>High</span></div></div></div></article>
-<article class="solar-gauge-card"><div class="gauge-label"><span>Planetary K Index</span><span class="data-source">NOAA LIVE</span></div><div class="gauge-row"><div class="orb kp-orb"><span id="kp">—</span><small>Kp</small></div><div class="gauge-copy"><h2 id="kp-rating">Reading geomagnetic activity…</h2><p>Lower Kp usually means quieter geomagnetic conditions and more stable HF paths.</p><div class="scale"><span>Quiet</span><div class="scale-track"><div id="kp-bar" class="scale-fill"></div></div><span>Storm</span></div></div></div></article>
-</div>
-<div class="propagation-banner"><div><div class="eyebrow">Current outlook</div><h2 id="propagation-title">Analyzing conditions…</h2><p id="propagation-copy">Live values will be interpreted here when NOAA data loads.</p></div><div id="solar-badge" class="condition-badge large neutral">Loading</div></div>
-<div class="band-guide"><div class="section-title"><div class="eyebrow">Quick Reference</div><h2>What the numbers mean</h2></div><div class="band-guide-grid"><div class="guide-card"><span class="guide-range">SFI 70–99</span><strong>Lower solar support</strong><p>Lower HF bands may still perform well, especially at night.</p></div><div class="guide-card"><span class="guide-range">SFI 100–149</span><strong>Good solar support</strong><p>Improved opportunities on 20–10 meters depending on path and time.</p></div><div class="guide-card"><span class="guide-range">SFI 150+</span><strong>Strong solar support</strong><p>Higher HF bands can become very productive when geomagnetic conditions cooperate.</p></div><div class="guide-card"><span class="guide-range">Kp 0–2</span><strong>Quiet field</strong><p>Generally favorable for stable propagation, especially on polar paths.</p></div><div class="guide-card"><span class="guide-range">Kp 3–4</span><strong>Unsettled</strong><p>Some paths may weaken or become less predictable.</p></div><div class="guide-card"><span class="guide-range">Kp 5+</span><strong>Storm conditions</strong><p>HF propagation may be disturbed, though auroral activity can increase.</p></div></div></div>
-<div class="notice solar-note">Solar flux and Kp are useful indicators, but actual openings also depend on frequency, path, time of day, season, antenna system and local noise.</div>
-<div class="vhf-map-section">
-  <div class="section-title">
-    <div class="eyebrow">VHF / UHF Propagation</div>
-    <h2>2 m &amp; 70 cm Conditions</h2>
-    <p>Check real-time activity and enhanced propagation beyond normal line-of-sight range.</p>
-  </div>
-
-  <div class="vhf-band-tabs" role="tablist" aria-label="VHF and UHF propagation bands">
-    <button class="vhf-tab active" type="button" data-vhf-tab="2m">2 m · 144 MHz</button>
-    <button class="vhf-tab" type="button" data-vhf-tab="70cm">70 cm · 432 MHz</button>
-  </div>
-
-  <section class="vhf-map-panel active" data-vhf-panel="2m">
-    <div class="map-status-row">
-      <div>
-        <span class="map-live"><span class="pulse-dot"></span> REAL-TIME MAP</span>
-        <h3>2 Meter Propagation</h3>
-        <p>APRS packet paths near 144 MHz reveal where VHF signals are traveling farther than usual. Green/yellow generally represents local paths; orange/red indicates increasingly enhanced distances.</p>
-      </div>
-      <span class="band-chip">144 MHz</span>
-    </div>
-    <div class="prop-map-frame">
-      <iframe src="https://vhf.dxview.org/" title="Live 2 meter VHF propagation map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      <div class="map-fallback">If the live map does not display in your browser, use the button below.</div>
-    </div>
-    <div class="map-actions">
-      <a class="btn primary" href="https://vhf.dxview.org/" target="_blank" rel="noopener">Open Full 2 m Map</a>
-      <a class="btn" href="https://www.dxinfocentre.com/tropo.html" target="_blank" rel="noopener">6-Day Tropo Forecast</a>
-    </div>
-  </section>
-
-  <section class="vhf-map-panel" data-vhf-panel="70cm">
-    <div class="map-status-row">
-      <div>
-        <span class="map-live uhf"><span class="pulse-dot"></span> LIVE ACTIVITY</span>
-        <h3>70 Centimeter Propagation</h3>
-        <p>432 MHz openings are often associated with tropospheric enhancement and ducting. Use the live 432 MHz DX activity map together with the tropo forecast to see where longer UHF paths are developing.</p>
-      </div>
-      <span class="band-chip uhf">432 MHz</span>
-    </div>
-    <div class="uhf-map-launch">
-      <div class="radar-rings" aria-hidden="true"><span></span><span></span><span></span><i></i></div>
-      <div class="uhf-map-copy">
-        <div class="eyebrow">70 cm map</div>
-        <strong>Live 432 MHz contacts</strong>
-        <p>DXMaps provides a dedicated real-time 432 MHz map. Their terms require the map to be viewed on DXMaps rather than embedded inside another website.</p>
-        <a class="btn primary" href="https://www.dxmaps.com/spots/mapg.php?Lan=E" target="_blank" rel="noopener">Open 432 MHz Map</a>
-      </div>
-    </div>
-    <div class="map-actions">
-      <a class="btn" href="https://www.dxinfocentre.com/tropo.html" target="_blank" rel="noopener">VHF/UHF Tropo Forecast</a>
-    </div>
-  </section>
-
-  <div class="notice vhf-note">These maps are propagation/activity aids rather than guarantees. Terrain, antenna height and gain, power, polarization, local weather and station activity all affect what you can actually work.</div>
-</div>
-</div></section></main><footer class="footer"><div class="wrap"><strong>The Blowtorch of Parma</strong><br>Amateur Radio Club · Public website</div></footer><script src="script.js"></script></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0c1117"><title>Solar & Propagation | The Blowtorch of Parma</title><link rel="stylesheet" href="styles.css"></head><body><header class="site-header"><div class="wrap nav"><a class="brand" href="index.html"><span class="brand-mark">⌁</span><span>THE BLOWTORCH OF PARMA<small>AMATEUR RADIO CLUB</small></span></a><nav class="menu"><a href="index.html">Home</a><a href="calendar.html">Calendar</a><a href="solar.html">Solar</a><a href="membership.html">Membership</a><a href="documents.html">Documents</a><a href="news.html">News</a></nav></div></header><main>
+<section class="page-head solar-head"><div class="wrap"><div class="eyebrow">Operator Reference</div><h1>Solar &amp; Propagation</h1><p class="muted">A simple, self-contained guide to interpreting common HF, VHF and UHF propagation conditions. No live feed or outside service is required.</p></div></section>
+<section class="solar-dashboard"><div class="wrap">
+<div class="band-guide"><div class="section-title"><div class="eyebrow">HF Quick Reference</div><h2>Solar Flux Index &amp; Kp</h2></div><div class="band-guide-grid">
+<div class="guide-card"><span class="guide-range">SFI 70–99</span><strong>Lower solar support</strong><p>Lower HF bands may still perform well, especially at night.</p></div>
+<div class="guide-card"><span class="guide-range">SFI 100–149</span><strong>Good solar support</strong><p>Improved opportunities on 20–10 meters depending on path and time.</p></div>
+<div class="guide-card"><span class="guide-range">SFI 150+</span><strong>Strong solar support</strong><p>Higher HF bands can become very productive when geomagnetic conditions cooperate.</p></div>
+<div class="guide-card"><span class="guide-range">Kp 0–2</span><strong>Quiet field</strong><p>Generally favorable for stable propagation, including many longer paths.</p></div>
+<div class="guide-card"><span class="guide-range">Kp 3–4</span><strong>Unsettled</strong><p>Some paths may weaken or become less predictable.</p></div>
+<div class="guide-card"><span class="guide-range">Kp 5+</span><strong>Storm conditions</strong><p>HF propagation may be disturbed, though auroral activity can increase.</p></div>
+</div></div>
+<div class="band-guide"><div class="section-title"><div class="eyebrow">Band Guide</div><h2>General Propagation Notes</h2></div><div class="band-guide-grid">
+<div class="guide-card"><span class="guide-range">80 / 40 m</span><strong>Reliable lower HF</strong><p>Often strongest after sunset and overnight. Less dependent on high solar flux than upper HF.</p></div>
+<div class="guide-card"><span class="guide-range">20 m</span><strong>Workhorse DX band</strong><p>Often useful day and night, with changing paths as daylight moves around the globe.</p></div>
+<div class="guide-card"><span class="guide-range">17 / 15 / 12 / 10 m</span><strong>Solar-sensitive bands</strong><p>Higher solar activity can create excellent long-distance openings, especially during daylight.</p></div>
+<div class="guide-card"><span class="guide-range">6 m</span><strong>The magic band</strong><p>Sporadic-E, tropospheric enhancement and other modes can produce sudden long-distance openings.</p></div>
+<div class="guide-card"><span class="guide-range">2 m · 144 MHz</span><strong>Local plus enhancements</strong><p>Normally line-of-sight, but temperature inversions, ducting, aurora and Sporadic-E can extend range.</p></div>
+<div class="guide-card"><span class="guide-range">70 cm · 432 MHz</span><strong>Line-of-sight / tropo</strong><p>Antenna height and terrain matter greatly. Tropospheric enhancement can occasionally extend paths well beyond normal range.</p></div>
+</div></div>
+<div class="notice solar-note">This page is intentionally static so the website remains completely independent. For live operating decisions, use the propagation tools or space-weather source of your choice outside this site.</div>
+</div></section></main><footer class="footer"><div class="wrap"><strong>The Blowtorch of Parma</strong><br>Amateur Radio Club · Standalone public website</div></footer><script src="script.js"></script></body></html>
